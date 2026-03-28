@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leo Style - Fixed Bottom Nav</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f8fafc; 
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      /* အောက်ဆုံးက Nav Bar နဲ့ Content မထပ်အောင် padding-bottom ပေးထားတယ် */
+      padding: 20px 20px 100px 20px;
+      color: #1e293b;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .header h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #0f172a;
+    }
+
+    .course-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .course-card {
+      position: relative;
+      height: 140px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 25px;
+      overflow: hidden;
+      background: #ffffff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.02);
+      transition: all 0.4s ease;
+    }
+
+    .card-img {
+      position: absolute;
+      top: 0;
+      left: 0; 
+      width: 65%;
+      height: 100%;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: left center;
+      z-index: 1;
+      transition: transform 0.6s ease;
+    }
+
+    .course-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; width: 100%; height: 100%;
+      background: linear-gradient(270deg, #ffffff 40%, rgba(255,255,255,0) 90%);
+      z-index: 2;
+    }
+
+    .inner-content {
+      position: relative;
+      z-index: 3;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .course-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .course-meta {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .action-btn {
+      padding: 8px 18px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      text-transform: uppercase;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .course-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .course-card:hover .card-img {
+      transform: scale(1.05) translateX(5px);
+    }
+
+    /* Card Background Images */
+    .card-1 .card-img { background-image: url('https://img.freepik.com/free-vector/hand-drawn-english-school-illustration_23-2149491140.jpg'); }
+    .card-1 .action-btn { background: #3b82f6; }
+    .card-2 .card-img { background-image: url('https://img.freepik.com/free-vector/writer-concept-illustration_114360-1518.jpg'); }
+    .card-2 .action-btn { background: #8b5cf6; }
+    .card-3 .card-img { background-image: url('https://img.freepik.com/free-vector/happy-man-with-bubble-chat_24877-50798.jpg'); }
+    .card-3 .action-btn { background: #ec4899; }
+    .card-4 .card-img { background-image: url('https://img.freepik.com/free-vector/listening-podcast-concept-illustration_114360-1031.jpg'); }
+    .card-4 .action-btn { background: #f59e0b; }
+    .card-5 .card-img { background-image: url('https://img.freepik.com/free-vector/book-lover-concept-illustration_114360-1011.jpg'); }
+    .card-5 .action-btn { background: #10b981; }
+    .card-6 .card-img { background-image: url('https://img.freepik.com/free-vector/dictionary-concept-illustration_114360-7384.jpg'); }
+    .card-6 .action-btn { background: #06b6d4; }
+    .card-7 .card-img { background-image: url('https://img.freepik.com/free-vector/graduation-concept-illustration_114360-1234.jpg'); }
+    .card-7 .action-btn { background: #ef4444; }
+
+    /* --- Modified Bottom Nav (Sticky to bottom) --- */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: #ffffff;
+      /* Safe area inset bottom adds padding for modern phones with home bars */
+      padding-bottom: env(safe-area-inset-bottom); 
+      height: calc(70px + env(safe-area-inset-bottom));
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+      z-index: 1000;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.65rem;
+      font-weight: 700;
+      flex: 1;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .nav-item i { font-size: 1.3rem; margin-bottom: 4px; }
+    .nav-item.active { color: #3b82f6; }
+
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <div class="header">
+    <h1>English Journey ✨</h1>
+  </div>
+  
+  <div class="course-list">
+    <div class="course-card card-1">
+  <div class="card-img"></div>
+  <div class="inner-content">
+    <span class="course-title">Basics English</span>
+    <span class="course-meta">21 Lessons • A1</span>
+    <a href="lessons.html"><button class="action-btn">Start</button></a>
+  </div>
+</div>
+
+
+    <div class="course-card card-2">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Grammar Rules</span>
+        <span class="course-meta">15 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+
+    <div class="course-card card-3">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Speaking Fluency</span>
+        <span class="course-meta">12 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+
+    <div class="course-card card-4">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Listening Skills</span>
+        <span class="course-meta">10 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+
+    <div class="course-card card-5">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Reading Practice</span>
+        <span class="course-meta">8 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+
+    <div class="course-card card-6">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Vocabulary Boost</span>
+        <span class="course-meta">14 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+
+    <div class="course-card card-7">
+      <div class="card-img"></div>
+      <div class="inner-content">
+        <span class="course-title">Mastery Level</span>
+        <span class="course-meta">20 Lessons</span>
+        <button class="action-btn">Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bottom-nav">
+  <a href="#" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
+  <a href="#" class="nav-item"><i class="fas fa-book-open"></i><span>Courses</span></a>
+  <a href="#" class="nav-item"><i class="fas fa-play-circle"></i><span>Videos</span></a>
+  <a href="#" class="nav-item"><i class="fas fa-comments"></i><span>Community</span></a>
+  <a href="#" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+</nav>
+
+</body>
+</html>
