@@ -359,7 +359,7 @@
 
     <!-- Vocabulary Page (UK Male English Vocab Table) -->
     <div id="vocabPage" class="page">
-        <div class="vocab-header">📚 UK Male Pronunciation - Essential Verbs</div>
+        <div class="vocab-header">📚 UK Male Pronunciation - Verbs</div>
         <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb... (e.g., take, sleep)">
         <table class="vocab-table" id="vocabTableUI">
             <thead>
@@ -375,7 +375,7 @@
         <!-- Vocabulary Test Section (required to unlock full exercise) -->
         <div id="vocabTestSection">
             <div style="background: #2c3e66; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>📘 Step 1: Vocabulary Test (28 Verbs)</h3>
+                <h3>📘 Step 1: Vocabulary Test </h3>
                 <p style="font-size: 0.9rem;">အားလုံးမှန်မှ Exercise ကိုဖွင့်ပေးမည်</p>
             </div>
             <div id="vocabScoreDisplay" class="score-box">ရမှတ်: <span id="vScoreVal">0</span> / <span id="vTotalVal">28</span></div>
@@ -641,13 +641,13 @@
     document.getElementById('gotoVocabBtn').onclick = () => {
         document.getElementById('mainMenu').style.display = 'none';
         document.getElementById('appContainer').style.display = 'block';
-        showPage('vocabPage', '📖 Vocabulary (UK Audio)');
+        showPage('vocabPage', '(🔊 UK Audio)');
         currentPage = 'vocab';
     };
     document.getElementById('gotoExerciseBtn').onclick = () => {
         document.getElementById('mainMenu').style.display = 'none';
         document.getElementById('appContainer').style.display = 'block';
-        showPage('exercisePage', '✍️ Exercise (Vocab + Do/Will)');
+        showPage('exercisePage', '✍️ Exercise');
         renderVocabTest();
         document.getElementById('fullExerciseSection').style.display = 'none';
         currentPage = 'exercise';
