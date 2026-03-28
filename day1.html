@@ -3,13 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>UK English Learning - အင်္ဂလိပ်စာ လေ့လာမှု</title>
+    <title>Day 1: Do & Will Lesson</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', 'Pyidaungsu', system-ui, -apple-system, sans-serif;
@@ -17,79 +13,9 @@
             color: #f0f3fa;
         }
 
-        /* MAIN MENU STYLES */
-        .main-menu {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0a0f1e 0%, #0f172a 100%);
-            padding: 2rem;
-        }
-
-        .menu-card {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 3rem;
-            padding: 2rem 1.5rem;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-            border: 1px solid rgba(241, 196, 15, 0.3);
-        }
-
-        .menu-card h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #f1c40f, #e67e22);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .menu-card p {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .menu-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .menu-btn {
-            background: #1e293b;
-            border: none;
-            padding: 1rem;
-            border-radius: 2rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 5px 0 #0f172a;
-        }
-
-        .menu-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #0f172a;
-        }
-
-        .btn-video { background: #2c3e66; border-left: 5px solid #f1c40f; }
-        .btn-vocab { background: #1e3a3a; border-left: 5px solid #2ecc71; }
-        .btn-exercise { background: #4a2c2c; border-left: 5px solid #e67e22; }
-
-        /* App Container (after menu) */
+        /* App Container - Always Visible */
         .app-container {
-            display: none;
+            display: block; 
             width: 100%;
             min-height: 100vh;
             background: #0f172a;
@@ -106,15 +32,14 @@
             position: sticky;
             top: 0;
             z-index: 200;
-            flex-wrap: wrap;
         }
 
         .back-home {
             background: #334155;
             border: none;
             color: #f1c40f;
-            font-size: 1.5rem;
-            padding: 6px 12px;
+            font-size: 1.2rem;
+            padding: 8px 16px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: bold;
@@ -124,276 +49,109 @@
         .back-home:active { background: #475569; }
 
         .nav-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             flex: 1;
             text-align: center;
             color: #f1c40f;
         }
 
+        /* Sub-menu inside lesson */
+        .lesson-tabs {
+            display: flex;
+            justify-content: space-around;
+            background: #1e293b;
+            padding: 10px;
+            margin: 15px auto;
+            max-width: 800px;
+            border-radius: 15px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .tab-btn.active {
+            background: #f1c40f;
+            color: #0f172a;
+        }
+
         /* Page containers */
         .page {
             display: none;
-            padding: 20px 16px 40px;
+            padding: 10px 16px 40px;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .active-page {
-            display: block;
-        }
+        .active-page { display: block; }
 
-        /* Vocabulary table (UK Male English Vocab style) */
-        .vocab-header {
-            background: #e67e22;
-            color: white;
-            padding: 12px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 40px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .vocab-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #1e293b;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-
-        .vocab-table th {
-            background: #0f172a;
-            color: #f1c40f;
-            padding: 14px;
-            text-align: left;
-        }
-
-        .vocab-table td {
-            padding: 14px;
-            border-bottom: 1px solid #334155;
-        }
-
-        .verb-container {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .verb-eng {
-            font-weight: bold;
-            color: #60a5fa;
-            font-size: 1.1rem;
-        }
-
-        .speaker-btn {
-            background: #334155;
-            border: none;
-            color: #f1c40f;
-            font-size: 1.2rem;
-            padding: 6px 12px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-
-        .speaker-btn:active {
-            background: #f1c40f;
-            color: #000;
-        }
-
-        /* Exercise & Quiz Styles */
-        .quiz-container, .vocab-quiz-container {
-            margin-top: 10px;
-        }
-
-        .question-block {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .question-text {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #facc15;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 40px;
-            border: 2px solid #334155;
-            background: #0f172a;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            border-color: #f1c40f;
-        }
-
-        .result-area {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: #0f172a;
-            border-radius: 16px;
-            font-size: 0.9rem;
-        }
-
-        .correct-msg { color: #4ade80; font-weight: bold; }
-        .word-wrong { color: #f87171; text-decoration: underline; }
-        .word-correct { color: #4ade80; }
-        .missing { color: #f97316; font-weight: bold; }
-
-        .score-box {
-            background: #00000066;
-            backdrop-filter: blur(4px);
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .btn-check {
-            background: #f1c40f;
-            color: #0f172a;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 12px 0;
-            width: 100%;
-            transition: 0.2s;
-        }
-
-        .btn-check:active {
-            transform: scale(0.97);
-        }
-
-        .video-wrapper {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            margin-top: 10px;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .footer-note {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 550px) {
-            .menu-btn { font-size: 1.1rem; }
-            .verb-container { gap: 8px; }
-            .verb-eng { font-size: 1rem; }
-        }
+        /* Vocabulary & Quiz UI */
+        .vocab-header { background: #e67e22; color: white; padding: 12px; border-radius: 20px; text-align: center; margin-bottom: 20px; font-weight: bold; }
+        .search-box { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 40px; border: 1px solid #334155; background: #1e293b; color: white; outline: none; }
+        .vocab-table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 24px; overflow: hidden; }
+        .vocab-table td, .vocab-table th { padding: 14px; border-bottom: 1px solid #334155; text-align: left; }
+        .verb-eng { font-weight: bold; color: #60a5fa; font-size: 1.1rem; }
+        .speaker-btn { background: #334155; border: none; color: #f1c40f; padding: 6px 12px; border-radius: 40px; cursor: pointer; }
+        
+        .question-block { background: #1e293b; border-radius: 20px; padding: 18px; margin-bottom: 20px; }
+        .question-text { font-size: 1rem; color: #facc15; margin-bottom: 12px; }
+        input[type="text"] { width: 100%; padding: 14px; border-radius: 40px; border: 2px solid #334155; background: #0f172a; color: white; outline: none; }
+        .btn-check { background: #f1c40f; color: #0f172a; border: none; padding: 12px; border-radius: 40px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px; }
+        .result-area { display: none; margin-top: 12px; padding: 12px; background: #0f172a; border-radius: 16px; font-size: 0.9rem; }
+        .correct-msg { color: #4ade80; }
+        
+        .video-wrapper { width: 100%; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        iframe { width: 100%; height: 100%; border: none; }
+        .footer-note { text-align: center; font-size: 0.7rem; color: #64748b; margin-top: 20px; }
     </style>
 </head>
 <body>
 
-<!-- MAIN MENU (3 BUTTONS) -->
-<div id="mainMenu" class="main-menu">
-    <div class="menu-card">
-        <h1>🇬🇧 UK English</h1>
-        <p>Learn with British Male Voice & Exercises</p>
-        <div class="menu-buttons">
-            <button class="menu-btn btn-video" id="gotoVideoBtn">📺 Video Lesson</button>
-            <button class="menu-btn btn-vocab" id="gotoVocabBtn">📖 Vocabulary</button>
-            <button class="menu-btn btn-exercise" id="gotoExerciseBtn">✍️ Exercise</button>
-        </div>
-        <div class="footer-note" style="margin-top: 2rem;">🎧 Tap 🔊 to hear UK male pronunciation</div>
-    </div>
-</div>
-
-<!-- MAIN APP CONTAINER (after menu) -->
 <div id="appContainer" class="app-container">
     <div class="nav-bar">
         <button class="back-home" id="backHomeBtn">🏠 Menu</button>
-        <span class="nav-title" id="pageTitle">Vocabulary</span>
+        <span class="nav-title">Day 1: Do & Will</span>
     </div>
 
-    <!-- Video Lesson Page -->
-    <div id="videoPage" class="page">
+    <div class="lesson-tabs">
+        <button class="tab-btn active" onclick="showPage('videoPage', this)">📺 Video</button>
+        <button class="tab-btn" onclick="showPage('vocabPage', this)">📖 Vocab</button>
+        <button class="tab-btn" onclick="showPage('exercisePage', this)">✍️ Exercise</button>
+    </div>
+
+    <div id="videoPage" class="page active-page">
         <div class="video-wrapper">
-            <iframe 
-                src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
+            <iframe src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" allowfullscreen></iframe>
         </div>
-        <div class="footer-note">📌 Video lesson about "Do" and "Will" with explanations</div>
+        <div class="footer-note">📌 Lesson about "Do" (Habit) and "Will" (Future)</div>
     </div>
 
-    <!-- Vocabulary Page (UK Male English Vocab Table) -->
     <div id="vocabPage" class="page">
-        <div class="vocab-header">📚 UK Male Pronunciation - Essential Verbs</div>
-        <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb... (e.g., take, sleep)">
-        <table class="vocab-table" id="vocabTableUI">
-            <thead>
-                <tr><th>Verb (V1) &nbsp;🔊</th><th>မြန်မာအဓိပ္ပာယ်</th></tr>
-            </thead>
+        <div class="vocab-header">📚 UK Audio - Essential Verbs</div>
+        <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb...">
+        <table class="vocab-table">
             <tbody id="vocabTableBody"></tbody>
         </table>
-        <div class="footer-note">✅ Click speaker icon to hear British male voice (UK)</div>
     </div>
 
-    <!-- Exercise Page: combined Vocabulary Test + Do/Will sentences (full 100+ items) -->
     <div id="exercisePage" class="page">
-        <!-- Vocabulary Test Section (required to unlock full exercise) -->
         <div id="vocabTestSection">
-            <div style="background: #2c3e66; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>📘 Step 1: Vocabulary Test (28 Verbs)</h3>
-                <p style="font-size: 0.9rem;">အားလုံးမှန်မှ Exercise ကိုဖွင့်ပေးမည်</p>
-            </div>
-            <div id="vocabScoreDisplay" class="score-box">ရမှတ်: <span id="vScoreVal">0</span> / <span id="vTotalVal">28</span></div>
+            <h3 style="text-align:center; color:#f1c40f; margin-bottom:15px;">Step 1: Check Vocabulary</h3>
             <div id="vocabQuizContainer"></div>
-            <button class="btn-check" id="checkVocabBtn">✅ Check Vocabulary & Unlock Exercise</button>
+            <button class="btn-check" id="checkVocabBtn">Unlock Sentence Exercise</button>
         </div>
-
-        <!-- Full Exercise Section (hidden until vocab test passed) -->
-        <div id="fullExerciseSection" style="display: none; margin-top: 30px;">
-            <div style="background: #e67e22; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>✍️ Step 2: "Do & Will" Sentence Exercise (100+ Sentences)</h3>
-                <p>မြန်မာစာကြောင်းကို အင်္ဂလိပ်လို ပြန်ရေးပါ</p>
-            </div>
-            <div id="exerciseScoreDisplay" class="score-box">ရမှတ်: <span id="exScore">0</span> / <span id="exTotal">0</span></div>
+        <div id="fullExerciseSection" style="display: none; margin-top: 20px;">
+            <h3 style="text-align:center; color:#e67e22; margin-bottom:15px;">Step 2: Translate Sentences</h3>
             <div id="sentencesQuizContainer"></div>
-            <button class="btn-check" id="checkExerciseBtn">🔍 Check My Answers</button>
+            <button class="btn-check" id="checkExerciseBtn">Check Answers</button>
         </div>
-        <div class="footer-note">💡 ဗဟုသုတ: "Do" က ပုံမှန်လုပ်ဆောင်ချက်၊ "Will" က အနာဂတ်</div>
     </div>
 </div>
 
@@ -671,294 +429,5 @@
         renderVocabTest();
     });
 </script>
-</body>
-</html>
-
-အပေါ်က code ကို အောက်က day1 buttom နဲ့ချိတ်မယ် github မှာ
-
-<!DOCTYPE html>
-<html lang="my">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Lessons Plan</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header-title {
-            width: 100%;
-            max-width: 800px;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 15px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        /* Day Button Card Styling */
-        .day-button {
-            background: white;
-            border-radius: 15px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            padding: 0;
-            text-align: left;
-            width: 100%;
-        }
-
-        .day-button:active {
-            transform: scale(0.97);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .card-body {
-            padding: 15px;
-            flex-grow: 1;
-        }
-
-        .day-label {
-            font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .lesson-list {
-            font-size: 11px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .lesson-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 4px;
-        }
-
-        .bullet {
-            width: 10px;
-            height: 10px;
-            border: 1px solid #ccc;
-            margin-right: 7px;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
-        /* Footer */
-        .card-footer {
-            background-color: #6c63ff;
-            color: white;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-        }
-
-        /* Responsive for very small screens */
-        @media (max-width: 400px) {
-            .container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-<a href="index.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;">⬅ Back to Home</a>
-
-    <div class="header-title">Lessons By Daily Plan</div>
-
-    <div class="container">
-        
-        <button class="day-button">
-            <div class="card-body">
-                <div class="day-label">📅 Day 1</div>
-                <div class="lesson-list">
-                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Nouns and Pronouns</div>
-                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Anna's New Bike</div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 16 min</span><span>On Going</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body">
-                <div class="day-label">📅 Day 2</div>
-                <div class="lesson-list">
-                    <div class="lesson-row"><div class="bullet"></div> Articles (A, An, The)</div>
-                    <div class="lesson-row"><div class="bullet"></div> The Three Fish</div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 17 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body">
-                <div class="day-label">📅 Day 3</div>
-                <div class="lesson-list">
-                    <div class="lesson-row"><div class="bullet"></div> Am, Is, Are</div>
-                    <div class="lesson-row"><div class="bullet"></div> Types of Movie</div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 21 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 4</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 19 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 5</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 18 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 6</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 26 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 7</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 23 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 8</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 24 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 9</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 10</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 11</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 12</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 13</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 14</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 15</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 16</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 17</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 18</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 19</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 20</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 21</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 22</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 23</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 24</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 25</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 26</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 27</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 28</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 29</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button">
-            <div class="card-body"><div class="day-label">📅 Day 30</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-    </div>
-
 </body>
 </html>
