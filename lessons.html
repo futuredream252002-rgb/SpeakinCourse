@@ -96,6 +96,11 @@
             justify-content: space-between;
             font-size: 11px;
         }
+.day-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border-color: #6c63ff;
+}
 
         /* Responsive for very small screens */
         @media (max-width: 400px) {
@@ -112,16 +117,17 @@
 
     <div class="container">
         
-        <button class="day-button">
-            <div class="card-body">
-                <div class="day-label">📅 Day 1</div>
-                <div class="lesson-list">
-                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Nouns and Pronouns</div>
-                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Anna's New Bike</div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 16 min</span><span>On Going</span></div>
-        </button>
+        <button class="day-button" onclick="window.location.href='lessons.html'">
+    <div class="card-body">
+        <div class="day-label">📅 Day 1</div>
+        <div class="lesson-list">
+            <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Do and Will Lessons</div>
+            <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Vocabulary Test</div>
+        </div>
+    </div>
+    <div class="card-footer"><span>🕒 16 min</span><span>On Going</span></div>
+</button>
+
 
         <button class="day-button">
             <div class="card-body">
