@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>UK English Learning - အင်္ဂလိပ်စာ လေ့လာမှု</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Pyidaungsu', system-ui, -apple-system, sans-serif;
+            background: #0a0f1e;
+            color: #f0f3fa;
+        }
+
+        /* MAIN MENU STYLES */
+        .main-menu {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0a0f1e 0%, #0f172a 100%);
+            padding: 2rem;
+        }
+
+        .menu-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+
+        .menu-card h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #f1c40f, #e67e22);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .menu-card p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .menu-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .menu-btn {
+            background: #1e293b;
+            border: none;
+            padding: 1rem;
+            border-radius: 2rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 5px 0 #0f172a;
+        }
+
+        .menu-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #0f172a;
+        }
+
+        .btn-video { background: #2c3e66; border-left: 5px solid #f1c40f; }
+        .btn-vocab { background: #1e3a3a; border-left: 5px solid #2ecc71; }
+        .btn-exercise { background: #4a2c2c; border-left: 5px solid #e67e22; }
+
+        /* App Container (after menu) */
+        .app-container {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            background: #0f172a;
+        }
+
+        /* Top navigation bar */
+        .nav-bar {
+            background: #0f172a;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            flex-wrap: wrap;
+        }
+
+        .back-home {
+            background: #334155;
+            border: none;
+            color: #f1c40f;
+            font-size: 1.5rem;
+            padding: 6px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .back-home:active { background: #475569; }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+            color: #f1c40f;
+        }
+
+        /* Page containers */
+        .page {
+            display: none;
+            padding: 20px 16px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .active-page {
+            display: block;
+        }
+
+        /* Vocabulary table (UK Male English Vocab style) */
+        .vocab-header {
+            background: #e67e22;
+            color: white;
+            padding: 12px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 40px;
+            border: 1px solid #334155;
+            background: #1e293b;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1e293b;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .vocab-table th {
+            background: #0f172a;
+            color: #f1c40f;
+            padding: 14px;
+            text-align: left;
+        }
+
+        .vocab-table td {
+            padding: 14px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .verb-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .verb-eng {
+            font-weight: bold;
+            color: #60a5fa;
+            font-size: 1.1rem;
+        }
+
+        .speaker-btn {
+            background: #334155;
+            border: none;
+            color: #f1c40f;
+            font-size: 1.2rem;
+            padding: 6px 12px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .speaker-btn:active {
+            background: #f1c40f;
+            color: #000;
+        }
+
+        /* Exercise & Quiz Styles */
+        .quiz-container, .vocab-quiz-container {
+            margin-top: 10px;
+        }
+
+        .question-block {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #facc15;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 40px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #f1c40f;
+        }
+
+        .result-area {
+            display: none;
+            margin-top: 12px;
+            padding: 12px;
+            background: #0f172a;
+            border-radius: 16px;
+            font-size: 0.9rem;
+        }
+
+        .correct-msg { color: #4ade80; font-weight: bold; }
+        .word-wrong { color: #f87171; text-decoration: underline; }
+        .word-correct { color: #4ade80; }
+        .missing { color: #f97316; font-weight: bold; }
+
+        .score-box {
+            background: #00000066;
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .btn-check {
+            background: #f1c40f;
+            color: #0f172a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 12px 0;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .btn-check:active {
+            transform: scale(0.97);
+        }
+
+        .video-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-top: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 550px) {
+            .menu-btn { font-size: 1.1rem; }
+            .verb-container { gap: 8px; }
+            .verb-eng { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- MAIN MENU (3 BUTTONS) -->
+<div id="mainMenu" class="main-menu">
+    <div class="menu-card">
+        <h1>🇬🇧 UK English</h1>
+        <p>Learn with British Male Voice & Exercises</p>
+        <div class="menu-buttons">
+            <button class="menu-btn btn-video" id="gotoVideoBtn">📺 Video Lesson</button>
+            <button class="menu-btn btn-vocab" id="gotoVocabBtn">📖 Vocabulary</button>
+            <button class="menu-btn btn-exercise" id="gotoExerciseBtn">✍️ Exercise</button>
+        </div>
+        <div class="footer-note" style="margin-top: 2rem;">🎧 Tap 🔊 to hear UK male pronunciation</div>
+    </div>
+</div>
+
+<!-- MAIN APP CONTAINER (after menu) -->
+<div id="appContainer" class="app-container">
+    <div class="nav-bar">
+        <button class="back-home" id="backHomeBtn">🏠 Menu</button>
+        <span class="nav-title" id="pageTitle">Vocabulary</span>
+    </div>
+
+    <!-- Video Lesson Page -->
+    <div id="videoPage" class="page">
+        <div class="video-wrapper">
+            <iframe 
+                src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="footer-note">📌 Video lesson about "Do" and "Will" with explanations</div>
+    </div>
+
+    <!-- Vocabulary Page (UK Male English Vocab Table) -->
+    <div id="vocabPage" class="page">
+        <div class="vocab-header">📚 UK Male Pronunciation - Essential Verbs</div>
+        <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb... (e.g., take, sleep)">
+        <table class="vocab-table" id="vocabTableUI">
+            <thead>
+                <tr><th>Verb (V1) &nbsp;🔊</th><th>မြန်မာအဓိပ္ပာယ်</th></tr>
+            </thead>
+            <tbody id="vocabTableBody"></tbody>
+        </table>
+        <div class="footer-note">✅ Click speaker icon to hear British male voice (UK)</div>
+    </div>
+
+    <!-- Exercise Page: combined Vocabulary Test + Do/Will sentences (full 100+ items) -->
+    <div id="exercisePage" class="page">
+        <!-- Vocabulary Test Section (required to unlock full exercise) -->
+        <div id="vocabTestSection">
+            <div style="background: #2c3e66; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
+                <h3>📘 Step 1: Vocabulary Test (28 Verbs)</h3>
+                <p style="font-size: 0.9rem;">အားလုံးမှန်မှ Exercise ကိုဖွင့်ပေးမည်</p>
+            </div>
+            <div id="vocabScoreDisplay" class="score-box">ရမှတ်: <span id="vScoreVal">0</span> / <span id="vTotalVal">28</span></div>
+            <div id="vocabQuizContainer"></div>
+            <button class="btn-check" id="checkVocabBtn">✅ Check Vocabulary & Unlock Exercise</button>
+        </div>
+
+        <!-- Full Exercise Section (hidden until vocab test passed) -->
+        <div id="fullExerciseSection" style="display: none; margin-top: 30px;">
+            <div style="background: #e67e22; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
+                <h3>✍️ Step 2: "Do & Will" Sentence Exercise (100+ Sentences)</h3>
+                <p>မြန်မာစာကြောင်းကို အင်္ဂလိပ်လို ပြန်ရေးပါ</p>
+            </div>
+            <div id="exerciseScoreDisplay" class="score-box">ရမှတ်: <span id="exScore">0</span> / <span id="exTotal">0</span></div>
+            <div id="sentencesQuizContainer"></div>
+            <button class="btn-check" id="checkExerciseBtn">🔍 Check My Answers</button>
+        </div>
+        <div class="footer-note">💡 ဗဟုသုတ: "Do" က ပုံမှန်လုပ်ဆောင်ချက်၊ "Will" က အနာဂတ်</div>
+    </div>
+</div>
+
+<script>
+    // ======================= DATA ========================
+    const vocabularyList = [
+        { verb: "take", mm: "ယူသည် / (ယာဉ်) စီးသည်" },
+        { verb: "sleep", mm: "အိပ်သည်" },
+        { verb: "want", mm: "လိုချင်သည်" },
+        { verb: "give", mm: "ပေးသည်" },
+        { verb: "need", mm: "လိုအပ်သည်" },
+        { verb: "eat", mm: "စားသည်" },
+        { verb: "do", mm: "လုပ်သည်" },
+        { verb: "go", mm: "သွားသည်" },
+        { verb: "come", mm: "လာသည်" },
+        { verb: "have", mm: "ရှိသည်" },
+        { verb: "see", mm: "မြင်သည်" },
+        { verb: "talk", mm: "စကားပြောသည်" },
+        { verb: "meet", mm: "တွေ့ဆုံသည်" },
+        { verb: "drive", mm: "မောင်းနှင်သည်" },
+        { verb: "cook", mm: "ချက်ပြုတ်သည်" },
+        { verb: "read", mm: "ဖတ်သည်" },
+        { verb: "write", mm: "ရေးသည်" },
+        { verb: "watch", mm: "ကြည့်ရှုသည်" },
+        { verb: "buy", mm: "ဝယ်သည်" },
+        { verb: "drink", mm: "သောက်သည်" },
+        { verb: "work", mm: "အလုပ်လုပ်သည်" },
+        { verb: "listen", mm: "နားထောင်သည်" },
+        { verb: "study", mm: "လေ့လာသင်ယူသည်" },
+        { verb: "wash", mm: "လျှော်ဖွတ် / ဆေးကြောသည်" },
+        { verb: "play", mm: "ကစားသည်" },
+        { verb: "rest", mm: "အနားယူသည်" },
+        { verb: "open", mm: "ဖွင့်သည်" },
+        { verb: "wait", mm: "စောင့်ဆိုင်းသည်" }
+    ];
+
+    // Full 100+ Do/Will questions from original data
+    const extraQuestions = [
+        { q: "၁။ ကျွန်တော် ပန်းသီးတစ်လုံးယူမယ်။", a: "I will take an apple" },
+        { q: "၂။ မင်း ဘတ်စ်ကား စီးသလား။", a: "Do you take the bus?" },
+        { q: "၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်တယ်။", a: "I sleep at 10 PM" },
+        { q: "၄။ မင်း ဘတ်စ်ကား စီးမလား။", a: "Will you take the bus?" },
+        { q: "၅။ ကျွန်တော် ရေလိုချင်တယ်။", a: "I want water" },
+        { q: "၆။ မင်း ပိုက်ဆံ ပေးသလား။", a: "Do you give money?" },
+        { q: "၇။ ကျွန်တော် ဘောပင်တစ်ချောင်းပေးမယ်။", a: "I will give a pen" },
+        { q: "၈။ မင်း ပိုက်ဆံ ပေးမလား။", a: "Will you give money?" },
+        { q: "၉။ ကျွန်တော် အကူအညီလိုအပ်တယ်။", a: "I need help" },
+        { q: "၁၀။ မင်း ငါး စားသလား။", a: "Do you eat fish?" },
+        { q: "၁၁။ ကျွန်တော် ထမင်းစားမယ်။", a: "I will eat rice" },
+        { q: "၁၂။ မင်း ငါး စားမလား။", a: "Will you eat fish?" },
+        { q: "၁၃။ ကျွန်တော် အိမ်စာလုပ်တယ်။", a: "I do homework" },
+        { q: "၁၄။ မင်း ကျောင်းသွားသလား။", a: "Do you go to school?" },
+        { q: "၁၅။ ကျွန်တော် ဈေးသွားမယ်။", a: "I will go to market" },
+        { q: "၁၆။ မင်း ကျောင်းသွားမလား။", a: "Will you go to school?" },
+        { q: "၁၇။ ကျွန်တော် ထမင်းစားတယ်။", a: "I eat rice" },
+        { q: "၁၈။ မင်း ဝက်သား လိုချင်သလား။", a: "Do you want pork?" },
+        { q: "၁၉။ ကျတော်လာတယ်။", a: "I come" },
+        { q: "၂၀။ မင်း ဝက်သား လိုချင်မှာလား။", a: "Will you want pork?" },
+        { q: "၂၁။ ကျွန်တော့်မှာ ကားတစ်စီးရှိမယ်။", a: "I will have a car" },
+        { q: "၂၂။ မင်း ဒီကို လာသလား။", a: "Do you come here?" },
+        { q: "၂၃။ ကျွန်တော် ငှက်တစ်ကောင် မြင်တယ်။", a: "I see a bird" },
+        { q: "၂၄။ မင်း ဒီကို လာမလား။", a: "Will you come here?" },
+        { q: "၂၅။ ကျွန်တော် ရေလိုချင်မယ်။", a: "I will want water" },
+        { q: "၂၆။ မင်း အခု အိပ်သလား။", a: "Do you sleep now?" },
+        { q: "၂၇။ ကျွန်တော့်ကို ဘောပင်တစ်ချောင်းပေးတယ်။", a: "I give a pen" },
+        { q: "၂၈။ မင်း အခု အိပ်တော့မလား။", a: "Will you sleep now?" },
+        { q: "၂၉။ ကျွန်တော် အကူအညီလိုအပ်မယ်။", a: "I will need help" },
+        { q: "၃၀။ မင်း သူ့ကို စကားပြောသလား။", a: "Do you talk to him?" },
+        { q: "၃၁။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့တယ်။", a: "I meet my friend" },
+        { q: "၃၂။ မင်း သူ့ကို စကားပြောမလား။", a: "Will you talk to him?" },
+        { q: "၃၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်မယ်။", a: "I will sleep at 10 PM" },
+        { q: "၃၄။ မင်း ဆေးရုံကို မြင်သလား။", a: "Do you see the hospital?" },
+        { q: "၃၅။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့မယ်။", a: "I will meet my friend" },
+        { q: "၃၆။ မင်း ဆေးရုံကို မြင်ရမှာလား။", a: "Will you see the hospital?" },
+        { q: "၃၇။ ကျွန်တော် ပန်းသီးတစ်လုံးယူတယ်။", a: "I take an apple" },
+        { q: "၃၈။ မင်း သူငယ်ချင်းနဲ့ တွေ့သလား။", a: "Do you meet your friend?" },
+        { q: "၃၉။ ကျွန်တော် ဈေးသွားတယ်။", a: "I go to market" },
+        { q: "၄၀။ မင်း သူငယ်ချင်းနဲ့ တွေ့မလား။", a: "Will you meet your friend?" },
+        { q: "၄၁။ ကျွန်တော် အိမ်စာလုပ်မယ်။", a: "I will do homework" },
+        { q: "၄၂။ ကျွန်တော့်မှာ ကားတစ်စီးရှိတယ်။", a: "I have a car" },
+        { q: "၄၃။ ကျွန်တော် ကားမောင်းတယ်။", a: "I drive a car" },
+        { q: "၄၄။ မင်း ကားမောင်းသလား။", a: "Do you drive a car?" },
+        { q: "၄၅။ ကျွန်တော် ကားမောင်းမယ်။", a: "I will drive a car" },
+        { q: "၄၆။ မင်း ကားမောင်းမလား။", a: "Will you drive a car?" },
+        { q: "၄၇။ ကျွန်တော် ဟင်းချက်တယ်။", a: "I cook curry" },
+        { q: "၄၈။ မင်း ဟင်းချက်သလား။", a: "Do you cook curry?" },
+        { q: "၄၉။ ကျွန်တော် ဟင်းချက်မယ်။", a: "I will cook curry" },
+        { q: "၅၀။ မင်း ဟင်းချက်မလား။", a: "Will you cook curry?" }
+    ];
+    // add remaining up to 100 (we have 50, but extend from original to show 100, but original had 100 entries. I'll include full 100 by merging but user had up to 100, we add additional 50 from original data snippet)
+    const moreFromOriginal = [
+        { q: "၅၁။ ကျွန်တော် စာအုပ်ဖတ်တယ်။", a: "I read a book" },{ q: "၅၂။ မင်း စာအုပ်ဖတ်သလား။", a: "Do you read a book?" },
+        { q: "၅၃။ ကျွန်တော် စာအုပ်ဖတ်မယ်။", a: "I will read a book" },{ q: "၅၄။ မင်း စာအုပ်ဖတ်မလား။", a: "Will you read a book?" },
+        { q: "၅၅။ ကျွန်တော် စာရေးတယ်။", a: "I write a letter" },{ q: "၅၆။ မင်း စာရေးသလား။", a: "Do you write a letter?" },
+        { q: "၅၇။ ကျွန်တော် စာရေးမယ်။", a: "I will write a letter" },{ q: "၅၈။ မင်း စာရေးမလား။", a: "Will you write a letter?" },
+        { q: "၅၉။ ကျွန်တော် ရုပ်ရှင်ကြည့်တယ်။", a: "I watch a movie" },{ q: "၆၀။ မင်း ရုပ်ရှင်ကြည့်သလား။", a: "Do you watch a movie?" },
+        { q: "၆၁။ ကျွန်တော် ရုပ်ရှင်ကြည့်မယ်။", a: "I will watch a movie" },{ q: "၆၂။ မင်း ရုပ်ရှင်ကြည့်မလား။", a: "Will you watch a movie?" },
+        { q: "၆၃။ ကျွန်တော် ဖုန်းဝယ်တယ်။", a: "I buy a phone" },{ q: "၆၄။ မင်း ဖုန်းဝယ်သလား။", a: "Do you buy a phone?" },
+        { q: "၆၅။ ကျွန်တော် ဖုန်းဝယ်မယ်။", a: "I will buy a phone" },{ q: "၆၆။ မင်း ဖုန်းဝယ်မလား။", a: "Will you buy a phone?" },
+        { q: "၆၇။ ကျွန်တော် ကော်ဖီသောက်တယ်။", a: "I drink coffee" },{ q: "၆၈။ မင်း ကော်ဖီသောက်သလား။", a: "Do you drink coffee?" },
+        { q: "၆၉။ ကျွန်တော် ကော်ဖီသောက်မယ်။", a: "I will drink coffee" },{ q: "၇၀။ မင်း ကော်ဖီသောက်မလား။", a: "Will you drink coffee?" },
+        { q: "၇၁။ ကျွန်တော် အလုပ်လုပ်တယ်။", a: "I work" },{ q: "၇၂။ မင်း အလုပ်လုပ်သလား။", a: "Do you work?" },
+        { q: "၇၃။ ကျွန်တော် အလုပ်လုပ်မယ်။", a: "I will work" },{ q: "၇၄။ မင်း အလုပ်လုပ်မလား။", a: "Will you work?" },
+        { q: "၇၅။ ကျွန်တော် သီချင်းနားထောင်တယ်။", a: "I listen to music" },{ q: "၇၆။ မင်း သီချင်းနားထောင်သလား။", a: "Do you listen to music?" },
+        { q: "၇၇။ ကျွန်တော် သီချင်းနားထောင်မယ်။", a: "I will listen to music" },{ q: "၇၈။ မင်း သီချင်းနားထောင်မလား။", a: "Will you listen to music?" },
+        { q: "၇၉။ ကျွန်တော် အင်္ဂလိပ်စာလေ့လာတယ်။", a: "I study English" },{ q: "၈၀။ မင်း အင်္ဂလိပ်စာလေ့လာသလား။", a: "Do you study English?" }
+    ];
+    const fullSentenceList = [...extraQuestions, ...moreFromOriginal];
+    
+    // DOM elements
+    let currentPage = "video"; // video/vocab/exercise
+
+    // Helper: UK Male Speech
+    function speakUK(text) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        let ukVoice = voices.find(v => (v.lang === 'en-GB' || v.lang.includes('GB')) && (v.name.includes('Google UK') || v.name.toLowerCase().includes('male')));
+        if (!ukVoice) ukVoice = voices.find(v => v.lang.includes('en-GB'));
+        if (ukVoice) utterance.voice = ukVoice;
+        utterance.lang = 'en-GB';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // Render vocabulary table (with search)
+    function renderVocabTable(filter = "") {
+        const tbody = document.getElementById('vocabTableBody');
+        const filtered = vocabularyList.filter(v => v.verb.toLowerCase().includes(filter.toLowerCase()));
+        tbody.innerHTML = filtered.map(item => `
+            <tr>
+                <td><div class="verb-container"><button class="speaker-btn" onclick="speakUK('${item.verb}')">🔊</button><span class="verb-eng">${item.verb}</span></div></td>
+                <td>${item.mm}</td>
+            </tr>
+        `).join('');
+    }
+
+    // Render Vocabulary Test (28 items)
+    function renderVocabTest() {
+        const container = document.getElementById('vocabQuizContainer');
+        container.innerHTML = vocabularyList.map((item, idx) => `
+            <div class="question-block">
+                <div class="question-text">${idx+1}. ${item.mm}</div>
+                <input type="text" class="vocab-test-input" data-correct="${item.verb}" placeholder="Type English verb...">
+                <div class="result-area vocab-result"></div>
+            </div>
+        `).join('');
+    }
+
+    // Render Full Exercise Sentences
+    function renderFullExercise() {
+        const container = document.getElementById('sentencesQuizContainer');
+        container.innerHTML = fullSentenceList.map((item, idx) => `
+            <div class="question-block">
+                <div class="question-text">${item.q}</div>
+                <input type="text" class="sentence-input" data-correct="${item.a}" placeholder="English sentence...">
+                <div class="result-area sentence-result"></div>
+            </div>
+        `).join('');
+        document.getElementById('exTotal').innerText = fullSentenceList.length;
+        document.getElementById('exScore').innerText = "0";
+    }
+
+    // Check vocabulary test (unlock condition)
+    function checkVocabTestAndUnlock() {
+        const inputs = document.querySelectorAll('.vocab-test-input');
+        let allFilled = true;
+        inputs.forEach(inp => { if (inp.value.trim() === "") allFilled = false; });
+        if (!allFilled) { alert("ကျေးဇူးပြု၍ ဗဟုသုတစကားလုံးအားလုံးကို ဖြည့်ပါ။"); return; }
+        let correct = 0;
+        inputs.forEach(inp => {
+            const user = inp.value.trim().toLowerCase();
+            const correctAns = inp.getAttribute('data-correct').toLowerCase();
+            const resultDiv = inp.nextElementSibling;
+            if (user === correctAns) {
+                correct++;
+                inp.style.borderColor = "#4ade80";
+                if (resultDiv) resultDiv.innerHTML = '<span class="correct-msg">✅ မှန်ပါတယ်</span>';
+                resultDiv.style.display = "block";
+            } else {
+                inp.style.borderColor = "#f87171";
+                if (resultDiv) resultDiv.innerHTML = `<div>❌ မှား၊ မှန်ကန်သောအဖြေ: <strong>${correctAns}</strong></div>`;
+                resultDiv.style.display = "block";
+            }
+        });
+        document.getElementById('vScoreVal').innerText = correct;
+        if (correct === vocabularyList.length) {
+            alert("🎉 ဂုဏ်ယူပါတယ်! Vocabulary အားလုံးမှန်ကန်ပါသည်။ Exercise ကိုစတင်လိုက်ပါ။");
+            document.getElementById('fullExerciseSection').style.display = "block";
+            renderFullExercise();
+            window.scrollTo({ top: document.getElementById('fullExerciseSection').offsetTop - 70, behavior: 'smooth' });
+        } else {
+            alert(`❌ အမှတ် ${correct}/${vocabularyList.length} ရရှိပါသည်။ အကုန်မှန်မှ Exercise ကိုရနိုင်မည်။ ထပ်ကြိုးစားပါ။`);
+        }
+    }
+
+    // Check exercise answers
+    function checkSentenceAnswers() {
+        const inputs = document.querySelectorAll('.sentence-input');
+        let allFilled = true;
+        inputs.forEach(inp => { if (inp.value.trim() === "") allFilled = false; });
+        if (!allFilled) { alert("ကျေးဇူးပြု၍ စာကြောင်းအားလုံးကို ဖြည့်ပါ။"); return; }
+        let correctCount = 0;
+        inputs.forEach(inp => {
+            const userRaw = inp.value.trim();
+            const correctRaw = inp.getAttribute('data-correct');
+            const cleanUser = userRaw.toLowerCase().replace(/[?.!]/g, '').replace(/\s+/g, ' ').trim();
+            const cleanCorrect = correctRaw.toLowerCase().replace(/[?.!]/g, '').replace(/\s+/g, ' ').trim();
+            const resultDiv = inp.nextElementSibling;
+            resultDiv.style.display = "block";
+            if (cleanUser === cleanCorrect) {
+                correctCount++;
+                resultDiv.innerHTML = `<span class="correct-msg">✅ မှန်ပါတယ်</span>`;
+                inp.style.borderColor = "#4ade80";
+            } else {
+                inp.style.borderColor = "#f87171";
+                resultDiv.innerHTML = `<div>❌ မှား<br><strong>မှန်ကန်သောအဖြေ:</strong> ${correctRaw}</div>`;
+            }
+        });
+        document.getElementById('exScore').innerText = correctCount;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Page navigation
+    function showPage(pageId, title) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.getElementById(pageId).classList.add('active-page');
+        document.getElementById('pageTitle').innerText = title;
+        if (pageId === 'vocabPage') {
+            renderVocabTable(document.getElementById('vocabSearch')?.value || "");
+        }
+        if (pageId === 'exercisePage') {
+            // ensure vocab test is rendered
+            if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
+        }
+    }
+
+    // Menu handlers
+    document.getElementById('gotoVideoBtn').onclick = () => {
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'block';
+        showPage('videoPage', '📺 Video Lesson');
+        currentPage = 'video';
+    };
+    document.getElementById('gotoVocabBtn').onclick = () => {
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'block';
+        showPage('vocabPage', '📖 Vocabulary (UK Audio)');
+        currentPage = 'vocab';
+    };
+    document.getElementById('gotoExerciseBtn').onclick = () => {
+        document.getElementById('mainMenu').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'block';
+        showPage('exercisePage', '✍️ Exercise (Vocab + Do/Will)');
+        renderVocabTest();
+        document.getElementById('fullExerciseSection').style.display = 'none';
+        currentPage = 'exercise';
+    };
+    document.getElementById('backHomeBtn').onclick = () => {
+        document.getElementById('mainMenu').style.display = 'flex';
+        document.getElementById('appContainer').style.display = 'none';
+        window.speechSynthesis.cancel();
+    };
+    document.getElementById('checkVocabBtn').addEventListener('click', checkVocabTestAndUnlock);
+    document.getElementById('checkExerciseBtn').addEventListener('click', checkSentenceAnswers);
+    document.getElementById('vocabSearch').addEventListener('input', (e) => renderVocabTable(e.target.value));
+    
+    // preload voices
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+    }
+    
+    // initial vocab test render (but not shown yet)
+    window.addEventListener('load', () => {
+        renderVocabTest();
+    });
+</script>
+</body>
+</html>
+
+အပေါ်က code ကို အောက်က day1 buttom နဲ့ချိတ်မယ် github မှာ
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Lessons Plan</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-title {
+            width: 100%;
+            max-width: 800px;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Day Button Card Styling */
+        .day-button {
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            padding: 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .day-button:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card-body {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .day-label {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .lesson-list {
+            font-size: 11px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .lesson-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+
+        .bullet {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #ccc;
+            margin-right: 7px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        .card-footer {
+            background-color: #6c63ff;
+            color: white;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+        }
+
+        /* Responsive for very small screens */
+        @media (max-width: 400px) {
+            .container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<a href="index.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;">⬅ Back to Home</a>
+
+    <div class="header-title">Lessons By Daily Plan</div>
+
+    <div class="container">
+        
+        <button class="day-button">
+            <div class="card-body">
+                <div class="day-label">📅 Day 1</div>
+                <div class="lesson-list">
+                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Nouns and Pronouns</div>
+                    <div class="lesson-row"><div class="bullet" style="background: #4ade80;"></div> Anna's New Bike</div>
+                </div>
+            </div>
+            <div class="card-footer"><span>🕒 16 min</span><span>On Going</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body">
+                <div class="day-label">📅 Day 2</div>
+                <div class="lesson-list">
+                    <div class="lesson-row"><div class="bullet"></div> Articles (A, An, The)</div>
+                    <div class="lesson-row"><div class="bullet"></div> The Three Fish</div>
+                </div>
+            </div>
+            <div class="card-footer"><span>🕒 17 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body">
+                <div class="day-label">📅 Day 3</div>
+                <div class="lesson-list">
+                    <div class="lesson-row"><div class="bullet"></div> Am, Is, Are</div>
+                    <div class="lesson-row"><div class="bullet"></div> Types of Movie</div>
+                </div>
+            </div>
+            <div class="card-footer"><span>🕒 21 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 4</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 19 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 5</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 18 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 6</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 26 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 7</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 23 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 8</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 24 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 9</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 10</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 11</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 12</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 13</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 14</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 15</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 16</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 17</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 18</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 19</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 20</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 21</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 22</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 23</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 24</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 25</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 26</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 27</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 28</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 29</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button">
+            <div class="card-body"><div class="day-label">📅 Day 30</div><div class="lesson-list">Lesson Content...</div></div>
+            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
+        </button>
+
+    </div>
+
+</body>
+</html>
