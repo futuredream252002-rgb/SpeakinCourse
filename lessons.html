@@ -7,278 +7,135 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #f5f5f5; padding: 20px; margin: 0;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         .header-title {
-            width: 100%;
-            max-width: 800px;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
+            width: 100%; max-width: 800px; font-size: 20px;
+            font-weight: bold; margin-bottom: 20px; color: #333;
         }
 
         .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 15px;
-            width: 100%;
-            max-width: 800px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 15px; width: 100%; max-width: 800px;
         }
 
         .day-button {
-            background: white;
-            border-radius: 15px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            padding: 0;
-            text-align: left;
-            width: 100%;
+            background: white; border-radius: 15px; border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex;
+            flex-direction: column; overflow: hidden; cursor: pointer;
+            transition: all 0.2s; padding: 0; text-align: left; width: 100%;
+            position: relative;
         }
 
-        .day-button:active {
-            transform: scale(0.97);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        /* Lock ဖြစ်နေပါက မှိန်သွားစေရန် */
+        .locked {
+            filter: grayscale(1); opacity: 0.6; cursor: not-allowed !important;
         }
 
-        .card-body {
-            padding: 15px;
-            flex-grow: 1;
+        .day-button:active:not(.locked) { transform: scale(0.97); }
+
+        .card-body { padding: 15px; flex-grow: 1; }
+        .day-label { font-weight: bold; font-size: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+        
+        /* Percentage Badge */
+        .score-tag {
+            font-size: 10px; padding: 2px 6px;
+            border-radius: 5px; color: #fff; font-weight: bold; display: none;
         }
 
-        .day-label {
-            font-weight: bold;
-            font-size: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .lesson-list {
-            font-size: 11px;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .lesson-row {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 4px;
-        }
-
-        .bullet {
-            width: 10px;
-            height: 10px;
-            border: 1px solid #ccc;
-            margin-right: 7px;
-            margin-top: 3px;
-            flex-shrink: 0;
-        }
-
+        .lesson-list { font-size: 11px; color: #666; line-height: 1.6; }
         .card-footer {
-            background-color: #6c63ff;
-            color: white;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
+            background-color: #6c63ff; color: white; padding: 8px 12px;
+            display: flex; justify-content: space-between; font-size: 11px;
         }
+        .locked .card-footer { background-color: #888; }
 
-        @media (max-width: 400px) {
-            .container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
+        @media (max-width: 400px) { .container { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
-    <a href="index.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;"></a>
 
     <div class="header-title">Lessons By Daily Plan</div>
 
     <div class="container">
-        <button class="day-button" onclick="window.open('day1.html', '_blank')">
+        <button class="day-button" id="btn-1" onclick="go(1)">
             <div class="card-body">
-                <div class="day-label">📅 Day 1</div>
-                <div class="lesson-list">
-                    <div class="lesson-row">Lesson↔1</div>
-                    <div class="lesson-row">Do ➡ လား</div>
-                    <div class="lesson-row">Will ➡ မယ်လား</div>
-                </div>
+                <div class="day-label"><span>📅 Day 1</span><span id="s-1" class="score-tag"></span></div>
+                <div class="lesson-list">Lesson 1 Content...</div>
             </div>
             <div class="card-footer"><span>🕒 30 min</span><span>Start Now</span></div>
+        </button>
+
+        <button class="day-button locked" id="btn-2" onclick="go(2)">
+            <div class="card-body">
+                <div class="day-label"><span>📅 Day 2</span><span id="s-2" class="score-tag"></span></div>
+                <div class="lesson-list">Lesson 2 Content...</div>
+            </div>
+            <div class="card-footer"><span>🕒 30 min</span><span id="f-2">🔒 Locked</span></div>
+        </button>
+
+        <button class="day-button locked" id="btn-3" onclick="go(3)">
+            <div class="card-body">
+                <div class="day-label"><span>📅 Day 3</span><span id="s-3" class="score-tag"></span></div>
+                <div class="lesson-list">Lesson 3 Content...</div>
+            </div>
+            <div class="card-footer"><span>🕒 21 min</span><span id="f-3">🔒 Locked</span></div>
+        </button>
+
+        <button class="day-button locked" id="btn-4" onclick="go(4)">
+            <div class="card-body">
+                <div class="day-label"><span>📅 Day 4</span><span id="s-4" class="score-tag"></span></div>
+                <div class="lesson-list">Lesson 4 Content...</div>
+            </div>
+            <div class="card-footer"><span>🕒 19 min</span><span id="f-4">🔒 Locked</span></div>
         </button>
         
-        <button class="day-button" onclick="window.open('day2.html', '_blank')">
-            <div class="card-body">
-                <div class="day-label">📅 Day 2</div>
-                <div class="lesson-list">
-                    <div class="lesson-row">Lesson↔2</div>
-                    <div class="lesson-row">Do/Does ➡ လား</div>
-                    <div class="lesson-row">Will ➡ မယ်လား</div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 30 min</span><span>Start Now</span></div>
-        </button>
+        </div>
 
-        <button class="day-button" onclick="window.open('day3.html', '_blank')">
-            <div class="card-body">
-                <div class="day-label">📅 Day 3</div>
-                <div class="lesson-list">
-                    <div class="lesson-row"><div></div> </div>
-                    <div class="lesson-row"><div></div> </div>
-                </div>
-            </div>
-            <div class="card-footer"><span>🕒 21 min</span><span>Start Now</span></div>
-        </button>
+    <script>
+        const PASS_PERCENT = 80; // ၈၀ ရာခိုင်နှုန်းရမှ အောင်မည်
 
-        <button class="day-button" onclick="window.open('day4.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 4</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 19 min</span><span>Start Now</span></div>
-        </button>
+        function checkLocks() {
+            for (let i = 1; i <= 30; i++) {
+                // ၁။ ရာခိုင်နှုန်း (Percentage) ကို Badge မှာ ပြရန်
+                const currentPercent = localStorage.getItem(`day${i}_percent`);
+                const scoreTag = document.getElementById(`s-${i}`);
+                
+                if (currentPercent && scoreTag) {
+                    let pVal = parseInt(currentPercent);
+                    scoreTag.innerText = currentPercent + "%";
+                    scoreTag.style.display = 'inline-block';
+                    
+                    // 80% ပြည့်ရင် အစိမ်း၊ မပြည့်ရင် အနီ
+                    scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
+                }
 
-        <button class="day-button" onclick="window.open('day5.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 5</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 18 min</span><span>Start Now</span></div>
-        </button>
+                // ၂။ Lock/Unlock Logic (ရှေ့က Day ရဲ့ status ကို စစ်မည်)
+                if (i > 1) {
+                    const prevStatus = localStorage.getItem(`day${i-1}_status`);
+                    const btn = document.getElementById(`btn-${i}`);
+                    const footerText = document.getElementById(`f-${i}`);
 
-        <button class="day-button" onclick="window.open('day6.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 6</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 26 min</span><span>Start Now</span></div>
-        </button>
+                    if (prevStatus === "unlocked") {
+                        if(btn) btn.classList.remove('locked');
+                        if(footerText) footerText.innerText = 'Start Now';
+                    }
+                }
+            }
+        }
 
-        <button class="day-button" onclick="window.open('day7.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 7</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 23 min</span><span>Start Now</span></div>
-        </button>
+        function go(day) {
+            const btn = document.getElementById(`btn-${day}`);
+            if (btn && btn.classList.contains('locked')) {
+                alert(`ရှေ့က သင်ခန်းစာမှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`);
+            } else {
+                window.location.href = `day${day}.html`;
+            }
+        }
 
-        <button class="day-button" onclick="window.open('day8.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 8</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 24 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day9.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 9</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day10.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 10</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day11.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 11</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day12.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 12</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day13.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 13</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day14.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 14</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day15.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 15</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day16.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 16</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day17.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 17</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day18.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 18</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day19.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 19</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day20.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 20</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day21.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 21</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day22.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 22</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day23.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 23</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day24.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 24</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day25.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 25</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day26.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 26</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day27.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 27</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day28.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 28</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day29.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 29</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-        <button class="day-button" onclick="window.open('day30.html', '_blank')">
-            <div class="card-body"><div class="day-label">📅 Day 30</div><div class="lesson-list">Lesson Content...</div></div>
-            <div class="card-footer"><span>🕒 20 min</span><span>Start Now</span></div>
-        </button>
-
-    </div>
-
+        window.onload = checkLocks;
+    </script>
 </body>
 </html>
