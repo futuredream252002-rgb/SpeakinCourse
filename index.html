@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leo Style</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>App Dashboard - Infinite Scroll Fix</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
@@ -12,178 +11,231 @@
 
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #f8fafc; 
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      /* Nav Bar မရှိတော့တဲ့အတွက် padding ကို ပုံမှန်အတိုင်း ပြန်ပြင်ထားပါတယ် */
-      padding: 40px 20px;
-      color: #1e293b;
+      background: #f8f9fa;
+      overflow-x: hidden;
+      padding-bottom: 30px;
     }
 
-    .dashboard {
-      width: 100%;
-      max-width: 480px;
-    }
-
-    .header h1 {
-      font-size: 1.7rem;
-      font-weight: 800;
-      margin-bottom: 30px;
-      text-align: center;
-      color: #0f172a;
-    }
-
-    .course-list {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .course-card {
-      position: relative;
-      height: 140px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 25px;
-      overflow: hidden;
-      background: #ffffff;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border: 1px solid rgba(0, 0, 0, 0.02);
-      transition: all 0.4s ease;
-    }
-
-    .card-img {
+    /* Top Blue Header Section */
+    .top-blue-section {
+      background: #1a0dab;
+      height: 120px;
+      border-bottom-left-radius: 40px;
+      border-bottom-right-radius: 40px;
       position: absolute;
       top: 0;
-      left: 0; 
-      width: 65%;
-      height: 100%;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: left center;
-      z-index: 1;
-      transition: transform 0.6s ease;
+      width: 100%;
+      z-index: -1;
     }
 
-    .course-card::after {
-      content: '';
-      position: absolute;
-      top: 0; right: 0; width: 100%; height: 100%;
-      background: linear-gradient(270deg, #ffffff 40%, rgba(255,255,255,0) 90%);
-      z-index: 2;
+    /* 1. Auto Banner Slider */
+    .slider-wrapper {
+      width: 90%;
+      margin: 30px auto 15px auto;
+      overflow: hidden;
+      border-radius: 25px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      background: #fff;
     }
 
-    .inner-content {
+    .slider-container {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .banner-card {
+      min-width: 100%;
+      height: 180px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* 2. FIXED: Infinite Scrolling Announcement Bar */
+    .announcement-bar {
+      width: 90%;
+      margin: 15px auto 25px auto;
+      background: #1a0dab;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
       position: relative;
-      z-index: 3;
-      text-align: right;
+    }
+
+    .ann-label {
+      background: white;
+      color: #1a0dab;
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      z-index: 10;
+      white-space: nowrap;
+      box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+    }
+
+    .ann-text-container {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* The actual scrolling element */
+    .scrolling-text {
+      display: inline-block;
+      white-space: nowrap;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding-left: 100%; /* Starts from the right edge */
+      animation: scroll-left 25s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* 3. Grid Layout Section */
+    .explore-header {
+      padding: 0 25px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin-bottom: 18px;
+      color: #1a1a1a;
+    }
+
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 0 20px;
+    }
+
+    .menu-card {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 5px;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
     }
 
-    .course-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #0f172a;
+    .menu-card:active { transform: scale(0.92); }
+
+    .icon-box {
+      width: 100%;
+      aspect-ratio: 1/1;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+      margin-bottom: 10px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #f0f0f0;
     }
 
-    .course-meta {
-      font-size: 0.8rem;
-      color: #64748b;
-      font-weight: 600;
-      margin-bottom: 8px;
+    .icon-box img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain; 
     }
 
-    .action-btn {
-      padding: 8px 18px;
-      font-size: 0.75rem;
-      font-weight: 800;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      color: white;
+    .menu-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #444;
+      text-align: center;
       text-transform: uppercase;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: opacity 0.3s;
+      letter-spacing: 0.3px;
     }
-
-    .action-btn:active {
-      opacity: 0.8;
-    }
-
-    .course-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .course-card:hover .card-img {
-      transform: scale(1.05) translateX(5px);
-    }
-
-    /* Card Background Images */
-    .card-1 .card-img { background-image: url('https://img.freepik.com/free-vector/hand-drawn-english-school-illustration_23-2149491140.jpg'); }
-    .card-1 .action-btn { background: #3b82f6; }
-
-    .card-2 .card-img { background-image: url('https://img.freepik.com/free-vector/writer-concept-illustration_114360-1518.jpg'); }
-    .card-2 .action-btn { background: #8b5cf6; }
-
-    .card-3 .card-img { background-image: url('https://img.freepik.com/free-vector/happy-man-with-bubble-chat_24877-50798.jpg'); }
-    .card-3 .action-btn { background: #ec4899; }
-
-    .card-4 .card-img { background-image: url('https://img.freepik.com/free-vector/listening-podcast-concept-illustration_114360-1031.jpg'); }
-    .card-4 .action-btn { background: #f59e0b; }
+.menu-card {
+  text-decoration: none; /* မျဉ်းသားတာ ဖျောက်ရန် */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
   </style>
 </head>
 <body>
 
-<div class="dashboard">
-  <div class="header">
+  <div class="top-blue-section"></div>
+
+  <div class="slider-wrapper">
+    <div class="slider-container" id="slider">
+      <div class="banner-card" style="background-image: url('https://img.freepik.com/free-vector/horizontal-banner-online-education_23-2148911029.jpg');"></div>
+      <div class="banner-card" style="background-image: url('https://img.freepik.com/free-vector/gradient-educational-template-design_23-2149027814.jpg');"></div>
+      <div class="banner-card" style="background-image: url('https://img.freepik.com/free-vector/back-school-banner_23-2148604374.jpg');"></div>
+    </div>
   </div>
+
+  <div class="announcement-bar">
+    <div class="ann-label">ANNOUNCEMENT</div>
+    <div class="ann-text-container">
+      <div class="scrolling-text">
+        📢 မင်္ဂလာပါ Zaw Zaw Aung... သင်ခန်းစာအသစ်များကို အပတ်စဉ် တနင်္လာနေ့တိုင်း တင်ပေးသွားမည် ဖြစ်ပါသည်။ စာမေးပွဲအတွက် လေ့ကျင့်ခန်းများကို အခမဲ့ ရယူနိုင်ပါပြီ။ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 📢 မင်္ဂလာပါ Zaw Zaw Aung... သင်ခန်းစာအသစ်များကို အပတ်စဉ် တနင်္လာနေ့တိုင်း တင်ပေးသွားမည် ဖြစ်ပါသည်။
+      </div>
+    </div>
+  </div>
+
+  <h3 class="explore-header">Explore now</h3>
   
-  <div class="course-list">
-    <div class="course-card card-1">
-      <div class="card-img"></div>
-      <div class="inner-content">
-        <span class="course-title">Basics English</span>
-        <span class="course-meta">21 Lessons • A1</span>
-        <a href="lessons.html"><button class="action-btn">Start</button></a>
+<div class="course-grid">
+    <a href="lessons.html" class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3429/3429149.png" alt="Free Material">
       </div>
+      <span class="menu-title">Speaking Course</span>
+    </a>
+
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png" alt="Courses">
+      </div>
+      <span class="menu-title">Courses</span>
+    </div>
+    
     </div>
 
-    <div class="course-card card-2">
-      <div class="card-img"></div>
-      <div class="inner-content">
-        <span class="course-title">Grammar Rules</span>
-        <span class="course-meta">15 Lessons</span>
-        <button class="action-btn">Start</button>
-      </div>
+    <div class="menu-card">
+      <div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png" alt="Courses"></div>
+      <span class="menu-title">Courses</span>
     </div>
-
-    <div class="course-card card-3">
-      <div class="card-img"></div>
-      <div class="inner-content">
-        <span class="course-title">Speaking Fluency</span>
-        <span class="course-meta">12 Lessons</span>
-        <button class="action-btn">Start</button>
-      </div>
+    <div class="menu-card">
+      <div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" alt="Offers"></div>
+      <span class="menu-title">Offers</span>
     </div>
-
-    <div class="course-card card-4">
-      <div class="card-img"></div>
-      <div class="inner-content">
-        <span class="course-title">Listening Skills</span>
-        <span class="course-meta">10 Lessons</span>
-        <button class="action-btn">Start</button>
-      </div>
+    <div class="menu-card">
+      <div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3024/3024608.png" alt="Free Course"></div>
+      <span class="menu-title">FREE COURSE</span>
+    </div>
+    <div class="menu-card">
+      <div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="My Course"></div>
+      <span class="menu-title">MY COURSE</span>
+    </div>
+    <div class="menu-card">
+      <div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2702/2702134.png" alt="Audiobook"></div>
+      <span class="menu-title">Audiobook</span>
     </div>
   </div>
-</div>
+
+  <script>
+    // Banner Auto Slider
+    const slider = document.getElementById('slider');
+    const totalCards = 3; 
+    let index = 0;
+
+    setInterval(() => {
+      index = (index + 1) % totalCards;
+      slider.style.transform = `translateX(-${index * 100}%)`;
+    }, 10000); 
+  </script>
 
 </body>
 </html>
