@@ -2,722 +2,444 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>UK English Learning - Step by Step Navigation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Learn English with Burmese</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', 'Pyidaungsu', system-ui, -apple-system, sans-serif;
-            background: #0a0f1e;
-            color: #f0f3fa;
-        }
-
-        /* MAIN MENU STYLES */
-        .main-menu {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #0a0f1e 0%, #0f172a 100%);
-            padding: 2rem;
+            color: #1c1e21;
         }
 
-        .menu-card {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 3rem;
-            padding: 2rem 1.5rem;
+        .container {
             width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-            border: 1px solid rgba(241, 196, 15, 0.3);
-        }
-
-        .menu-card h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #f1c40f, #e67e22);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .menu-card p {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-            font-size: 1rem;
-        }
-
-        .menu-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .menu-btn {
-            background: #1e293b;
-            border: none;
-            padding: 1rem;
-            border-radius: 2rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 5px 0 #0f172a;
-        }
-
-        .menu-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #0f172a;
-        }
-
-        .btn-video { background: #2c3e66; border-left: 5px solid #f1c40f; }
-        .btn-vocab { background: #1e3a3a; border-left: 5px solid #2ecc71; }
-        .btn-exercise { background: #4a2c2c; border-left: 5px solid #e67e22; }
-
-        /* App Container (after menu) */
-        .app-container {
-            display: none;
-            width: 100%;
-            min-height: 100vh;
-            background: #0f172a;
-            flex-direction: column;
-        }
-
-        /* Top navigation bar - now has back button that goes to previous screen (step back) */
-        .nav-bar {
-            background: #0f172a;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #334155;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-            flex-wrap: wrap;
-        }
-
-        .nav-back-step {
-            background: #334155;
-            border: none;
-            color: #f1c40f;
-            font-size: 1.2rem;
-            padding: 6px 16px;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .nav-back-step:active { background: #475569; }
-
-        .nav-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            flex: 1;
-            text-align: center;
-            color: #f1c40f;
-        }
-
-        /* Page containers */
-        .page {
-            display: none;
-            padding: 20px 16px 40px;
             max-width: 800px;
             margin: 0 auto;
-            flex: 1;
-        }
-
-        .active-page {
-            display: block;
-        }
-
-        /* Vocabulary table */
-        .vocab-header {
-            background: #e67e22;
-            color: white;
-            padding: 12px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 40px;
-            border: 1px solid #334155;
-            background: #1e293b;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .vocab-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #1e293b;
-            border-radius: 24px;
-            overflow: hidden;
-        }
-
-        .vocab-table th {
-            background: #0f172a;
-            color: #f1c40f;
-            padding: 14px;
-            text-align: left;
-        }
-
-        .vocab-table td {
-            padding: 14px;
-            border-bottom: 1px solid #334155;
-        }
-
-        .verb-container {
+            background: white;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
         }
 
-        .verb-eng {
-            font-weight: bold;
-            color: #60a5fa;
-            font-size: 1.1rem;
-        }
-
-        .speaker-btn {
-            background: #334155;
-            border: none;
-            color: #f1c40f;
-            font-size: 1.2rem;
-            padding: 6px 12px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-
-        .speaker-btn:active {
-            background: #f1c40f;
-            color: #000;
-        }
-
-        /* Exercise & Quiz Styles */
-        .question-block {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .question-text {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #facc15;
-        }
-
-        input {
-            width: 100%;
-            padding: 14px;
-            border-radius: 40px;
-            border: 2px solid #334155;
-            background: #0f172a;
+        .header {
+            background: linear-gradient(135deg, #4a5bbd 0%, #8b2be2 100%);
             color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.2s;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        input:focus {
-            border-color: #f1c40f;
-        }
-
-        .result-area {
-            display: none;
-            margin-top: 12px;
-            padding: 12px;
-            background: #0f172a;
-            border-radius: 16px;
-            font-size: 0.9rem;
-        }
-
-        .correct-msg { color: #4ade80; font-weight: bold; }
-        .word-wrong { color: #f87171; text-decoration: underline; }
-        .word-correct { color: #4ade80; }
-        .missing { color: #f97316; font-weight: bold; }
-
-        .score-box {
-            background: #00000066;
-            backdrop-filter: blur(4px);
-            padding: 8px 18px;
-            border-radius: 40px;
+        /* Notification Bar */
+        #notificationBar {
+            position: fixed;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
             font-weight: bold;
-            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: top 0.5s ease;
+            z-index: 3000;
+            background: #ff4757;
+        }
+
+        .score-info {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            font-weight: normal;
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 5px;
             display: inline-block;
-            margin-bottom: 10px;
         }
 
-        .btn-check {
-            background: #f1c40f;
-            color: #0f172a;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 12px 0;
-            width: 100%;
-            transition: 0.2s;
+        .content {
+            padding: 15px;
+            flex: 1;
+            padding-bottom: 100px;
         }
 
-        .btn-check:active {
-            transform: scale(0.97);
+        .exercise-sticky-bar {
+            position: sticky;
+            top: 50px;
+            z-index: 90;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 10px;
+            backdrop-filter: blur(5px);
         }
 
-        .video-wrapper {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            margin-top: 10px;
+        .main-menu { display: grid; gap: 15px; margin-top: 20px; }
+.menu-btn {
+    background: white; 
+    border: 2px solid #764ba2; 
+    color: #764ba2;
+    padding: 20px; 
+    border-radius: 15px; 
+    font-size: 1.1rem;
+    font-weight: bold; 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    width: 100%; 
+}
+
+
+        .page { display: none; }
+
+        .question-block {
+            background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px;
         }
 
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .answer-input {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-top: 8px;
         }
 
-        .footer-note {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #64748b;
-            margin-top: 30px;
+        .bottom-actions {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            display: flex; gap: 10px; z-index: 1000;
         }
 
-        @media (max-width: 550px) {
-            .menu-btn { font-size: 1.1rem; }
-            .verb-container { gap: 8px; }
-            .verb-eng { font-size: 1rem; }
-        }
-        
-        .step-indicator {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            text-align: center;
-            margin-top: 12px;
-        }
+        .btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; text-align: center; }
+        .btn-primary { background: #764ba2; color: white; }
+        .btn-skip { background: #ff7b72; color: white; }
+        .btn-back { background: #e4e6eb; color: #1c1e21; }
+
+        .result-area { margin-top: 8px; padding: 10px; border-radius: 8px; display: none; font-size: 0.95rem; }
+        .correct { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
+        .incorrect { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000; }
     </style>
 </head>
 <body>
+<a href="lessons.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;"></a>
 
-<!-- MAIN MENU (ENTRY POINT) -->
-<div id="mainMenu" class="main-menu">
-    <div class="menu-card">
-        <h1>🇬🇧 UK English</h1>
-        <p>Learn with British Male Voice & Exercises</p>
-        <div class="menu-buttons">
-            <button class="menu-btn btn-video" id="gotoVideoBtn">📺 Video Lesson</button>
-            <button class="menu-btn btn-vocab" id="gotoVocabBtn">📖 Vocabulary</button>
-            <button class="menu-btn btn-exercise" id="gotoExerciseBtn">✍️ Exercise</button>
+<div id="notificationBar"></div>
+
+<div class="container">
+    <div class="header"><h1>🇬🇧 Lesson-1 🇲🇲</h1></div>
+
+    <div class="content">
+        <div id="mainMenu" class="main-menu">
+            <button class="menu-btn" onclick="goToPage('videoPage')">📺 Video Lesson</button>
+            <button class="menu-btn" onclick="goToPage('vocabPage')">📚 Vocabulary List</button>
+            <button class="menu-btn" onclick="goToPage('exercisePage')">✍️ Start Exercise</button>
         </div>
-        <div class="footer-note" style="margin-top: 2rem;">🎧 Tap 🔊 to hear UK male pronunciation</div>
-        <div class="step-indicator">📱 Press phone BACK button to go step by step</div>
+
+<div id="videoPage" class="page">
+    <iframe width="100%" height="250" src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" frameborder="0" allowfullscreen style="border-radius:10px"></iframe>
+    <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
+        * Vocabulary ကို သေချာကျက်မှတ်ပြီးမှ Exercise ကို ဖြေဆိုနိုင်ပါမည်။
+    </p>
+    <button class="menu-btn" style="width:100%; margin-top:20px;" onclick="goToPage('vocabPage')">📚 Vocabulary List</button>
+    
+    
+
+    <button class="btn btn-back" style="width:100%; margin-top:15px;" onclick="goToPage('mainMenu')">Back</button>
+</div>
+
+
+        <div id="vocabPage" class="page">
+            <input type="text" class="answer-input" placeholder="🔍 Search vocabulary..." oninput="renderVocabTable(this.value)">
+            <div id="vocabListContainer" style="margin-top:15px"></div>
+            <button class="btn btn-back" style="width:100%; margin-top:20px;" onclick="goToPage('mainMenu')">Back</button>
+        </div>
+
+        <div id="exercisePage" class="page">
+        
+            <div class="exercise-sticky-bar" id="stickyBar">
+            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
+        * Vocabulary အားလုံးမှန်မှ Exercise ကိုဖြေပါ။
+    </p>
+                <button class="btn btn-skip" onclick="showConfirm()">⏩ Skip</button>
+                            
+            </div>
+            <div id="vocabTestSection">
+
+                <h3>📖 Vocabulary Test</h3>
+                    
+                <div id="vocabQuizContainer"></div>
+            </div>
+            <div id="sentenceSection" style="display:none">
+                <h3>✍️ Sentence Exercises</h3>
+                <div id="sentencesQuizContainer"></div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- MAIN APP CONTAINER -->
-<div id="appContainer" class="app-container">
-    <div class="nav-bar">
-        <button class="nav-back-step" id="backStepBtn">← Back</button>
-        <span class="nav-title" id="pageTitle">Learning</span>
-    </div>
+<div id="exerciseFooter" class="bottom-actions" style="display:none">
+    <button class="btn btn-back" onclick="goToPage('mainMenu')">Back</button>
+    <button class="btn btn-primary" onclick="handleGlobalCheck()">✅ Check Answers</button>
+</div>
 
-    <!-- Video Lesson Page -->
-    <div id="videoPage" class="page">
-        <div class="video-wrapper">
-            <iframe 
-                src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowfullscreen>
-            </iframe>
+<div id="confirmModal" class="modal">
+    <div style="background:white; padding:25px; border-radius:20px; width:85%; max-width:300px;">
+        <h3>Skip to Sentences?</h3>
+        <p style="margin:15px 0">Vocab test ကို ကျော်မှာလား?</p>
+        <div style="display:flex; gap:10px">
+            <button class="btn btn-back" onclick="closeConfirm()">No</button>
+            <button class="btn btn-primary" onclick="confirmSkip()">Yes</button>
         </div>
-        <div class="footer-note">📌 Video lesson about "Do" and "Will" with explanations</div>
-        <div class="step-indicator">← Press Back button to return to previous screen</div>
-    </div>
-
-    <!-- Vocabulary Page -->
-    <div id="vocabPage" class="page">
-        <div class="vocab-header">📚 UK Male Pronunciation - Verbs</div>
-        <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb... (e.g., take, sleep)">
-        <table class="vocab-table" id="vocabTableUI">
-            <thead>
-                <tr><th>Verb (V1) &nbsp;🔊</th><th>မြန်မာအဓိပ္ပာယ်</th>
-            </thead>
-            <tbody id="vocabTableBody"></tbody>
-        </table>
-        <div class="footer-note">✅ Click speaker icon to hear British male voice (UK)</div>
-    </div>
-
-    <!-- Exercise Page: combined Vocabulary Test + Do/Will sentences -->
-    <div id="exercisePage" class="page">
-        <!-- Vocabulary Test Section -->
-        <div id="vocabTestSection">
-            <div style="background: #2c3e66; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>📘 Step 1: Vocabulary Test</h3>
-                <p style="font-size: 0.9rem;">အားလုံးမှန်မှ Exercise ကိုဖွင့်ပေးမည်</p>
-            </div>
-            <div id="vocabScoreDisplay" class="score-box">ရမှတ်: <span id="vScoreVal">0</span> / <span id="vTotalVal">28</span></div>
-            <div id="vocabQuizContainer"></div>
-            <button class="btn-check" id="checkVocabBtn">✅ Check Vocabulary & Unlock Exercise</button>
-        </div>
-
-        <!-- Full Exercise Section (hidden until vocab test passed) -->
-        <div id="fullExerciseSection" style="display: none; margin-top: 30px;">
-            <div style="background: #e67e22; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>✍️ Step 2: "Do & Will" Sentence Exercise (100+ Sentences)</h3>
-                <p>မြန်မာစာကြောင်းကို အင်္ဂလိပ်လို ပြန်ရေးပါ</p>
-            </div>
-            <div id="exerciseScoreDisplay" class="score-box">ရမှတ်: <span id="exScore">0</span> / <span id="exTotal">0</span></div>
-            <div id="sentencesQuizContainer"></div>
-            <button class="btn-check" id="checkExerciseBtn">🔍 Check My Answers</button>
-        </div>
-        <div class="footer-note">💡 ဗဟုသုတ: "Do" က ပုံမှန်လုပ်ဆောင်ချက်၊ "Will" က အနာဂတ်</div>
     </div>
 </div>
 
 <script>
-    // ======================= DATA ========================
     const vocabularyList = [
-        { verb: "take", mm: "ယူသည် / (ယာဉ်) စီးသည်" },
-        { verb: "sleep", mm: "အိပ်သည်" },
-        { verb: "want", mm: "လိုချင်သည်" },
-        { verb: "give", mm: "ပေးသည်" },
-        { verb: "need", mm: "လိုအပ်သည်" },
-        { verb: "eat", mm: "စားသည်" },
-        { verb: "do", mm: "လုပ်သည်" },
-        { verb: "go", mm: "သွားသည်" },
-        { verb: "come", mm: "လာသည်" },
-        { verb: "have", mm: "ရှိသည်" },
-        { verb: "see", mm: "မြင်သည်" },
-        { verb: "talk", mm: "စကားပြောသည်" },
-        { verb: "meet", mm: "တွေ့ဆုံသည်" },
-        { verb: "drive", mm: "မောင်းနှင်သည်" },
-        { verb: "cook", mm: "ချက်ပြုတ်သည်" },
-        { verb: "read", mm: "ဖတ်သည်" },
-        { verb: "write", mm: "ရေးသည်" },
-        { verb: "watch", mm: "ကြည့်ရှုသည်" },
-        { verb: "buy", mm: "ဝယ်သည်" },
-        { verb: "drink", mm: "သောက်သည်" },
-        { verb: "work", mm: "အလုပ်လုပ်သည်" },
-        { verb: "listen", mm: "နားထောင်သည်" },
-        { verb: "study", mm: "လေ့လာသင်ယူသည်" },
-        { verb: "wash", mm: "လျှော်ဖွတ် / ဆေးကြောသည်" },
-        { verb: "play", mm: "ကစားသည်" },
-        { verb: "rest", mm: "အနားယူသည်" },
-        { verb: "open", mm: "ဖွင့်သည်" },
-        { verb: "wait", mm: "စောင့်ဆိုင်းသည်" }
-    ];
-
-    // Build 100+ Do/Will sentences (comprehensive list)
-    const baseSentences = [
+    { verb: "take", mm: "ယူသည် / (ယာဉ်) စီးသည်" },
+    { verb: "sleep", mm: "အိပ်သည်" },
+    { verb: "want", mm: "လိုချင်သည်" },
+    { verb: "give", mm: "ပေးသည်" },
+    { verb: "need", mm: "လိုအပ်သည်" },
+    { verb: "eat", mm: "စားသည်" },
+    { verb: "do", mm: "လုပ်သည်" },
+    { verb: "go", mm: "သွားသည်" },
+    { verb: "come", mm: "လာသည်" },
+    { verb: "have", mm: "ရှိသည်" },
+    { verb: "see", mm: "မြင်သည်" },
+    { verb: "talk", mm: "စကားပြောသည်" },
+    { verb: "meet", mm: "တွေ့ဆုံသည်" },
+    { verb: "drive", mm: "မောင်းနှင်သည်" },
+    { verb: "cook", mm: "ချက်ပြုတ်သည်" },
+    { verb: "read", mm: "ဖတ်သည်" },
+    { verb: "write", mm: "ရေးသည်" },
+    { verb: "watch", mm: "ကြည့်ရှုသည်" },
+    { verb: "buy", mm: "ဝယ်သည်" },
+    { verb: "drink", mm: "သောက်သည်" },
+    { verb: "work", mm: "အလုပ်လုပ်သည်" },
+    { verb: "listen", mm: "နားထောင်သည်" },
+    { verb: "study", mm: "လေ့လာသင်ယူသည်" },
+    { verb: "wash", mm: "လျှော်ဖွတ်သည် / ဆေးကြောသည်" },
+    { verb: "play", mm: "ကစားသည်" },
+    { verb: "rest", mm: "အနားယူသည်" },
+    { verb: "open", mm: "ဖွင့်သည်" },
+    { verb: "wait", mm: "စောင့်ဆိုင်းသည်" }
+];
+const sentenceList = [
         { q: "၁။ ကျွန်တော် ပန်းသီးတစ်လုံးယူမယ်။", a: "I will take an apple" },
         { q: "၂။ မင်း ဘတ်စ်ကား စီးသလား။", a: "Do you take the bus?" },
         { q: "၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်တယ်။", a: "I sleep at 10 PM" },
         { q: "၄။ မင်း ဘတ်စ်ကား စီးမလား။", a: "Will you take the bus?" },
         { q: "၅။ ကျွန်တော် ရေလိုချင်တယ်။", a: "I want water" },
-        { q: "၆။ မင်း အိပ်သလား။", a: "Do you sleep?" },
-        { q: "၇။ သူ ကျောင်းသွားမယ်။", a: "He will go to school" },
-        { q: "၈။ ငါတို့ အင်္ဂလိပ်စာ လေ့လာတယ်။", a: "We study English" },
-        { q: "၉။ မင်း ဘာစားချင်လဲ။", a: "What do you want to eat?" },
-        { q: "၁၀။ ကျွန်မ ကော်ဖီသောက်မယ်။", a: "I will drink coffee" },
-        { q: "၁၁။ သူတို့ ဘတ်စ်ကားစီးသလား။", a: "Do they take the bus?" },
-        { q: "၁၂။ ကျွန်တော် စာအုပ်ဖတ်တယ်။", a: "I read a book" },
-        { q: "၁၃။ မင်း ရုပ်ရှင်ကြည့်မလား။", a: "Will you watch a movie?" },
-        { q: "၁၄။ သူမ ထမင်းချက်တယ်။", a: "She cooks rice" },
-        { q: "၁၅။ ငါတို့ မနက်ဖြန် လေ့လာမယ်။", a: "We will study tomorrow" },
-        { q: "၁၆။ မင်း အလုပ်လုပ်သလား။", a: "Do you work?" },
-        { q: "၁၇။ ကျွန်တော် ကားမောင်းမယ်။", a: "I will drive a car" },
-        { q: "၁၈။ သူ ဘာသောက်သလဲ။", a: "What does he drink?" },
-        { q: "၁၉။ သူတို့ ကစားမယ်။", a: "They will play" },
-        { q: "၂၀။ ကျွန်မ အိမ်ပြန်မယ်။", a: "I will go home" }
-    ];
-    
-    // Generate more sentences to reach 100+ by adding variations
-    let extendedList = [...baseSentences];
-    const extraTemplates = [
-        { q: "၂၁။ သူမ စာအုပ်ဝယ်မယ်။", a: "She will buy a book" },
-        { q: "၂၂။ မင်း နေ့တိုင်း လေ့ကျင့်သလား။", a: "Do you practice every day?" },
-        { q: "၂၃။ ကျွန်တော် ရေချိုးမယ်။", a: "I will take a shower" },
-        { q: "၂၄။ ငါတို့ ဘာစားသလဲ။", a: "What do we eat?" },
-        { q: "၂၅။ သူ မနက်ဖြန် လာမယ်။", a: "He will come tomorrow" },
-        { q: "၂၆။ မင်း စကားပြောသလား။", a: "Do you talk?" },
-        { q: "၂၇။ ကျွန်မ သီချင်းနားထောင်တယ်။", a: "I listen to music" },
-        { q: "၂၈။ သူတို့ ဘယ်မှာသွားမလဲ။", a: "Where will they go?" },
-        { q: "၂၉။ သူမ အင်္ဂလိပ်စာ သင်တယ်။", a: "She teaches English" },
-        { q: "၃၀။ ကျွန်တော် အလုပ်မှာ စောင့်မယ်။", a: "I will wait at work" }
-    ];
-    extendedList.push(...extraTemplates);
-    
-    // Add more until we have 100+ items (duplicate with small changes for demo completeness)
-    for (let i = 31; i <= 105; i++) {
-        extendedList.push({ q: `${i}။ ကျွန်တော် အင်္ဂလိပ်စာ လေ့လာတယ်။`, a: "I study English" });
-        extendedList.push({ q: `${i+1}။ မင်း လေ့လာမလား။`, a: "Will you study?" });
-        i++;
-    }
-    // Unique total sentences
-    const fullSentenceList = [...extendedList.slice(0, 105)]; // ensure at least 100
-    
-    // Helper: UK Male Speech
-    function speakUK(text) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        const voices = window.speechSynthesis.getVoices();
-        let ukVoice = voices.find(v => (v.lang === 'en-GB' || v.lang.includes('GB')) && (v.name.includes('Google UK') || v.name.toLowerCase().includes('male')));
-        if (!ukVoice) ukVoice = voices.find(v => v.lang.includes('en-GB'));
-        if (ukVoice) utterance.voice = ukVoice;
-        utterance.lang = 'en-GB';
-        utterance.rate = 0.85;
-        window.speechSynthesis.speak(utterance);
+        { q: "၆။ မင်း ပိုက်ဆံ ပေးသလား။", a: "Do you give money?" },
+        { q: "၇။ ကျွန်တော် ဘောပင်တစ်ချောင်းပေးမယ်။", a: "I will give a pen" },
+        { q: "၈။ မင်း ပိုက်ဆံ ပေးမလား။", a: "Will you give money?" },
+        { q: "၉။ ကျွန်တော် အကူအညီလိုအပ်တယ်။", a: "I need help" },
+        { q: "၁၀။ မင်း ငါး စားသလား။", a: "Do you eat fish?" },
+        { q: "၁၁။ ကျွန်တော် ထမင်းစားမယ်။", a: "I will eat rice" },
+        { q: "၁၂။ မင်း ငါး စားမလား။", a: "Will you eat fish?" },
+        { q: "၁၃။ ကျွန်တော် အိမ်စာလုပ်တယ်။", a: "I do homework" },
+        { q: "၁၄။ မင်း ကျောင်းသွားသလား။", a: "Do you go to school?" },
+        { q: "၁၅။ ကျွန်တော် ဈေးသွားမယ်။", a: "I will go to market" },
+        { q: "၁၆။ မင်း ကျောင်းသွားမလား။", a: "Will you go to school?" },
+        { q: "၁၇။ ကျွန်တော် ထမင်းစားတယ်။", a: "I eat rice" },
+        { q: "၁၈။ မင်း ဝက်သား လိုချင်သလား။", a: "Do you want pork?" },
+        { q: "၁၉။ ကျတော်လာတယ်။", a: "I come" },
+        { q: "၂၀။ မင်း ဝက်သား လိုချင်မှာလား။", a: "Will you want pork?" },
+        { q: "၂၁။ ကျွန်တော့်မှာ ကားတစ်စီးရှိမယ်။", a: "I will have a car" },
+        { q: "၂၂။ မင်း ဒီကို လာသလား။", a: "Do you come here?" },
+        { q: "၂၃။ ကျွန်တော် ငှက်တစ်ကောင် မြင်တယ်။", a: "I see a bird" },
+        { q: "၂၄။ မင်း ဒီကို လာမလား။", a: "Will you come here?" },
+        { q: "၂၅။ ကျွန်တော် ရေလိုချင်မယ်။", a: "I will want water" },
+        { q: "၂၆။ မင်း အခု အိပ်သလား။", a: "Do you sleep now?" },
+        { q: "၂၇။ ကျွန်တော့်ကို ဘောပင်တစ်ချောင်းပေးတယ်။", a: "I give a pen" },
+        { q: "၂၈။ မင်း အခု အိပ်တော့မလား။", a: "Will you sleep now?" },
+        { q: "၂၉။ ကျွန်တော် အကူအညီလိုအပ်မယ်။", a: "I will need help" },
+        { q: "၃၀။ မင်း သူ့ကို စကားပြောသလား။", a: "Do you talk to him?" },
+        { q: "၃၁။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့တယ်။", a: "I meet my friend" },
+        { q: "၃၂။ မင်း သူ့ကို စကားပြောမလား။", a: "Will you talk to him?" },
+        { q: "၃၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်မယ်။", a: "I will sleep at 10 PM" },
+        { q: "၃၄။ မင်း ဆေးရုံကို မြင်သလား။", a: "Do you see the hospital?" },
+        { q: "၃၅။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့မယ်။", a: "I will meet my friend" },
+        { q: "၃၆။ မင်း ဆေးရုံကို မြင်ရမှာလား။", a: "Will you see the hospital?" },
+        { q: "၃၇။ ကျွန်တော် ပန်းသီးတစ်လုံးယူတယ်။", a: "I take an apple" },
+        { q: "၃၈။ မင်း သူငယ်ချင်းနဲ့ တွေ့သလား။", a: "Do you meet your friend?" },
+        { q: "၃၉။ ကျွန်တော် ဈေးသွားတယ်။", a: "I go to market" },
+        { q: "၄၀။ မင်း သူငယ်ချင်းနဲ့ တွေ့မလား။", a: "Will you meet your friend?" },
+        { q: "၄၁။ ကျွန်တော် အိမ်စာလုပ်မယ်။", a: "I will do homework" },
+        { q: "၄၂။ ကျွန်တော့်မှာ ကားတစ်စီးရှိတယ်။", a: "I have a car" },
+    { q: "၄၃။ ကျွန်တော် ကားမောင်းတယ်။", a: "I drive a car" },
+    { q: "၄၄။ မင်း ကားမောင်းသလား။", a: "Do you drive a car?" },
+    { q: "၄၅။ ကျွန်တော် ကားမောင်းမယ်။", a: "I will drive a car" },
+    { q: "၄၆။ မင်း ကားမောင်းမလား။", a: "Will you drive a car?" },
+    { q: "၄၇။ ကျွန်တော် ဟင်းချက်တယ်။", a: "I cook curry" },
+    { q: "၄၈။ မင်း ဟင်းချက်သလား။", a: "Do you cook curry?" },
+    { q: "၄၉။ ကျွန်တော် ဟင်းချက်မယ်။", a: "I will cook curry" },
+    { q: "၅၀။ မင်း ဟင်းချက်မလား။", a: "Will you cook curry?" },
+    { q: "၅၁။ ကျွန်တော် စာအုပ်ဖတ်တယ်။", a: "I read a book" },
+    { q: "၅၂။ မင်း စာအုပ်ဖတ်သလား။", a: "Do you read a book?" },
+    { q: "၅၃။ ကျွန်တော် စာအုပ်ဖတ်မယ်။", a: "I will read a book" },
+    { q: "၅၄။ မင်း စာအုပ်ဖတ်မလား။", a: "Will you read a book?" },
+    { q: "၅၅။ ကျွန်တော် စာရေးတယ်။", a: "I write a letter" },
+    { q: "၅၆။ မင်း စာရေးသလား။", a: "Do you write a letter?" },
+    { q: "၅၇။ ကျွန်တော် စာရေးမယ်။", a: "I will write a letter" },
+    { q: "၅၈။ မင်း စာရေးမလား။", a: "Will you write a letter?" },
+    { q: "၅၉။ ကျွန်တော် ရုပ်ရှင်ကြည့်တယ်။", a: "I watch a movie" },
+    { q: "၆၀။ မင်း ရုပ်ရှင်ကြည့်သလား။", a: "Do you watch a movie?" },
+    { q: "၆၁။ ကျွန်တော် ရုပ်ရှင်ကြည့်မယ်။", a: "I will watch a movie" },
+    { q: "၆၂။ မင်း ရုပ်ရှင်ကြည့်မလား။", a: "Will you watch a movie?" },
+    { q: "၆၃။ ကျွန်တော် ဖုန်းဝယ်တယ်။", a: "I buy a phone" },
+    { q: "၆၄။ မင်း ဖုန်းဝယ်သလား။", a: "Do you buy a phone?" },
+    { q: "၆၅။ ကျွန်တော် ဖုန်းဝယ်မယ်။", a: "I will buy a phone" },
+    { q: "၆၆။ မင်း ဖုန်းဝယ်မလား။", a: "Will you buy a phone?" },
+    { q: "၆၇။ ကျွန်တော် ကော်ဖီသောက်တယ်။", a: "I drink coffee" },
+    { q: "၆၈။ မင်း ကော်ဖီသောက်သလား။", a: "Do you drink coffee?" },
+    { q: "၆၉။ ကျွန်တော် ကော်ဖီသောက်မယ်။", a: "I will drink coffee" },
+    { q: "၇၀။ မင်း ကော်ဖီသောက်မလား။", a: "Will you drink coffee?" },
+    { q: "၇၁။ ကျွန်တော် အလုပ်လုပ်တယ်။", a: "I work" },
+    { q: "၇၂။ မင်း အလုပ်လုပ်သလား။", a: "Do you work?" },
+    { q: "၇၃။ ကျွန်တော် အလုပ်လုပ်မယ်။", a: "I will work" },
+    { q: "၇၄။ မင်း အလုပ်လုပ်မလား။", a: "Will you work?" },
+    { q: "၇၅။ ကျွန်တော် သီချင်းနားထောင်တယ်။", a: "I listen to music" },
+    { q: "၇၆။ မင်း သီချင်းနားထောင်သလား။", a: "Do you listen to music?" },
+    { q: "၇၇။ ကျွန်တော် သီချင်းနားထောင်မယ်။", a: "I will listen to music" },
+    { q: "၇၈။ မင်း သီချင်းနားထောင်မလား။", a: "Will you listen to music?" },
+    { q: "၇၉။ ကျွန်တော် အင်္ဂလိပ်စာလေ့လာတယ်။", a: "I study English" },
+    { q: "၈၀။ မင်း အင်္ဂလိပ်စာလေ့လာသလား။", a: "Do you study English?" },
+    { q: "၈၁။ ကျွန်တော် အင်္ဂလိပ်စာလေ့လာမယ်။", a: "I will study English" },
+    { q: "၈၂။ မင်း အင်္ဂလိပ်စာလေ့လာမလား။", a: "Will you study English?" },
+    { q: "၈၃။ ကျွန်တော် အဝတ်လျှော်တယ်။", a: "I wash clothes" },
+    { q: "၈၄။ မင်း အဝတ်လျှော်သလား။", a: "Do you wash clothes?" },
+    { q: "၈၅။ ကျွန်တော် အဝတ်လျှော်မယ်။", a: "I will wash clothes" },
+    { q: "၈၆။ မင်း အဝတ်လျှော်မလား။", a: "Will you wash clothes?" },
+    { q: "၈၇။ ကျွန်တော် ဂိမ်းဆော့တယ်။", a: "I play games" },
+    { q: "၈၈။ မင်း ဂိမ်းဆော့သလား။", a: "Do you play games?" },
+    { q: "၈၉။ ကျွန်တော် ဂိမ်းဆော့မယ်။", a: "I will play games" },
+    { q: "၉၀။ မင်း ဂိမ်းဆော့မလား။", a: "Will you play games?" },
+    { q: "၉၁။ ကျွန်တော် ဒီမှာ ခဏနားတယ်။", a: "I rest here" },
+    { q: "၉၂။ မင်း နားသလား။", a: "Do you rest?" },
+    { q: "၉၃။ ကျွန်တော် ဒီမှာ နားမယ်။", a: "I will rest here" },
+    { q: "၉၄။ မင်း နားမလား။", a: "Will you rest?" },
+    { q: "၉၅။ ကျွန်တော် တံခါးဖွင့်တယ်။", a: "I open the door" },
+    { q: "၉၆။ မင်း တံခါးဖွင့်သလား။", a: "Do you open the door?" },
+    { q: "၉၇။ ကျွန်တော် တံခါးဖွင့်မယ်။", a: "I will open the door" },
+    { q: "၉၈။ မင်း တံခါးဖွင့်မလား။", a: "Will you open the door?" },
+    { q: "၉၉။ ကျွန်တော် စောင့်နေတယ်။", a: "I wait" },
+    { q: "၁၀၀။ မင်း စောင့်မလား။", a: "Will you wait?" }
+];
+
+    function goToPage(pageId) {
+        document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+        document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
+        document.getElementById(pageId).style.display = 'block';
+        if (pageId === 'vocabPage') renderVocabTable();
+        if (pageId === 'exercisePage') resetExercise();
+        window.scrollTo(0, 0);
     }
 
-    // Render vocabulary table
     function renderVocabTable(filter = "") {
-        const tbody = document.getElementById('vocabTableBody');
-        const filtered = vocabularyList.filter(v => v.verb.toLowerCase().includes(filter.toLowerCase()));
-        tbody.innerHTML = filtered.map(item => `
-            <tr>
-                <td><div class="verb-container"><button class="speaker-btn" onclick="speakUK('${item.verb}')">🔊</button><span class="verb-eng">${item.verb}</span></div></td>
-                <td>${item.mm}</td>
-            </tr>
-        `).join('');
+        const container = document.getElementById('vocabListContainer');
+        const filtered = vocabularyList.filter(v => v.verb.includes(filter.toLowerCase()) || v.mm.includes(filter));
+        container.innerHTML = filtered.map(v => `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee"><b>${v.verb}</b> <span>${v.mm}</span></div>`).join('');
     }
 
-    // Render Vocabulary Test
+    function resetExercise() {
+        document.getElementById('vocabTestSection').style.display = 'block';
+        document.getElementById('sentenceSection').style.display = 'none';
+        document.getElementById('stickyBar').style.display = 'flex';
+        renderVocabTest();
+    }
+
     function renderVocabTest() {
-        const container = document.getElementById('vocabQuizContainer');
-        container.innerHTML = vocabularyList.map((item, idx) => `
+        document.getElementById('vocabQuizContainer').innerHTML = vocabularyList.map((item, idx) => `
             <div class="question-block">
-                <div class="question-text">${idx+1}. ${item.mm}</div>
-                <input type="text" class="vocab-test-input" data-correct="${item.verb}" placeholder="Type English verb...">
-                <div class="result-area vocab-result"></div>
+                <p>${idx+1}. ${item.mm}</p>
+                <input type="text" class="answer-input v-input" data-ans="${item.verb}" placeholder="အဖြေရိုက်ပါ...">
+                <div class="result-area"></div>
             </div>
         `).join('');
-        document.getElementById('vTotalVal').innerText = vocabularyList.length;
-        document.getElementById('vScoreVal').innerText = "0";
     }
 
-    // Render Full Exercise
-    function renderFullExercise() {
-        const container = document.getElementById('sentencesQuizContainer');
-        container.innerHTML = fullSentenceList.map((item, idx) => `
-            <div class="question-block">
-                <div class="question-text">${item.q}</div>
-                <input type="text" class="sentence-input" data-correct="${item.a}" placeholder="English sentence...">
-                <div class="result-area sentence-result"></div>
-            </div>
-        `).join('');
-        document.getElementById('exTotal').innerText = fullSentenceList.length;
-        document.getElementById('exScore').innerText = "0";
+    function showNotification(msg, scoreStr = "") {
+        const bar = document.getElementById('notificationBar');
+        bar.innerHTML = `<div>${msg}</div>` + (scoreStr ? `<div class="score-info">${scoreStr}</div>` : "");
+        bar.style.top = "20px";
+        setTimeout(() => { bar.style.top = "-120px"; }, 4000);
     }
 
-    // Check vocabulary test and unlock
-    function checkVocabTestAndUnlock() {
-        const inputs = document.querySelectorAll('.vocab-test-input');
-        let allFilled = true;
-        inputs.forEach(inp => { if (inp.value.trim() === "") allFilled = false; });
-        if (!allFilled) { alert("ကျေးဇူးပြု၍ ဗဟုသုတစကားလုံးအားလုံးကို ဖြည့်ပါ။"); return; }
-        let correct = 0;
-        inputs.forEach(inp => {
-            const user = inp.value.trim().toLowerCase();
-            const correctAns = inp.getAttribute('data-correct').toLowerCase();
-            const resultDiv = inp.nextElementSibling;
-            if (user === correctAns) {
-                correct++;
-                inp.style.borderColor = "#4ade80";
-                if (resultDiv) resultDiv.innerHTML = '<span class="correct-msg">✅ မှန်ပါတယ်</span>';
-                resultDiv.style.display = "block";
-            } else {
-                inp.style.borderColor = "#f87171";
-                if (resultDiv) resultDiv.innerHTML = `<div>❌ မှား၊ မှန်ကန်သောအဖြေ: <strong>${correctAns}</strong></div>`;
-                resultDiv.style.display = "block";
-            }
-        });
-        document.getElementById('vScoreVal').innerText = correct;
-        if (correct === vocabularyList.length) {
-            alert("🎉 ဂုဏ်ယူပါတယ်! Vocabulary အားလုံးမှန်ကန်ပါသည်။ Exercise ကိုစတင်လိုက်ပါ။");
-            document.getElementById('fullExerciseSection').style.display = "block";
-            renderFullExercise();
-            window.scrollTo({ top: document.getElementById('fullExerciseSection').offsetTop - 70, behavior: 'smooth' });
-        } else {
-            alert(`❌ အမှတ် ${correct}/${vocabularyList.length} ရရှိပါသည်။ အကုန်မှန်မှ Exercise ကိုရနိုင်မည်။ ထပ်ကြိုးစားပါ။`);
-        }
-    }
-
-    function checkSentenceAnswers() {
-        const inputs = document.querySelectorAll('.sentence-input');
-        let allFilled = true;
-        inputs.forEach(inp => { if (inp.value.trim() === "") allFilled = false; });
-        if (!allFilled) { alert("ကျေးဇူးပြု၍ စာကြောင်းအားလုံးကို ဖြည့်ပါ။"); return; }
-        let correctCount = 0;
-        inputs.forEach(inp => {
-            const userRaw = inp.value.trim();
-            const correctRaw = inp.getAttribute('data-correct');
-            const cleanUser = userRaw.toLowerCase().replace(/[?.!]/g, '').replace(/\s+/g, ' ').trim();
-            const cleanCorrect = correctRaw.toLowerCase().replace(/[?.!]/g, '').replace(/\s+/g, ' ').trim();
-            const resultDiv = inp.nextElementSibling;
-            resultDiv.style.display = "block";
-            if (cleanUser === cleanCorrect) {
-                correctCount++;
-                resultDiv.innerHTML = `<span class="correct-msg">✅ မှန်ပါတယ်</span>`;
-                inp.style.borderColor = "#4ade80";
-            } else {
-                inp.style.borderColor = "#f87171";
-                resultDiv.innerHTML = `<div>❌ မှား<br><strong>မှန်ကန်သောအဖြေ:</strong> ${correctRaw}</div>`;
-            }
-        });
-        document.getElementById('exScore').innerText = correctCount;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // ---------- STEP BY STEP NAVIGATION (History API) ----------
-    // We'll manage custom back stack: menu -> page -> (inside exercise substates handled)
-    let currentScreen = "menu"; // menu, video, vocab, exercise
-    
-    function pushStateAndNavigate(screen, pageId, title) {
-        // Update UI
-        if (screen === "menu") {
-            document.getElementById('mainMenu').style.display = 'flex';
-            document.getElementById('appContainer').style.display = 'none';
-        } else {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'flex';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(pageId).classList.add('active-page');
-            document.getElementById('pageTitle').innerText = title;
-            // refresh content if needed
-            if (pageId === 'vocabPage') renderVocabTable(document.getElementById('vocabSearch')?.value || "");
-            if (pageId === 'exercisePage') {
-                if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
-                // Ensure full exercise section visibility state persists but don't auto-show if not unlocked
-                const isUnlocked = (document.getElementById('fullExerciseSection').style.display === 'block');
-                if (!isUnlocked) document.getElementById('fullExerciseSection').style.display = 'none';
-            }
-        }
-        currentScreen = screen;
-        // Push state for back button
-        history.pushState({ screen: screen, pageId: pageId, title: title }, "", `#${screen}`);
-    }
-    
-    function goBackOneStep() {
-        // We rely on popstate, but for manual back button click we use history.back
-        window.history.back();
-    }
-    
-    // Handle popstate (phone back button)
-    window.addEventListener('popstate', (event) => {
-        const state = event.state;
-        if (!state) {
-            // If no state, go to menu as fallback
-            if (currentScreen !== "menu") {
-                pushStateAndNavigate("menu", "", "");
-            }
+    function handleGlobalCheck() {
+        const isVocabMode = document.getElementById('vocabTestSection').style.display !== 'none';
+        const inputs = document.querySelectorAll(isVocabMode ? '.v-input' : '.s-input');
+        
+        // ၁။ အားလုံး ဖြည့်ထားခြင်း ရှိ/မရှိ စစ်ဆေးခြင်း
+        let missing = false;
+        inputs.forEach(i => { if(i.value.trim() === "") missing = true; });
+        if(missing) {
+            showNotification("⚠️ Input အားလုံးကို ဖြည့်စွက်ပါ");
             return;
         }
-        if (state.screen === "menu") {
-            document.getElementById('mainMenu').style.display = 'flex';
-            document.getElementById('appContainer').style.display = 'none';
-            currentScreen = "menu";
-        } else if (state.screen === "video") {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'flex';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById('videoPage').classList.add('active-page');
-            document.getElementById('pageTitle').innerText = state.title || "📺 Video Lesson";
-            currentScreen = "video";
-        } else if (state.screen === "vocab") {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'flex';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById('vocabPage').classList.add('active-page');
-            document.getElementById('pageTitle').innerText = state.title || "🔊 UK Audio";
-            renderVocabTable(document.getElementById('vocabSearch')?.value || "");
-            currentScreen = "vocab";
-        } else if (state.screen === "exercise") {
-            document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'flex';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-            document.getElementById('exercisePage').classList.add('active-page');
-            document.getElementById('pageTitle').innerText = state.title || "✍️ Exercise";
-            if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
-            const isUnlocked = (document.getElementById('fullExerciseSection').style.display === 'block');
-            if (!isUnlocked) document.getElementById('fullExerciseSection').style.display = 'none';
-            currentScreen = "exercise";
+
+        let correctCount = 0;
+        let totalCount = inputs.length;
+
+        inputs.forEach(inp => {
+            const resArea = inp.nextElementSibling;
+            const userAnswer = inp.value.trim().toLowerCase();
+            const correctAnswer = inp.dataset.ans.toLowerCase();
+            const isCorrect = userAnswer === correctAnswer;
+            
+            if (isCorrect) {
+                resArea.className = "result-area correct";
+                resArea.innerHTML = "✅ အဖြေမှန်ပါတယ်";
+                correctCount++;
+            } else {
+                resArea.className = "result-area incorrect";
+                // ၂။ Sentence မှာ မှားရင် အဖြေမှန်ပြပေးခြင်း
+                if (!isVocabMode) {
+                    resArea.innerHTML = `❌ အဖြေမှားနေပါတယ် <br><b>Correct: ${inp.dataset.ans}</b>`;
+                } else {
+                    resArea.innerHTML = "❌ အဖြေမှားနေပါတယ်";
+                }
+            }
+            resArea.style.display = "block";
+        });
+
+        // ၃။ Score ရေတွက်ခြင်းနှင့် Notification ပို့ခြင်း
+        const scoreStr = `ရမှတ်: ${correctCount} / ${totalCount}`;
+        if (correctCount === totalCount) {
+            showNotification("🎉 ဂုဏ်ယူပါတယ်! အားလုံးမှန်ပါတယ်", scoreStr);
+        } else {
+            const msg = isVocabMode ? "Vocabulary ပြန်ကျက်ဖို့ လိုအပ်နေပါသေးတယ်" : "Video ကို သေချာဂရုစိုက်ကြည့်ပါဦး";
+            showNotification(msg, scoreStr);
         }
-    });
-    
-    // Menu buttons navigation (each pushes a new history state)
-    document.getElementById('gotoVideoBtn').onclick = () => {
-        if (currentScreen !== "video") pushStateAndNavigate("video", "videoPage", "📺 Video Lesson");
-        else {
-            // if already in video, just ensure
-            pushStateAndNavigate("video", "videoPage", "📺 Video Lesson");
-        }
-    };
-    document.getElementById('gotoVocabBtn').onclick = () => {
-        pushStateAndNavigate("vocab", "vocabPage", "🔊 UK Audio");
-    };
-    document.getElementById('gotoExerciseBtn').onclick = () => {
-        pushStateAndNavigate("exercise", "exercisePage", "✍️ Exercise");
-    };
-    // Back button in nav bar goes one step back
-    document.getElementById('backStepBtn').onclick = () => {
-        goBackOneStep();
-    };
-    
-    // Other UI bindings
-    document.getElementById('checkVocabBtn').addEventListener('click', checkVocabTestAndUnlock);
-    document.getElementById('checkExerciseBtn').addEventListener('click', checkSentenceAnswers);
-    document.getElementById('vocabSearch').addEventListener('input', (e) => {
-        if (currentScreen === "vocab") renderVocabTable(e.target.value);
-    });
-    
-    // Preload voices
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
     }
+
+    function showConfirm() { document.getElementById('confirmModal').style.display = 'flex'; }
+    function closeConfirm() { document.getElementById('confirmModal').style.display = 'none'; }
     
-    // initial render for vocab test (not visible yet but ready)
-    window.addEventListener('load', () => {
-        renderVocabTest();
-        renderVocabTable("");
-        // Set initial history state to menu
-        history.replaceState({ screen: "menu", pageId: "", title: "" }, "", "#menu");
-        currentScreen = "menu";
-        document.getElementById('mainMenu').style.display = 'flex';
-        document.getElementById('appContainer').style.display = 'none';
-    });
+    function confirmSkip() {
+        closeConfirm();
+        document.getElementById('vocabTestSection').style.display = 'none';
+        document.getElementById('stickyBar').style.display = 'none';
+        document.getElementById('sentenceSection').style.display = 'block';
+        document.getElementById('sentencesQuizContainer').innerHTML = sentenceList.map(s => `
+            <div class="question-block">
+                <p>${s.q}</p>
+                <input type="text" class="answer-input s-input" data-ans="${s.a}" placeholder="အင်္ဂလိပ်လို ပြန်ဆိုပါ...">
+                <div class="result-area"></div>
+            </div>
+        `).join('');
+    }
 </script>
 </body>
-                    </html>
+    </html>
