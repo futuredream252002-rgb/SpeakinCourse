@@ -132,7 +132,7 @@
     </style>
 </head>
 <body>
-<a href="lessons.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;"></a>
+
 
 <div id="notificationBar"></div>
 
@@ -162,6 +162,11 @@
         <div id="vocabPage" class="page">
             <input type="text" class="answer-input" placeholder="🔍 Search vocabulary..." oninput="renderVocabTable(this.value)">
             <div id="vocabListContainer" style="margin-top:15px"></div>
+                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
+        * Vocabulary ကို သေချာကျက်မှတ်ပြီး လျှင် Exercise ကို ဖြေဆိုနိုင်ပါပြီ။
+    </p>
+<button class="menu-btn" onclick="goToPage('exercisePage')">✍️ Start Exercise</button>
+        
             <button class="btn btn-back" style="width:100%; margin-top:20px;" onclick="goToPage('mainMenu')">Back</button>
         </div>
 
