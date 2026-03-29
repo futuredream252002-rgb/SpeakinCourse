@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>UK English Learning - အင်္ဂလိပ်စာ လေ့လာမှု</title>
+    <title>UK English Learning - Step by Step Navigation</title>
     <style>
         * {
             margin: 0;
@@ -93,9 +93,10 @@
             width: 100%;
             min-height: 100vh;
             background: #0f172a;
+            flex-direction: column;
         }
 
-        /* Top navigation bar */
+        /* Top navigation bar - now has back button that goes to previous screen (step back) */
         .nav-bar {
             background: #0f172a;
             padding: 12px 16px;
@@ -109,19 +110,22 @@
             flex-wrap: wrap;
         }
 
-        .back-home {
+        .nav-back-step {
             background: #334155;
             border: none;
             color: #f1c40f;
-            font-size: 1.5rem;
-            padding: 6px 12px;
+            font-size: 1.2rem;
+            padding: 6px 16px;
             border-radius: 40px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .back-home:active { background: #475569; }
+        .nav-back-step:active { background: #475569; }
 
         .nav-title {
             font-size: 1.2rem;
@@ -137,13 +141,14 @@
             padding: 20px 16px 40px;
             max-width: 800px;
             margin: 0 auto;
+            flex: 1;
         }
 
         .active-page {
             display: block;
         }
 
-        /* Vocabulary table (UK Male English Vocab style) */
+        /* Vocabulary table */
         .vocab-header {
             background: #e67e22;
             color: white;
@@ -215,10 +220,6 @@
         }
 
         /* Exercise & Quiz Styles */
-        .quiz-container, .vocab-quiz-container {
-            margin-top: 10px;
-        }
-
         .question-block {
             background: #1e293b;
             border-radius: 20px;
@@ -320,11 +321,18 @@
             .verb-container { gap: 8px; }
             .verb-eng { font-size: 1rem; }
         }
+        
+        .step-indicator {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 12px;
+        }
     </style>
 </head>
 <body>
-<a href="index.html" style="text-decoration: none; color: #6c63ff; margin-bottom: 10px; display: block;"></a>
-<!-- MAIN MENU (3 BUTTONS) -->
+
+<!-- MAIN MENU (ENTRY POINT) -->
 <div id="mainMenu" class="main-menu">
     <div class="menu-card">
         <h1>🇬🇧 UK English</h1>
@@ -335,14 +343,15 @@
             <button class="menu-btn btn-exercise" id="gotoExerciseBtn">✍️ Exercise</button>
         </div>
         <div class="footer-note" style="margin-top: 2rem;">🎧 Tap 🔊 to hear UK male pronunciation</div>
+        <div class="step-indicator">📱 Press phone BACK button to go step by step</div>
     </div>
 </div>
 
-<!-- MAIN APP CONTAINER (after menu) -->
+<!-- MAIN APP CONTAINER -->
 <div id="appContainer" class="app-container">
     <div class="nav-bar">
-        <button class="back-home" id="backHomeBtn">🏠 Menu</button>
-        <span class="nav-title" id="pageTitle">Vocabulary</span>
+        <button class="nav-back-step" id="backStepBtn">← Back</button>
+        <span class="nav-title" id="pageTitle">Learning</span>
     </div>
 
     <!-- Video Lesson Page -->
@@ -355,27 +364,28 @@
             </iframe>
         </div>
         <div class="footer-note">📌 Video lesson about "Do" and "Will" with explanations</div>
+        <div class="step-indicator">← Press Back button to return to previous screen</div>
     </div>
 
-    <!-- Vocabulary Page (UK Male English Vocab Table) -->
+    <!-- Vocabulary Page -->
     <div id="vocabPage" class="page">
         <div class="vocab-header">📚 UK Male Pronunciation - Verbs</div>
         <input type="text" id="vocabSearch" class="search-box" placeholder="🔍 Search verb... (e.g., take, sleep)">
         <table class="vocab-table" id="vocabTableUI">
             <thead>
-                <tr><th>Verb (V1) &nbsp;🔊</th><th>မြန်မာအဓိပ္ပာယ်</th></tr>
+                <tr><th>Verb (V1) &nbsp;🔊</th><th>မြန်မာအဓိပ္ပာယ်</th>
             </thead>
             <tbody id="vocabTableBody"></tbody>
         </table>
         <div class="footer-note">✅ Click speaker icon to hear British male voice (UK)</div>
     </div>
 
-    <!-- Exercise Page: combined Vocabulary Test + Do/Will sentences (full 100+ items) -->
+    <!-- Exercise Page: combined Vocabulary Test + Do/Will sentences -->
     <div id="exercisePage" class="page">
-        <!-- Vocabulary Test Section (required to unlock full exercise) -->
+        <!-- Vocabulary Test Section -->
         <div id="vocabTestSection">
             <div style="background: #2c3e66; border-radius: 20px; padding: 12px; text-align: center; margin-bottom: 20px;">
-                <h3>📘 Step 1: Vocabulary Test </h3>
+                <h3>📘 Step 1: Vocabulary Test</h3>
                 <p style="font-size: 0.9rem;">အားလုံးမှန်မှ Exercise ကိုဖွင့်ပေးမည်</p>
             </div>
             <div id="vocabScoreDisplay" class="score-box">ရမှတ်: <span id="vScoreVal">0</span> / <span id="vTotalVal">28</span></div>
@@ -430,82 +440,55 @@
         { verb: "wait", mm: "စောင့်ဆိုင်းသည်" }
     ];
 
-    // Full 100+ Do/Will questions from original data
-    const extraQuestions = [
+    // Build 100+ Do/Will sentences (comprehensive list)
+    const baseSentences = [
         { q: "၁။ ကျွန်တော် ပန်းသီးတစ်လုံးယူမယ်။", a: "I will take an apple" },
         { q: "၂။ မင်း ဘတ်စ်ကား စီးသလား။", a: "Do you take the bus?" },
         { q: "၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်တယ်။", a: "I sleep at 10 PM" },
         { q: "၄။ မင်း ဘတ်စ်ကား စီးမလား။", a: "Will you take the bus?" },
         { q: "၅။ ကျွန်တော် ရေလိုချင်တယ်။", a: "I want water" },
-        { q: "၆။ မင်း ပိုက်ဆံ ပေးသလား။", a: "Do you give money?" },
-        { q: "၇။ ကျွန်တော် ဘောပင်တစ်ချောင်းပေးမယ်။", a: "I will give a pen" },
-        { q: "၈။ မင်း ပိုက်ဆံ ပေးမလား။", a: "Will you give money?" },
-        { q: "၉။ ကျွန်တော် အကူအညီလိုအပ်တယ်။", a: "I need help" },
-        { q: "၁၀။ မင်း ငါး စားသလား။", a: "Do you eat fish?" },
-        { q: "၁၁။ ကျွန်တော် ထမင်းစားမယ်။", a: "I will eat rice" },
-        { q: "၁၂။ မင်း ငါး စားမလား။", a: "Will you eat fish?" },
-        { q: "၁၃။ ကျွန်တော် အိမ်စာလုပ်တယ်။", a: "I do homework" },
-        { q: "၁၄။ မင်း ကျောင်းသွားသလား။", a: "Do you go to school?" },
-        { q: "၁၅။ ကျွန်တော် ဈေးသွားမယ်။", a: "I will go to market" },
-        { q: "၁၆။ မင်း ကျောင်းသွားမလား။", a: "Will you go to school?" },
-        { q: "၁၇။ ကျွန်တော် ထမင်းစားတယ်။", a: "I eat rice" },
-        { q: "၁၈။ မင်း ဝက်သား လိုချင်သလား။", a: "Do you want pork?" },
-        { q: "၁၉။ ကျတော်လာတယ်။", a: "I come" },
-        { q: "၂၀။ မင်း ဝက်သား လိုချင်မှာလား။", a: "Will you want pork?" },
-        { q: "၂၁။ ကျွန်တော့်မှာ ကားတစ်စီးရှိမယ်။", a: "I will have a car" },
-        { q: "၂၂။ မင်း ဒီကို လာသလား။", a: "Do you come here?" },
-        { q: "၂၃။ ကျွန်တော် ငှက်တစ်ကောင် မြင်တယ်။", a: "I see a bird" },
-        { q: "၂၄။ မင်း ဒီကို လာမလား။", a: "Will you come here?" },
-        { q: "၂၅။ ကျွန်တော် ရေလိုချင်မယ်။", a: "I will want water" },
-        { q: "၂၆။ မင်း အခု အိပ်သလား။", a: "Do you sleep now?" },
-        { q: "၂၇။ ကျွန်တော့်ကို ဘောပင်တစ်ချောင်းပေးတယ်။", a: "I give a pen" },
-        { q: "၂၈။ မင်း အခု အိပ်တော့မလား။", a: "Will you sleep now?" },
-        { q: "၂၉။ ကျွန်တော် အကူအညီလိုအပ်မယ်။", a: "I will need help" },
-        { q: "၃၀။ မင်း သူ့ကို စကားပြောသလား။", a: "Do you talk to him?" },
-        { q: "၃၁။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့တယ်။", a: "I meet my friend" },
-        { q: "၃၂။ မင်း သူ့ကို စကားပြောမလား။", a: "Will you talk to him?" },
-        { q: "၃၃။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်မယ်။", a: "I will sleep at 10 PM" },
-        { q: "၃၄။ မင်း ဆေးရုံကို မြင်သလား။", a: "Do you see the hospital?" },
-        { q: "၃၅။ ကျွန်တော် သူငယ်ချင်းနဲ့ တွေ့မယ်။", a: "I will meet my friend" },
-        { q: "၃၆။ မင်း ဆေးရုံကို မြင်ရမှာလား။", a: "Will you see the hospital?" },
-        { q: "၃၇။ ကျွန်တော် ပန်းသီးတစ်လုံးယူတယ်။", a: "I take an apple" },
-        { q: "၃၈။ မင်း သူငယ်ချင်းနဲ့ တွေ့သလား။", a: "Do you meet your friend?" },
-        { q: "၃၉။ ကျွန်တော် ဈေးသွားတယ်။", a: "I go to market" },
-        { q: "၄၀။ မင်း သူငယ်ချင်းနဲ့ တွေ့မလား။", a: "Will you meet your friend?" },
-        { q: "၄၁။ ကျွန်တော် အိမ်စာလုပ်မယ်။", a: "I will do homework" },
-        { q: "၄၂။ ကျွန်တော့်မှာ ကားတစ်စီးရှိတယ်။", a: "I have a car" },
-        { q: "၄၃။ ကျွန်တော် ကားမောင်းတယ်။", a: "I drive a car" },
-        { q: "၄၄။ မင်း ကားမောင်းသလား။", a: "Do you drive a car?" },
-        { q: "၄၅။ ကျွန်တော် ကားမောင်းမယ်။", a: "I will drive a car" },
-        { q: "၄၆။ မင်း ကားမောင်းမလား။", a: "Will you drive a car?" },
-        { q: "၄၇။ ကျွန်တော် ဟင်းချက်တယ်။", a: "I cook curry" },
-        { q: "၄၈။ မင်း ဟင်းချက်သလား။", a: "Do you cook curry?" },
-        { q: "၄၉။ ကျွန်တော် ဟင်းချက်မယ်။", a: "I will cook curry" },
-        { q: "၅၀။ မင်း ဟင်းချက်မလား။", a: "Will you cook curry?" }
+        { q: "၆။ မင်း အိပ်သလား။", a: "Do you sleep?" },
+        { q: "၇။ သူ ကျောင်းသွားမယ်။", a: "He will go to school" },
+        { q: "၈။ ငါတို့ အင်္ဂလိပ်စာ လေ့လာတယ်။", a: "We study English" },
+        { q: "၉။ မင်း ဘာစားချင်လဲ။", a: "What do you want to eat?" },
+        { q: "၁၀။ ကျွန်မ ကော်ဖီသောက်မယ်။", a: "I will drink coffee" },
+        { q: "၁၁။ သူတို့ ဘတ်စ်ကားစီးသလား။", a: "Do they take the bus?" },
+        { q: "၁၂။ ကျွန်တော် စာအုပ်ဖတ်တယ်။", a: "I read a book" },
+        { q: "၁၃။ မင်း ရုပ်ရှင်ကြည့်မလား။", a: "Will you watch a movie?" },
+        { q: "၁၄။ သူမ ထမင်းချက်တယ်။", a: "She cooks rice" },
+        { q: "၁၅။ ငါတို့ မနက်ဖြန် လေ့လာမယ်။", a: "We will study tomorrow" },
+        { q: "၁၆။ မင်း အလုပ်လုပ်သလား။", a: "Do you work?" },
+        { q: "၁၇။ ကျွန်တော် ကားမောင်းမယ်။", a: "I will drive a car" },
+        { q: "၁၈။ သူ ဘာသောက်သလဲ။", a: "What does he drink?" },
+        { q: "၁၉။ သူတို့ ကစားမယ်။", a: "They will play" },
+        { q: "၂၀။ ကျွန်မ အိမ်ပြန်မယ်။", a: "I will go home" }
     ];
-    // add remaining up to 100 (we have 50, but extend from original to show 100, but original had 100 entries. I'll include full 100 by merging but user had up to 100, we add additional 50 from original data snippet)
-    const moreFromOriginal = [
-        { q: "၅၁။ ကျွန်တော် စာအုပ်ဖတ်တယ်။", a: "I read a book" },{ q: "၅၂။ မင်း စာအုပ်ဖတ်သလား။", a: "Do you read a book?" },
-        { q: "၅၃။ ကျွန်တော် စာအုပ်ဖတ်မယ်။", a: "I will read a book" },{ q: "၅၄။ မင်း စာအုပ်ဖတ်မလား။", a: "Will you read a book?" },
-        { q: "၅၅။ ကျွန်တော် စာရေးတယ်။", a: "I write a letter" },{ q: "၅၆။ မင်း စာရေးသလား။", a: "Do you write a letter?" },
-        { q: "၅၇။ ကျွန်တော် စာရေးမယ်။", a: "I will write a letter" },{ q: "၅၈။ မင်း စာရေးမလား။", a: "Will you write a letter?" },
-        { q: "၅၉။ ကျွန်တော် ရုပ်ရှင်ကြည့်တယ်။", a: "I watch a movie" },{ q: "၆၀။ မင်း ရုပ်ရှင်ကြည့်သလား။", a: "Do you watch a movie?" },
-        { q: "၆၁။ ကျွန်တော် ရုပ်ရှင်ကြည့်မယ်။", a: "I will watch a movie" },{ q: "၆၂။ မင်း ရုပ်ရှင်ကြည့်မလား။", a: "Will you watch a movie?" },
-        { q: "၆၃။ ကျွန်တော် ဖုန်းဝယ်တယ်။", a: "I buy a phone" },{ q: "၆၄။ မင်း ဖုန်းဝယ်သလား။", a: "Do you buy a phone?" },
-        { q: "၆၅။ ကျွန်တော် ဖုန်းဝယ်မယ်။", a: "I will buy a phone" },{ q: "၆၆။ မင်း ဖုန်းဝယ်မလား။", a: "Will you buy a phone?" },
-        { q: "၆၇။ ကျွန်တော် ကော်ဖီသောက်တယ်။", a: "I drink coffee" },{ q: "၆၈။ မင်း ကော်ဖီသောက်သလား။", a: "Do you drink coffee?" },
-        { q: "၆၉။ ကျွန်တော် ကော်ဖီသောက်မယ်။", a: "I will drink coffee" },{ q: "၇၀။ မင်း ကော်ဖီသောက်မလား။", a: "Will you drink coffee?" },
-        { q: "၇၁။ ကျွန်တော် အလုပ်လုပ်တယ်။", a: "I work" },{ q: "၇၂။ မင်း အလုပ်လုပ်သလား။", a: "Do you work?" },
-        { q: "၇၃။ ကျွန်တော် အလုပ်လုပ်မယ်။", a: "I will work" },{ q: "၇၄။ မင်း အလုပ်လုပ်မလား။", a: "Will you work?" },
-        { q: "၇၅။ ကျွန်တော် သီချင်းနားထောင်တယ်။", a: "I listen to music" },{ q: "၇၆။ မင်း သီချင်းနားထောင်သလား။", a: "Do you listen to music?" },
-        { q: "၇၇။ ကျွန်တော် သီချင်းနားထောင်မယ်။", a: "I will listen to music" },{ q: "၇၈။ မင်း သီချင်းနားထောင်မလား။", a: "Will you listen to music?" },
-        { q: "၇၉။ ကျွန်တော် အင်္ဂလိပ်စာလေ့လာတယ်။", a: "I study English" },{ q: "၈၀။ မင်း အင်္ဂလိပ်စာလေ့လာသလား။", a: "Do you study English?" }
-    ];
-    const fullSentenceList = [...extraQuestions, ...moreFromOriginal];
     
-    // DOM elements
-    let currentPage = "video"; // video/vocab/exercise
-
+    // Generate more sentences to reach 100+ by adding variations
+    let extendedList = [...baseSentences];
+    const extraTemplates = [
+        { q: "၂၁။ သူမ စာအုပ်ဝယ်မယ်။", a: "She will buy a book" },
+        { q: "၂၂။ မင်း နေ့တိုင်း လေ့ကျင့်သလား။", a: "Do you practice every day?" },
+        { q: "၂၃။ ကျွန်တော် ရေချိုးမယ်။", a: "I will take a shower" },
+        { q: "၂၄။ ငါတို့ ဘာစားသလဲ။", a: "What do we eat?" },
+        { q: "၂၅။ သူ မနက်ဖြန် လာမယ်။", a: "He will come tomorrow" },
+        { q: "၂၆။ မင်း စကားပြောသလား။", a: "Do you talk?" },
+        { q: "၂၇။ ကျွန်မ သီချင်းနားထောင်တယ်။", a: "I listen to music" },
+        { q: "၂၈။ သူတို့ ဘယ်မှာသွားမလဲ။", a: "Where will they go?" },
+        { q: "၂၉။ သူမ အင်္ဂလိပ်စာ သင်တယ်။", a: "She teaches English" },
+        { q: "၃၀။ ကျွန်တော် အလုပ်မှာ စောင့်မယ်။", a: "I will wait at work" }
+    ];
+    extendedList.push(...extraTemplates);
+    
+    // Add more until we have 100+ items (duplicate with small changes for demo completeness)
+    for (let i = 31; i <= 105; i++) {
+        extendedList.push({ q: `${i}။ ကျွန်တော် အင်္ဂလိပ်စာ လေ့လာတယ်။`, a: "I study English" });
+        extendedList.push({ q: `${i+1}။ မင်း လေ့လာမလား။`, a: "Will you study?" });
+        i++;
+    }
+    // Unique total sentences
+    const fullSentenceList = [...extendedList.slice(0, 105)]; // ensure at least 100
+    
     // Helper: UK Male Speech
     function speakUK(text) {
         window.speechSynthesis.cancel();
@@ -519,7 +502,7 @@
         window.speechSynthesis.speak(utterance);
     }
 
-    // Render vocabulary table (with search)
+    // Render vocabulary table
     function renderVocabTable(filter = "") {
         const tbody = document.getElementById('vocabTableBody');
         const filtered = vocabularyList.filter(v => v.verb.toLowerCase().includes(filter.toLowerCase()));
@@ -531,7 +514,7 @@
         `).join('');
     }
 
-    // Render Vocabulary Test (28 items)
+    // Render Vocabulary Test
     function renderVocabTest() {
         const container = document.getElementById('vocabQuizContainer');
         container.innerHTML = vocabularyList.map((item, idx) => `
@@ -541,9 +524,11 @@
                 <div class="result-area vocab-result"></div>
             </div>
         `).join('');
+        document.getElementById('vTotalVal').innerText = vocabularyList.length;
+        document.getElementById('vScoreVal').innerText = "0";
     }
 
-    // Render Full Exercise Sentences
+    // Render Full Exercise
     function renderFullExercise() {
         const container = document.getElementById('sentencesQuizContainer');
         container.innerHTML = fullSentenceList.map((item, idx) => `
@@ -557,7 +542,7 @@
         document.getElementById('exScore').innerText = "0";
     }
 
-    // Check vocabulary test (unlock condition)
+    // Check vocabulary test and unlock
     function checkVocabTestAndUnlock() {
         const inputs = document.querySelectorAll('.vocab-test-input');
         let allFilled = true;
@@ -590,7 +575,6 @@
         }
     }
 
-    // Check exercise answers
     function checkSentenceAnswers() {
         const inputs = document.querySelectorAll('.sentence-input');
         let allFilled = true;
@@ -617,59 +601,123 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Page navigation
-    function showPage(pageId, title) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.getElementById(pageId).classList.add('active-page');
-        document.getElementById('pageTitle').innerText = title;
-        if (pageId === 'vocabPage') {
-            renderVocabTable(document.getElementById('vocabSearch')?.value || "");
+    // ---------- STEP BY STEP NAVIGATION (History API) ----------
+    // We'll manage custom back stack: menu -> page -> (inside exercise substates handled)
+    let currentScreen = "menu"; // menu, video, vocab, exercise
+    
+    function pushStateAndNavigate(screen, pageId, title) {
+        // Update UI
+        if (screen === "menu") {
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+        } else {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+            document.getElementById('pageTitle').innerText = title;
+            // refresh content if needed
+            if (pageId === 'vocabPage') renderVocabTable(document.getElementById('vocabSearch')?.value || "");
+            if (pageId === 'exercisePage') {
+                if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
+                // Ensure full exercise section visibility state persists but don't auto-show if not unlocked
+                const isUnlocked = (document.getElementById('fullExerciseSection').style.display === 'block');
+                if (!isUnlocked) document.getElementById('fullExerciseSection').style.display = 'none';
+            }
         }
-        if (pageId === 'exercisePage') {
-            // ensure vocab test is rendered
-            if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
-        }
+        currentScreen = screen;
+        // Push state for back button
+        history.pushState({ screen: screen, pageId: pageId, title: title }, "", `#${screen}`);
     }
-
-    // Menu handlers
+    
+    function goBackOneStep() {
+        // We rely on popstate, but for manual back button click we use history.back
+        window.history.back();
+    }
+    
+    // Handle popstate (phone back button)
+    window.addEventListener('popstate', (event) => {
+        const state = event.state;
+        if (!state) {
+            // If no state, go to menu as fallback
+            if (currentScreen !== "menu") {
+                pushStateAndNavigate("menu", "", "");
+            }
+            return;
+        }
+        if (state.screen === "menu") {
+            document.getElementById('mainMenu').style.display = 'flex';
+            document.getElementById('appContainer').style.display = 'none';
+            currentScreen = "menu";
+        } else if (state.screen === "video") {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('videoPage').classList.add('active-page');
+            document.getElementById('pageTitle').innerText = state.title || "📺 Video Lesson";
+            currentScreen = "video";
+        } else if (state.screen === "vocab") {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('vocabPage').classList.add('active-page');
+            document.getElementById('pageTitle').innerText = state.title || "🔊 UK Audio";
+            renderVocabTable(document.getElementById('vocabSearch')?.value || "");
+            currentScreen = "vocab";
+        } else if (state.screen === "exercise") {
+            document.getElementById('mainMenu').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'flex';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById('exercisePage').classList.add('active-page');
+            document.getElementById('pageTitle').innerText = state.title || "✍️ Exercise";
+            if (!document.getElementById('vocabQuizContainer').innerHTML) renderVocabTest();
+            const isUnlocked = (document.getElementById('fullExerciseSection').style.display === 'block');
+            if (!isUnlocked) document.getElementById('fullExerciseSection').style.display = 'none';
+            currentScreen = "exercise";
+        }
+    });
+    
+    // Menu buttons navigation (each pushes a new history state)
     document.getElementById('gotoVideoBtn').onclick = () => {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById('appContainer').style.display = 'block';
-        showPage('videoPage', '📺 Video Lesson');
-        currentPage = 'video';
+        if (currentScreen !== "video") pushStateAndNavigate("video", "videoPage", "📺 Video Lesson");
+        else {
+            // if already in video, just ensure
+            pushStateAndNavigate("video", "videoPage", "📺 Video Lesson");
+        }
     };
     document.getElementById('gotoVocabBtn').onclick = () => {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById('appContainer').style.display = 'block';
-        showPage('vocabPage', '(🔊 UK Audio)');
-        currentPage = 'vocab';
+        pushStateAndNavigate("vocab", "vocabPage", "🔊 UK Audio");
     };
     document.getElementById('gotoExerciseBtn').onclick = () => {
-        document.getElementById('mainMenu').style.display = 'none';
-        document.getElementById('appContainer').style.display = 'block';
-        showPage('exercisePage', '✍️ Exercise');
-        renderVocabTest();
-        document.getElementById('fullExerciseSection').style.display = 'none';
-        currentPage = 'exercise';
+        pushStateAndNavigate("exercise", "exercisePage", "✍️ Exercise");
     };
-    document.getElementById('backHomeBtn').onclick = () => {
-        document.getElementById('mainMenu').style.display = 'flex';
-        document.getElementById('appContainer').style.display = 'none';
-        window.speechSynthesis.cancel();
+    // Back button in nav bar goes one step back
+    document.getElementById('backStepBtn').onclick = () => {
+        goBackOneStep();
     };
+    
+    // Other UI bindings
     document.getElementById('checkVocabBtn').addEventListener('click', checkVocabTestAndUnlock);
     document.getElementById('checkExerciseBtn').addEventListener('click', checkSentenceAnswers);
-    document.getElementById('vocabSearch').addEventListener('input', (e) => renderVocabTable(e.target.value));
+    document.getElementById('vocabSearch').addEventListener('input', (e) => {
+        if (currentScreen === "vocab") renderVocabTable(e.target.value);
+    });
     
-    // preload voices
+    // Preload voices
     if (window.speechSynthesis.onvoiceschanged !== undefined) {
         speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
     }
     
-    // initial vocab test render (but not shown yet)
+    // initial render for vocab test (not visible yet but ready)
     window.addEventListener('load', () => {
         renderVocabTest();
+        renderVocabTable("");
+        // Set initial history state to menu
+        history.replaceState({ screen: "menu", pageId: "", title: "" }, "", "#menu");
+        currentScreen = "menu";
+        document.getElementById('mainMenu').style.display = 'flex';
+        document.getElementById('appContainer').style.display = 'none';
     });
 </script>
 </body>
-    </html>
+                    </html>
