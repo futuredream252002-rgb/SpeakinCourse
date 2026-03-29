@@ -210,6 +210,11 @@
 </div>
 
 <script>
+
+window.onload = function() {
+    history.replaceState({ page: 'mainMenu' }, "", "");
+};
+
     const vocabularyList = [
     { verb: "take", mm: "ယူသည် / (ယာဉ်) စီးသည်" },
     { verb: "sleep", mm: "အိပ်သည်" },
@@ -344,13 +349,19 @@ const sentenceList = [
 ];
 
     function goToPage(pageId) {
-        document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
-        document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
-        document.getElementById(pageId).style.display = 'block';
-        if (pageId === 'vocabPage') renderVocabTable();
-        if (pageId === 'exercisePage') resetExercise();
-        window.scrollTo(0, 0);
+    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
+    document.getElementById(pageId).style.display = 'block';
+    
+    if (pageId === 'vocabPage') renderVocabTable();
+    if (pageId === 'exercisePage') resetExercise();
+    if (pageId !== 'mainMenu') {
+        history.pushState({ page: pageId }, "", "#" + pageId);
     }
+
+    window.scrollTo(0, 0);
+}
+
 
     function renderVocabTable(filter = "") {
         const container = document.getElementById('vocabListContainer');
@@ -445,6 +456,22 @@ const sentenceList = [
             </div>
         `).join('');
     }
+    window.onpopstate = function(event) {
+    if (event.state && event.state.page) {
+        // History ထဲမှာ page ကျန်နေသေးရင် အဲဒီ page ကို ပြမယ်
+        // ဒါပေမယ့် goToPage ကို ပြန်ခေါ်ရင် state ထပ်တိုးမှာစိုးလို့ UI ကိုပဲ manual ဖော်ပါမယ်
+        showPageSimple(event.state.page);
+    } else {
+        // History ထဲမှာ ဘာမှမရှိတော့ရင် Main Menu ကို ပြမယ်
+        showPageSimple('mainMenu');
+    }
+};
+
+function showPageSimple(pageId) {
+    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
+    document.getElementById(pageId).style.display = 'block';
+}
 </script>
 </body>
-    </html>
+                </html>
