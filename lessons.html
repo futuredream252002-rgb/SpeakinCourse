@@ -29,9 +29,10 @@
             position: relative;
         }
 
-        /* Lock ဖြစ်နေပါက မှိန်သွားစေရန် */
+        /* Lock ဖြစ်နေပါက မှိန်သွားစေရန် - pointer-events: none မသုံးရပါ (သုံးရင် alert မပြတော့လို့ပါ) */
         .locked {
-            filter: grayscale(1); opacity: 0.6; cursor: not-allowed !important;
+            filter: grayscale(1); 
+            opacity: 0.6;
         }
 
         .day-button:active:not(.locked) { transform: scale(0.97); }
@@ -39,7 +40,6 @@
         .card-body { padding: 15px; flex-grow: 1; }
         .day-label { font-weight: bold; font-size: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; }
         
-        /* Percentage Badge */
         .score-tag {
             font-size: 10px; padding: 2px 6px;
             border-radius: 5px; color: #fff; font-weight: bold; display: none;
@@ -50,6 +50,7 @@
             background-color: #6c63ff; color: white; padding: 8px 12px;
             display: flex; justify-content: space-between; font-size: 11px;
         }
+        /* Lock ဖြစ်နေတဲ့ Footer အရောင် */
         .locked .card-footer { background-color: #888; }
 
         @media (max-width: 400px) { .container { grid-template-columns: 1fr 1fr; } }
@@ -59,27 +60,25 @@
 
     <div class="header-title">Lessons By Daily Plan</div>
 
-    <div class="container">
-
+    <div class="container" id="lesson-container">
         <button class="day-button" id="btn-1" onclick="go(1)">
-    <div class="card-body">
-        <div class="day-label"><span>📅 Day 1</span><span id="s-1" class="score-tag"></span></div>
-        <div class="lesson-list">
-            <div class="lesson-row">Do ➡ လား</div>
-            <div class="lesson-row">Will ➡ မလား</div>
-        </div>
-    </div>
-    <div class="card-footer"><span>🕒 30 min</span><span id="f-1">Start Now</span></div>
-</button>
+            <div class="card-body">
+                <div class="day-label"><span>📅 Day 1</span><span id="s-1" class="score-tag"></span></div>
+                <div class="lesson-list">
+                    <div class="lesson-row">Do ➡ လား</div>
+                    <div class="lesson-row">Will ➡ မလား</div>
+                </div>
+            </div>
+            <div class="card-footer"><span>🕒 30 min</span><span id="f-1">Start Now</span></div>
+        </button>
 
-<button class="day-button locked" id="btn-2" onclick="go(2)">
-    <div class="card-body">
-        <div class="day-label"><span>📅 Day 2</span><span id="s-2" class="score-tag"></span></div>
-        <div class="lesson-list">Lesson 2 Content...</div>
-    </div>
-    <div class="card-footer"><span>🕒 17 min</span><span id="f-2">🔒 Locked</span></div>
-</button>
-
+        <button class="day-button locked" id="btn-2" onclick="go(2)">
+            <div class="card-body">
+                <div class="day-label"><span>📅 Day 2</span><span id="s-2" class="score-tag"></span></div>
+                <div class="lesson-list">Lesson 2 Content...</div>
+            </div>
+            <div class="card-footer"><span>🕒 17 min</span><span id="f-2">🔒 Locked</span></div>
+        </button>
 <button class="day-button locked" id="btn-3" onclick="go(3)">
     <div class="card-body">
         <div class="day-label"><span>📅 Day 3</span><span id="s-3" class="score-tag"></span></div>
@@ -307,30 +306,30 @@
         </div>
 
     <script>
-        const PASS_PERCENT = 80; // ၈၀ ရာခိုင်နှုန်းရမှ အောင်မည်
+        const PASS_PERCENT = 80;
 
         function checkLocks() {
+            // Day 2 ကနေ 30 အထိပဲ စစ်မယ် (Day 1 က အမြဲ unlocked)
             for (let i = 1; i <= 30; i++) {
-                // ၁။ ရာခိုင်နှုန်း (Percentage) ကို Badge မှာ ပြရန်
                 const currentPercent = localStorage.getItem(`day${i}_percent`);
                 const scoreTag = document.getElementById(`s-${i}`);
                 
+                // အမှတ်စာရင်းပြရန်
                 if (currentPercent && scoreTag) {
                     let pVal = parseInt(currentPercent);
                     scoreTag.innerText = currentPercent + "%";
                     scoreTag.style.display = 'inline-block';
-                    
-                    // 80% ပြည့်ရင် အစိမ်း၊ မပြည့်ရင် အနီ
                     scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
                 }
 
-                // ၂။ Lock/Unlock Logic (ရှေ့က Day ရဲ့ status ကို စစ်မည်)
+                // ရှေ့ခန်းစာအောင်မအောင်စစ်ပြီး Lock ဖြုတ်ရန်
                 if (i > 1) {
-                    const prevStatus = localStorage.getItem(`day${i-1}_status`);
+                    const prevPercent = localStorage.getItem(`day${i-1}_percent`);
                     const btn = document.getElementById(`btn-${i}`);
                     const footerText = document.getElementById(`f-${i}`);
 
-                    if (prevStatus === "unlocked") {
+                    // ရှေ့က Day ရဲ့ percent က 80 နဲ့ အထက်ရှိရင် unlock လုပ်မယ်
+                    if (prevPercent && parseInt(prevPercent) >= PASS_PERCENT) {
                         if(btn) btn.classList.remove('locked');
                         if(footerText) footerText.innerText = 'Start Now';
                     }
@@ -340,14 +339,18 @@
 
         function go(day) {
             const btn = document.getElementById(`btn-${day}`);
-            if (btn && btn.classList.contains('locked')) {
-                alert(`ရှေ့က သင်ခန်းစာမှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`);
+            
+            // Day 1 မဟုတ်ဘဲ class မှာ locked ပါနေရင် alert ပြမယ်
+            if (day > 1 && btn && btn.classList.contains('locked')) {
+                alert(`ရှေ့က သင်ခန်းစာ (Day ${day-1}) မှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`);
             } else {
+                // Lock မရှိရင် သက်ဆိုင်ရာ page ကို ဖွင့်မယ်
                 window.location.href = `day${day}.html`;
             }
         }
 
+        // Page load ဖြစ်တာနဲ့ lock တွေကို စစ်မယ်
         window.onload = checkLocks;
     </script>
 </body>
-</html>
+    </html>
