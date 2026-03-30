@@ -32,9 +32,9 @@
     }
 
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: 800;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -43,10 +43,44 @@
 
     h1::before { content: "📘"; }
 
+    /* Search Bar UI */
+    .search-box {
+      width: 100%;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 15px;
+      padding-left: 35px;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 0.9rem;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: #2563eb;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
     .filter-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
       margin-bottom: 10px;
     }
 
@@ -55,26 +89,26 @@
       font-weight: 700;
       text-transform: uppercase;
       color: #64748b;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       display: block;
     }
 
     .btn-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 5px;
     }
 
     .btn {
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 5px 10px;
+      border-radius: 6px;
       border: 1px solid #e2e8f0;
       background: white;
       font-weight: 600;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       cursor: pointer;
       transition: 0.2s;
-      color: #334155;
+      color: #475569;
     }
 
     .btn.active {
@@ -96,14 +130,14 @@
     .scroll-container {
       flex-grow: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 15px;
       -webkit-overflow-scrolling: touch;
     }
 
     .vocab-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 6px;
+      gap: 8px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -111,76 +145,63 @@
     .card {
       background: white;
       border-radius: 10px;
-      padding: 0.5rem;
+      padding: 0.8rem;
       border: 1px solid #eef2f8;
       box-shadow: 0 2px 4px rgba(0,0,0,0.02);
       animation: fadeIn 0.3s ease;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .card-meta {
+    .word {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #0f172a;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      margin-bottom: 4px;
     }
 
-    .pos-label {
-      font-size: 0.65rem;
-      font-weight: 800;
-      background: #f1f5f9;
-      padding: 3px 8px;
-      border-radius: 6px;
-      color: #475569;
+    .pos-inline {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #64748b;
+      margin-left: 6px;
     }
 
     .level-label {
       font-size: 0.65rem;
       font-weight: 700;
       color: #059669;
+      background: #ecfdf5;
+      padding: 2px 6px;
+      border-radius: 4px;
     }
 
-    /* စာလုံးပြတဲ့ class ကို ပြင်ပါ */
-.word {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: #0f172a;
-  display: flex;
-  align-items: center;
-  gap: 8px; /* စာလုံးနဲ့ ကွင်းစကွင်းပိတ်ကြား အကွာအဝေး */
-}
-
-.word span.pos-inline {
-  font-size: 1rem;       
-  font-weight: 400;     
-  color: #64748b;       
-}
-
-.meaning {
-  background: #f8fafc;
-  padding: 2px 10px;
-  border-radius: 8px;       
-  font-size: 0.75rem;
-  color: #334155;
-  border-left: 3px solid #3b82f6;
-  display: flex;
-  align-items: center;
-  gap: 6px;                 
-  margin-top: 4px;
-}
+    .meaning {
+      background: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #334155;
+      border-left: 3px solid #3b82f6;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
     .nav-btn {
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
       background: #2563eb;
       color: white;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       cursor: pointer;
     }
 
@@ -191,7 +212,7 @@
     }
 
     #pageStatus {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: #64748b;
     }
@@ -201,10 +222,11 @@
       text-align: center;
       padding: 60px;
       color: #94a3b8;
+      font-size: 0.9rem;
     }
 
     @media (max-width: 600px) {
-      .header-fixed { padding: 0.8rem; }
+      .header-fixed { padding: 0.8rem 1rem; }
       h1 { font-size: 1.1rem; }
       .filter-grid { grid-template-columns: 1fr; }
     }
@@ -213,8 +235,12 @@
 <body>
 
 <div class="header-fixed">
-  <h1>Oxford 3000 · Myanmar</h1>
   
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" class="search-input" placeholder="Search English or Myanmar...">
+  </div>
+    <h1>Oxford 3000 · Myanmar</h1>
   <div class="filter-grid">
     <div class="filter-group">
       <span class="label">CEFR Level</span>
@@ -235,8 +261,6 @@
         <button class="btn" data-pos="v">Verb</button>
         <button class="btn" data-pos="adj">Adj</button>
         <button class="btn" data-pos="adv">Adv</button>
-        <button class="btn" data-pos="prep">Prep</button>
-        <button class="btn" data-pos="conj">Conj</button>
       </div>
     </div>
   </div>
@@ -249,8 +273,7 @@
 </div>
 
 <div class="scroll-container">
-  <div class="vocab-grid" id="mainGrid">
-    </div>
+  <div class="vocab-grid" id="mainGrid"></div>
 </div>
 
 <script>
@@ -3239,23 +3262,21 @@ const vocabulary = [
 ];
 let levelFilter = "all";
 let posFilter = "all";
+let searchQuery = "";
 let currentPage = 1;
 const itemsPerPage = 6;
 
 function updateDisplay() {
-  // Filter Logic - အဓိက ပြင်ဆင်ထားသော အပိုင်း
   const filteredData = vocabulary.filter(item => {
-    // Level စစ်ဆေးခြင်း
     const matchesLevel = (levelFilter === 'all') || (item.level === levelFilter);
-    // Part of Speech (posTags array ထဲမှာ ပါ၊ မပါ) စစ်ဆေးခြင်း
     const matchesPos = (posFilter === 'all') || (item.posTags && item.posTags.includes(posFilter));
+    const matchesSearch = item.word.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          item.meaning.includes(searchQuery);
     
-    return matchesLevel && matchesPos;
+    return matchesLevel && matchesPos && matchesSearch;
   });
 
   const totalPages = Math.max(1, Math.ceil(filteredData.length / itemsPerPage));
-  
-  // လက်ရှိ page သည် စုစုပေါင်း page ထက်ကျော်နေပါက နောက်ဆုံး page သို့ ပြန်ညှိပေးသည်
   if (currentPage > totalPages) currentPage = totalPages;
   
   const start = (currentPage - 1) * itemsPerPage;
@@ -3263,43 +3284,43 @@ function updateDisplay() {
   const grid = document.getElementById('mainGrid');
   
   if (currentItems.length === 0) {
-    grid.innerHTML = `<div class="empty-state">No results found for this selection.</div>`;
+    grid.innerHTML = `<div class="empty-state">No results found for "${searchQuery}"</div>`;
   } else {
     grid.innerHTML = currentItems.map(item => `
         <div class="card">
           <div class="word">
-            ${item.word} 
-            <span style="font-size: 0.9rem; font-weight: 400; color: #64748b; margin-left: 5px;">
-              (${item.posTags.join(', ')})
-            </span>
-            <span class="level-label" style="margin-left: auto; font-size: 0.7rem; color: #059669;">
-              ${item.level}
-            </span>
+            <span>${item.word} <span class="pos-inline">(${item.posTags.join(', ')})</span></span>
+            <span class="level-label">${item.level}</span>
           </div>
           <div class="meaning">🇲🇲 ${item.meaning}</div>
         </div>
       `).join('');
   }
 
-
-  // Update Navigation UI
   document.getElementById('pageStatus').innerText = `Page ${currentPage} of ${totalPages}`;
   document.getElementById('prevPage').disabled = (currentPage === 1);
   document.getElementById('nextPage').disabled = (currentPage === totalPages || filteredData.length === 0);
 }
 
-// Level Filter Buttons
+// Search Event
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  currentPage = 1;
+  updateDisplay();
+});
+
+// Level Filter
 document.querySelectorAll('#levelContainer .btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelectorAll('#levelContainer .btn').forEach(b => b.classList.remove('active'));
     e.target.classList.add('active');
     levelFilter = e.target.dataset.level;
-    currentPage = 1; // Filter ပြောင်းတိုင်း ပထမဆုံးစာမျက်နှာကို ပြန်ပို့သည်
+    currentPage = 1;
     updateDisplay();
   });
 });
 
-// Part of Speech Filter Buttons
+// POS Filter
 document.querySelectorAll('#posContainer .btn').forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelectorAll('#posContainer .btn').forEach(b => b.classList.remove('active'));
@@ -3310,12 +3331,9 @@ document.querySelectorAll('#posContainer .btn').forEach(btn => {
   });
 });
 
-// Pagination Logic
+// Pagination
 document.getElementById('prevPage').addEventListener('click', () => {
-  if (currentPage > 1) { 
-    currentPage--; 
-    updateDisplay(); 
-  }
+  if (currentPage > 1) { currentPage--; updateDisplay(); }
 });
 
 document.getElementById('nextPage').addEventListener('click', () => {
@@ -3323,8 +3341,8 @@ document.getElementById('nextPage').addEventListener('click', () => {
   updateDisplay();
 });
 
-// Initialize the display
+// Initial Load
 updateDisplay();
 </script>
 </body>
-   </html>
+  </html>
