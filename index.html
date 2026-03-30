@@ -28,13 +28,13 @@
 
     /* Page Visibility Logic */
     .page { 
-      display: none; /* မူလက အကုန်ဖျောက်ထားမယ် */
+      display: none; 
       min-height: 100vh; 
       width: 100%;
       animation: fadeIn 0.4s ease-in-out; 
     }
     .page.active { 
-      display: flex; /* active ဖြစ်တဲ့ page ပဲ ပြမယ် */
+      display: flex; 
       flex-direction: column;
     }
 
@@ -48,13 +48,9 @@
       position: absolute;
       top: 0; left: 0; z-index: 100;
     }
-    .splash-logo-container {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-    }
+    .splash-logo-container { flex: 1; display: flex; align-items: center; justify-content: center; }
     .quill-icon { width: 100px; opacity: 0.6; }
-    .splash-footer {
-      padding-bottom: 50px; color: #444; font-size: 14px; font-weight: 500;
-    }
+    .splash-footer { padding-bottom: 50px; color: #444; font-size: 14px; font-weight: 500; }
 
     /* --- Auth Pages --- */
     .auth-content { padding: 60px 25px; text-align: center; width: 100%; }
@@ -64,48 +60,49 @@
       border-bottom-color: var(--success); border-left-color: var(--success); 
       border-radius: 50%; transform: rotate(-45deg); display: block;
     }
-    .logo-dot { 
-      width: 12px; height: 12px; background: var(--success); 
-      border-radius: 50%; position: absolute; top: 10px; left: 15px; 
-    }
-    input { 
-      width: 100%; padding: 16px; margin-bottom: 15px; 
-      border: 1.5px solid #eee; border-radius: 12px; background: white; outline: none;
-    }
-    .btn { 
-      width: 100%; padding: 16px; border: none; border-radius: 12px; 
-      font-weight: 800; cursor: pointer; color: white; margin-top: 10px;
-    }
+    .logo-dot { width: 12px; height: 12px; background: var(--success); border-radius: 50%; position: absolute; top: 10px; left: 15px; }
+    input { width: 100%; padding: 16px; margin-bottom: 15px; border: 1.5px solid #eee; border-radius: 12px; background: white; outline: none; }
+    .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; margin-top: 10px; }
     .btn-blue { background: var(--accent); }
     .btn-primary { background: var(--primary); }
 
-    /* --- Home Section --- */
+    /* --- Home Section (Modified for Photo Slip Position) --- */
     .top-blue-section {
-      background: var(--primary); height: 160px;
+      background: var(--primary); 
+      height: 140px; /* အမြင့်ကို လျှော့ချထားသည် */
       border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
       position: absolute; top: 0; width: 100%; z-index: 0;
     }
     header {
-      position: relative; z-index: 1; padding: 30px 25px;
+      position: relative; z-index: 1; 
+      padding: 20px 25px 5px; /* အောက် Padding ကို လျှော့ချထားသည် */
       display: flex; justify-content: space-between; align-items: center; color: white;
     }
     .slider-wrapper {
-      width: 90%; margin: 10px auto; overflow: hidden;
+      width: 90%; 
+      margin: 5px auto 10px; /* Slider ကို အပေါ်ကပ်စေရန် margin ညှိထားသည် */
+      overflow: hidden;
       border-radius: 25px; background: #fff; z-index: 1; position: relative;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
     .slider-container { display: flex; transition: transform 0.6s ease; }
-    .banner-card { min-width: 100%; height: 160px; background-size: cover; background-position: center; }
+    .banner-card { 
+        min-width: 100%; height: 160px; 
+        background-size: cover; background-position: center;
+        background-color: #eee; /* Image မတက်ခင် ပြမည့်အရောင် */
+    }
 
     .announcement-bar {
       width: 90%; margin: 15px auto; background: var(--primary);
-      border-radius: 50px; display: flex; align-items: center; padding: 6px; overflow: hidden;
+      border-radius: 50px; display: flex; align-items: center; padding: 5px; overflow: hidden;
     }
-    .ann-label { background: white; color: var(--primary); padding: 5px 12px; border-radius: 50px; font-size: 10px; font-weight: 800; }
-    .scrolling-text { white-space: nowrap; color: white; font-size: 13px; animation: scroll-left 15s linear infinite; padding-left: 10px; }
-    @keyframes scroll-left { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+    .ann-label { background: white; color: var(--primary); padding: 6px 14px; border-radius: 50px; font-size: 11px; font-weight: 800; }
+    .ann-text-container { flex: 1; overflow: hidden; }
+    .scrolling-text { display: inline-block; white-space: nowrap; color: white; font-size: 13px; animation: scroll-left 15s linear infinite; }
 
-    .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
+    @keyframes scroll-left { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+    
+    .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 10px 20px; }
     .menu-card { display: flex; flex-direction: column; align-items: center; text-decoration: none; }
     .icon-box { 
       width: 100%; aspect-ratio: 1/1; background: white; border-radius: 20px; 
@@ -117,7 +114,7 @@
     /* --- Navigation --- */
     .bottom-nav {
       position: fixed; bottom: 0; width: 100%; max-width: 412px;
-      background: white; display: none; justify-content: space-around;
+      background: white; display: flex; justify-content: space-around;
       padding: 12px 0; border-top: 1px solid #eee; z-index: 10;
     }
     .nav-item { color: #aaa; text-align: center; font-size: 11px; cursor: pointer; }
@@ -125,6 +122,7 @@
     .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
 
   </style>
+
 </head>
 <body>
 
@@ -167,7 +165,7 @@
       <div class="top-blue-section"></div>
       <header>
         <div>
-          <p style="font-size: 12px; opacity: 0.8;">Welcome back,</p>
+          <p style="font-size: 12px; opacity: 0.8;">WELCOME </p>
           <h2 id="user-display-name" style="font-size: 18px;">User</h2>
         </div>
         <i class="fa fa-bell fa-lg"></i>
@@ -180,10 +178,13 @@
         </div>
       </div>
 
-      <div class="announcement-bar">
-       
-        <div class="scrolling-text">📢 သင်ခန်းစာအသစ်များကို အပတ်စဉ် တနင်္လာနေ့တိုင်း တင်ပေးသွားမည် ဖြစ်ပါသည်။</div>
+                  <div class="announcement-bar">
+        <div class="ann-label">📩</div>
+        <div class="ann-text-container">
+          <div class="scrolling-text">🚴 မင်္ဂလာပါ Zaw Zaw Aung... သင်ခန်းစာအသစ်များကို အပတ်စဉ် တနင်္လာနေ့တိုင်း တင်ပေးသွားမည် ဖြစ်ပါသည်။</div>
+        </div>
       </div>
+            
 
       <h3 style="padding: 10px 25px; font-size: 18px;">Explore now</h3>
       <div class="course-grid">
