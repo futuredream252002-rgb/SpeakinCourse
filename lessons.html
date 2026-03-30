@@ -309,19 +309,20 @@
         const PASS_PERCENT = 80;
 
         function checkLocks() {
-            // Day 2 ကနေ 30 အထိပဲ စစ်မယ် (Day 1 က အမြဲ unlocked)
-            for (let i = 1; i <= 30; i++) {
-                const currentPercent = localStorage.getItem(`day${i}_percent`);
-                const scoreTag = document.getElementById(`s-${i}`);
-                
-                // အမှတ်စာရင်းပြရန်
-                if (currentPercent && scoreTag) {
-                    let pVal = parseInt(currentPercent);
-                    scoreTag.innerText = currentPercent + "%";
-                    scoreTag.style.display = 'inline-block';
-                    scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
-                }
-
+    for (let i = 1; i <= 30; i++) {
+        // မှန်ကန်သော Day အလိုက် LocalStorage ကေန လှမ်းယူမည်
+        const currentPercent = localStorage.getItem(`day${i}_percent`);
+        const scoreTag = document.getElementById(`s-${i}`); // s-1, s-2, s-3...
+        
+        if (currentPercent && scoreTag) {
+            let pVal = parseInt(currentPercent);
+            scoreTag.innerText = currentPercent + "%";
+            scoreTag.style.display = 'inline-block';
+            
+            // 80% ပြည့်ရင် အစိမ်း၊ မပြည့်ရင် အနီ
+            scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
+        }
+        
                 // ရှေ့ခန်းစာအောင်မအောင်စစ်ပြီး Lock ဖြုတ်ရန်
                 if (i > 1) {
                     const prevPercent = localStorage.getItem(`day${i-1}_percent`);
@@ -353,4 +354,4 @@
         window.onload = checkLocks;
     </script>
 </body>
-    </html>
+</html>
