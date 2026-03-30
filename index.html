@@ -117,6 +117,23 @@
       background: white; display: flex; justify-content: space-around;
       padding: 12px 0; border-top: 1px solid #eee; z-index: 10;
     }
+    /* နှိပ်လိုက်ရင် Button က နည်းနည်းလေး သေးသွားအောင် (Click Effect) */
+.menu-card:active, .nav-item:active {
+    transform: scale(0.9);
+    transition: 0.1s;
+}
+
+/* Mouse နဲ့ ထိလိုက်ရင် (သို့မဟုတ် Active ဖြစ်နေရင်) အရောင်လင်းလာအောင် */
+.menu-card:hover .icon-box {
+    border: 1px solid var(--accent);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.nav-item.active i, .nav-item.active {
+    color: var(--primary) !important;
+    font-weight: bold;
+}
+
     .nav-item { color: #aaa; text-align: center; font-size: 11px; cursor: pointer; }
     .nav-item.active { color: var(--primary); font-weight: 800; }
     .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
@@ -185,16 +202,51 @@
         </div>
       </div>
             
-
-      <h3 style="padding: 10px 25px; font-size: 18px;">Explore now</h3>
-      <div class="course-grid">
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3429/3429149.png"></div><span class="menu-title">Speaking</span></div>
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png"></div><span class="menu-title">Grammar</span></div>
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png"></div><span class="menu-title">Offers</span></div>
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/3024/3024608.png"></div><span class="menu-title">Free</span></div>
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png"></div><span class="menu-title">My Course</span></div>
-          <div class="menu-card"><div class="icon-box"><img src="https://cdn-icons-png.flaticon.com/512/2702/2702134.png"></div><span class="menu-title">Audiobook</span></div>
+            <h3 class="explore-header">Explore now</h3>
+  
+<div class="course-grid">
+    <a href="lessons.html" class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3429/3429149.png" alt="Speaking Course">
       </div>
+      <span class="menu-title">Speaking Course</span>
+    </a>
+
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png" alt="Courses">
+      </div>
+      <span class="menu-title">Courses</span>
+    </div>
+    
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" alt="Offers">
+      </div>
+      <span class="menu-title">Offers</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3024/3024608.png" alt="Free Course">
+      </div>
+      <span class="menu-title">FREE COURSE</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="My Course">
+      </div>
+      <span class="menu-title">MY COURSE</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="icon-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2702/2702134.png" alt="Audiobook">
+      </div>
+      <span class="menu-title">Audiobook</span>
+    </div>
+
     </section>
 
     <section id="profile-page" class="page">
