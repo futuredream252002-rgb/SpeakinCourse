@@ -387,10 +387,10 @@ const sentenceList = [
             let percent = Math.round((correctCount / totalCount) * 100);
             const scoreStr = `ရမှတ်: ${percent}% (${correctCount}/${totalCount})`;
 
-            localStorage.setItem("day1_percent", percent); // lessons.html မှာပြဖို့ သိမ်းတယ်
+        localStorage.setItem("day2_percent", percent); 
             
             if (percent >= 80) {
-                localStorage.setItem("day1_status", "unlocked");
+                localStorage.setItem("day2_status", "unlocked");
                 showNotification("🎉 ဂုဏ်ယူပါတယ်! ၈၀% ကျော်တဲ့အတွက် နောက်တစ်ဆင့် ပွင့်ပါပြီ။", scoreStr);
             } else {
                 showNotification("⚠️ နောက်တစ်ဆင့်တက်ရန် ၈၀% ကျော်အောင် ကြိုးစားပါဦး။", scoreStr);
