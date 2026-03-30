@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Go to Translate</title>
+    <title>Redirecting...</title>
 </head>
 <body>
-    <h2>Google Translate သို့သွားရန် အောက်က Button ကိုနှိပ်ပါ</h2>
-    
-    <button onclick="location.href='https://translate.google.com/'">
-        Go to Google Translate
-    </button>
+    <p>ခဏစောင့်ပါ... Google Translate သို့ သွားနေပါသည်။</p>
+
+    <script type="text/javascript">
+        // အကယ်၍ URL မှာ #redirected ဆိုတာ မပါသေးရင် (ဆိုလိုတာက ပထမဆုံးအကြိမ် ရောက်လာတာဆိုရင်)
+        if (window.location.hash !== "#redirected") {
+            
+            // လက်ရှိ စာမျက်နှာရဲ့ History မှာ #redirected ကို အရင်ထည့်လိုက်တယ်
+            // ဒါမှ Back ပြန်ဆုတ်ရင် ဒီနေရာမှာပဲ ရပ်နေမှာဖြစ်တယ်
+            window.location.replace(window.location.href + "#redirected");
+
+            // ပြီးမှ Google Translate ကို ပို့မယ်
+            window.location.href = "https://translate.google.com/";
+        }
+    </script>
 </body>
 </html>
