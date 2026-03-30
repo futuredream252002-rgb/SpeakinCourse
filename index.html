@@ -196,11 +196,14 @@
       </div>
 
                   <div class="announcement-bar">
-        <div class="ann-label">📩</div>
-        <div class="ann-text-container">
-          <div class="scrolling-text">🚴 မင်္ဂလာပါ <h2 id="user-display-name" style="font-size: 10px;">User</h2>... Google Translate ထည့်သွင်းပေးထားပါတယ်ဗျ</div>
-        </div>
-      </div>
+  <div class="ann-label">📩</div>
+  <div class="ann-text-container">
+    <div class="scrolling-text">
+      🚴 မင်္ဂလာပါ <span id="ann-user-name">User</span>... Google Translate Buttom အသုံးပြုနိင်ပါပြီ ဖြစ်ပါတယ်။
+    </div>
+  </div>
+</div>
+
             
             <h3 class="explore-header">Explore now</h3>
   
@@ -324,11 +327,14 @@
           document.getElementById('user-display-name').innerText = name;
           document.getElementById('prof-name').innerText = name;
           document.getElementById('prof-email').innerText = user.email;
-          showPage('home-page');
-        } else {
-          showPage('login-page');
-        }
-      });
+          const annUserName = document.getElementById('ann-user-name');
+    if(annUserName) annUserName.innerText = name;
+
+    showPage('home-page');
+  } else {
+    showPage('login-page');
+  }
+});
     }, 2500);
 
     // Login & Register Logic
