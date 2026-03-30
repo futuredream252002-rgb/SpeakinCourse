@@ -312,33 +312,30 @@
 
         function checkLocks() {
     for (let i = 1; i <= 30; i++) {
-        // မှန်ကန်သော Day အလိုက် LocalStorage ကေန လှမ်းယူမည်
         const currentPercent = localStorage.getItem(`day${i}_percent`);
-        const scoreTag = document.getElementById(`s-${i}`); // s-1, s-2, s-3...
+        const scoreTag = document.getElementById(`s-${i}`);
         
         if (currentPercent && scoreTag) {
             let pVal = parseInt(currentPercent);
-            scoreTag.innerText = currentPercent + "%";
+            scoreTag.innerText = pVal + "%";
             scoreTag.style.display = 'inline-block';
-            
-            // 80% ပြည့်ရင် အစိမ်း၊ မပြည့်ရင် အနီ
             scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
         }
-        
-                // ရှေ့ခန်းစာအောင်မအောင်စစ်ပြီး Lock ဖြုတ်ရန်
-                if (i > 1) {
-                    const prevPercent = localStorage.getItem(`day${i-1}_percent`);
-                    const btn = document.getElementById(`btn-${i}`);
-                    const footerText = document.getElementById(`f-${i}`);
 
-                    // ရှေ့က Day ရဲ့ percent က 80 နဲ့ အထက်ရှိရင် unlock လုပ်မယ်
-                    if (prevPercent && parseInt(prevPercent) >= PASS_PERCENT) {
-                        if(btn) btn.classList.remove('locked');
-                        if(footerText) footerText.innerText = 'Start Now';
-                    }
-                }
+        // Lock Logic
+        if (i > 1) {
+            const prevPercent = localStorage.getItem(`day${i-1}_percent`);
+            const btn = document.getElementById(`btn-${i}`);
+            const footerText = document.getElementById(`f-${i}`);
+
+            if (prevPercent && parseInt(prevPercent) >= PASS_PERCENT) {
+                if(btn) btn.classList.remove('locked');
+                if(footerText) footerText.innerText = 'Start Now';
             }
         }
+    }
+}
+
 
         function go(day) {
     const btn = document.getElementById(`btn-${day}`);
