@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Lessons Plan</title>
@@ -339,16 +341,21 @@
         }
 
         function go(day) {
-            const btn = document.getElementById(`btn-${day}`);
-            
-            // Day 1 မဟုတ်ဘဲ class မှာ locked ပါနေရင် alert ပြမယ်
-            if (day > 1 && btn && btn.classList.contains('locked')) {
-                alert(`ရှေ့က သင်ခန်းစာ (Day ${day-1}) မှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`);
-            } else {
-                // Lock မရှိရင် သက်ဆိုင်ရာ page ကို ဖွင့်မယ်
-                window.location.href = `day${day}.html`;
-            }
-        }
+    const btn = document.getElementById(`btn-${day}`);
+    
+    if (day > 1 && btn && btn.classList.contains('locked')) {
+        // alert အစား ဒါလေးပြောင်းရေးပါ
+        Swal.fire({
+          text: `ရှေ့က သင်ခန်းစာ (Day ${day-1}) မှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`,
+          icon: 'warning',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#6c63ff'
+        });
+    } else {
+        window.location.href = `day${day}.html`;
+    }
+}
+
 
         // Page load ဖြစ်တာနဲ့ lock တွေကို စစ်မယ်
         window.onload = checkLocks;
