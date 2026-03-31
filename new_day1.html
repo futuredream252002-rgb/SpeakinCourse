@@ -334,7 +334,12 @@
         }
     }
 
-    window.onpopstate = (event) => goToPage((event.state && event.state.page) ? event.state.page : 'mainMenu');
+// လက်ရှိ code အဟောင်းကို ဖျက်ပြီး ဒါနဲ့ အစားထိုးပါ
+window.onpopstate = (event) => {
+    // ဘယ်နေရာကနေ Back နှိပ်နှိပ် Main Menu ကိုပဲ ပို့မယ်
+    goToPage('mainMenu');
+};
+
     window.onload = checkLockStatus;
 </script>
 </body>
