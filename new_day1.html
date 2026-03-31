@@ -263,7 +263,7 @@
         document.getElementById(pageId).style.display = 'block';
 
         if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
-        if (pageId !== 'mainMenu') history.pushState({ page: pageId }, "", "#" + pageId);
+        
         window.scrollTo(0, 0);
     }
 
