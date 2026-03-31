@@ -344,21 +344,21 @@
     const btn = document.getElementById(`btn-${day}`);
     
     if (day > 1 && btn && btn.classList.contains('locked')) {
-        // alert အစား ဒါလေးပြောင်းရေးပါ
         Swal.fire({
           text: `ရှေ့က သင်ခန်းစာ (Day ${day-1}) မှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`,
           icon: 'warning',
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#6c63ff'
+          confirmButtonText: 'OK'
         });
     } else {
-        window.location.href = `day${day}.html`;
+        // 'new_' ဆိုတာလေး ရှေ့ကခံလိုက်ရင် new_day1.html, new_day2.html ဖြစ်သွားပါမယ်
+        window.location.href = `new_day${day}.html`;
     }
 }
+
 
 
         // Page load ဖြစ်တာနဲ့ lock တွေကို စစ်မယ်
         window.onload = checkLocks;
     </script>
 </body>
-  </html>
+</html>
