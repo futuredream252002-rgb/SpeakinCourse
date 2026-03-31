@@ -102,7 +102,7 @@
 
 <div class="container">
     <header class="header">
-        <button id="topBackBtn"  onclick="goToPage('mainMenu')"></button>
+        <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
         <h2 id="headerTitle">Grammar Lesson-1</h2>
     </header>
 
@@ -244,28 +244,33 @@
     }
 
     function goToPage(pageId) {
-        document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+    
+    const backBtn = document.getElementById('topBackBtn');
+    const headerTitle = document.getElementById('headerTitle');
+
+    if (pageId === 'mainMenu') {
+        backBtn.style.display = 'none';
+        headerTitle.innerText = "Grammar Lesson-1";
+        // Main Menu ပြန်ရောက်ရင် History အဟောင်းတွေကို ဖျက်ပြီး URL ကို မူလအတိုင်း ပြန်ထားမယ်
+        history.replaceState({ page: 'mainMenu' }, "", " ");
+    } else {
+        backBtn.style.display = 'flex';
+        if(pageId === 'videoPage') headerTitle.innerText = "Video Lesson";
+        if(pageId === 'vocabPage') headerTitle.innerText = "Grammar Photos";
+        if(pageId === 'exercisePage') headerTitle.innerText = "Exercise";
         
-        const backBtn = document.getElementById('topBackBtn');
-        const headerTitle = document.getElementById('headerTitle');
-
-        if (pageId === 'mainMenu') {
-            backBtn.style.display = 'none';
-            headerTitle.innerText = "Grammar Lesson-1";
-        } else {
-            backBtn.style.display = 'flex';
-            if(pageId === 'videoPage') headerTitle.innerText = "Video Lesson";
-            if(pageId === 'vocabPage') headerTitle.innerText = "Grammar Photos";
-            if(pageId === 'exercisePage') headerTitle.innerText = "Exercise";
-        }
-
-        document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
-        document.getElementById(pageId).style.display = 'block';
-
-        if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
-        if (pageId !== 'mainMenu') history.pushState({ page: pageId }, "", "#" + pageId);
-        window.scrollTo(0, 0);
+        // တခြား page ရောက်ရင်လည်း History အသစ်မတိုးဘဲ လက်ရှိနေရာမှာပဲ အစားထိုးမယ်
+        history.replaceState({ page: pageId }, "", "#" + pageId);
     }
+
+    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
+    document.getElementById(pageId).style.display = 'block';
+
+    if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
+    window.scrollTo(0, 0);
+}
+
 
     function renderPosExercise() {
         const container = document.getElementById('posQuizContainer');
@@ -334,7 +339,10 @@
         }
     }
 
-    window.onpopstate = (event) => goToPage((event.state && event.state.page) ? event.state.page : 'mainMenu');
+window.onpopstate = (event) => {
+    goToPage('mainMenu');
+};
+
     window.onload = checkLockStatus;
 </script>
 </body>
