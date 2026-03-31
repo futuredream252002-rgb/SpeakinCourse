@@ -14,7 +14,7 @@
             background: linear-gradient(135deg, #4a5bbd 0%, #8b2be2 100%);
             color: white; padding: 0 15px; text-align: center;
             position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
@@ -27,11 +27,31 @@
 
         .content { flex: 1; padding: 80px 20px 20px 20px; }
 
-        /* Notification Bar */
-        #notificationBar {
-            position: fixed; top: -200px; left: 0; width: 100%; padding: 15px;
-            color: white; text-align: center; font-weight: bold; z-index: 9999;
-            background: #ff4757; transition: top 0.5s; display: none;
+        /* Custom Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); display: none;
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-box {
+            background: white; width: 85%; max-width: 350px; border-radius: 15px;
+            padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: modalPop 0.3s ease-out;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-icon {
+            width: 80px; height: 80px; border: 4px solid #ffccbc; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 40px; color: #ff8a65;
+        }
+        .modal-text { font-size: 1.1rem; color: #333; margin-bottom: 25px; line-height: 1.6; }
+        .modal-btn {
+            background: #7c4dff; color: white; border: none;
+            padding: 12px 40px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; font-size: 1rem; width: 100px;
         }
 
         /* Menu Styles */
@@ -56,7 +76,7 @@
         .photo-label { position: absolute; bottom: 10px; right: 10px; background: rgba(139, 43, 226, 0.8); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
 
         /* Quiz Styles */
-        .question-block { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .question-block { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; transition: background 0.2s; }
         .underlined { text-decoration: underline; font-weight: bold; color: #8b2be2; }
         .blank-space { border-bottom: 2px solid #8b2be2; padding: 0 5px; color: #8b2be2; font-weight: bold; }
         .options-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
@@ -64,19 +84,25 @@
         .option-item.selected { background: #764ba2; color: white; border-color: #764ba2; }
         .option-item.correct-ans { background: #28a745; color: white; border-color: #28a745; }
         .option-item.wrong-ans { background: #dc3545; color: white; border-color: #dc3545; }
-
-        .bottom-actions { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; display: none; gap: 10px; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); }
+        
         .btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
         .btn-primary { background: #764ba2; color: white; }
     </style>
 </head>
 <body>
 
-<div id="notificationBar"></div>
+<div id="customModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">!</div>
+        <div id="modalContent" class="modal-text">
+        </div>
+        <button class="modal-btn" onclick="closeModal()">OK</button>
+    </div>
+</div>
 
 <div class="container">
     <header class="header">
-<button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
+        <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
         <h2 id="headerTitle">Grammar Lesson-1</h2>
     </header>
 
@@ -122,7 +148,9 @@
                 <div class="photo-item"><img src="https://i.ibb.co/Z6W41QFh/5414bc1473a8b8e4529b9777d6cc87f6.webp" alt="Step 1"><div class="photo-label">STEP - 1</div></div>
                 <div class="photo-item"><img src="https://i.ibb.co/1JvM6PN9/9556ded8f9ca0db46b7edd84db2de8f9.webp" alt="Step 2"><div class="photo-label">STEP - 2</div></div>
             </div>
-        </div> <div id="exercisePage" class="page">
+        </div> 
+        
+        <div id="exercisePage" class="page">
             <div id="posQuizContainer"></div>
         </div>
     </main>
@@ -169,6 +197,16 @@
     let userSelections = new Array(posQuestions.length).fill(null);
     let isAnswersCleared = false;
 
+    // Modal functions
+    function showModal(msg) {
+        document.getElementById('modalContent').innerText = msg;
+        document.getElementById('customModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('customModal').style.display = 'none';
+    }
+
     function checkLockStatus() {
         const lockUntil = localStorage.getItem('exerciseLockTime');
         const checkBtn = document.getElementById('checkBtn');
@@ -178,30 +216,23 @@
             const remainingTime = lockUntil - currentTime;
 
             if (remainingTime > 0) {
-                checkBtn.disabled = true;
                 const mins = Math.ceil(remainingTime / 60000);
+                checkBtn.disabled = true;
                 checkBtn.innerText = `Locked (${mins} mins)`;
 
                 if (mins <= 20 && !isAnswersCleared) {
                     clearAllAnswers();
                     isAnswersCleared = true;
                 }
-
-                // Lock ကျနေစဉ် Message ပြခြင်း
-                showNotification(
-                    "⚠️ ရမှတ် 80% မပြည့်ပါသဖြင့် Lock ကျနေပါသည်", 
-                    "ဆရာသင်ကြားပြသမှုကို သေချာပြန်လေ့လာပါ။ Lock ပွင့်မှ ပြန်ဖြေဆိုနိုင်ပါမည်။",
-                    true
-                );
-                setTimeout(checkLockStatus, 10000);
+                return true; // Is currently locked
             } else {
                 localStorage.removeItem('exerciseLockTime');
                 isAnswersCleared = false;
                 checkBtn.disabled = false;
                 checkBtn.innerText = "✅ Check Answers";
-                hideNotification();
             }
         }
+        return false;
     }
 
     function clearAllAnswers() {
@@ -211,44 +242,53 @@
     }
 
     function goToPage(pageId) {
-    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
-    
-    const backBtn = document.getElementById('topBackBtn');
-    const headerTitle = document.getElementById('headerTitle');
+        document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+        
+        const backBtn = document.getElementById('topBackBtn');
+        const headerTitle = document.getElementById('headerTitle');
 
-    if (pageId === 'mainMenu') {
-        backBtn.style.display = 'none';
-        headerTitle.innerText = "Grammar Lesson-1";
-    } else {
-        backBtn.style.display = 'flex';
-        if(pageId === 'videoPage') headerTitle.innerText = "Video Lesson";
-        if(pageId === 'vocabPage') headerTitle.innerText = "Grammar Photos";
-        if(pageId === 'exercisePage') headerTitle.innerText = "Exercise";
+        if (pageId === 'mainMenu') {
+            backBtn.style.display = 'none';
+            headerTitle.innerText = "Grammar Lesson-1";
+        } else {
+            backBtn.style.display = 'flex';
+            if(pageId === 'videoPage') headerTitle.innerText = "Video Lesson";
+            if(pageId === 'vocabPage') headerTitle.innerText = "Grammar Photos";
+            if(pageId === 'exercisePage') headerTitle.innerText = "Exercise";
+        }
+
+        document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
+        document.getElementById(pageId).style.display = 'block';
+
+        if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
+        if (pageId !== 'mainMenu') history.pushState({ page: pageId }, "", "#" + pageId);
+        window.scrollTo(0, 0);
     }
-
-    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
-    document.getElementById(pageId).style.display = 'block';
-
-    if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
-    if (pageId !== 'mainMenu') history.pushState({ page: pageId }, "", "#" + pageId);
-    window.scrollTo(0, 0);
-}
-
 
     function renderPosExercise() {
         const container = document.getElementById('posQuizContainer');
         container.innerHTML = posQuestions.map((item, idx) => `
-            <div class="question-block" id="q-block-${idx}">
+            <div class="question-block" id="q-block-${idx}" onclick="handleBlockClick()">
                 <div class="question-text">${item.q}</div>
                 <div class="options-container">
-                    ${item.options.map(opt => `<div class="option-item" onclick="selectOption(${idx}, '${opt}', this)" data-val="${opt}"><div class="check-box"></div><span>${opt}</span></div>`).join('')}
+                    ${item.options.map(opt => `<div class="option-item" onclick="selectOption(${idx}, '${opt}', this, event)" data-val="${opt}"><span>${opt}</span></div>`).join('')}
                 </div>
             </div>
         `).join('');
     }
 
-    function selectOption(qIdx, val, element) {
-        if (document.getElementById('checkBtn').disabled) return;
+    function handleBlockClick() {
+        if (checkLockStatus()) {
+            showModal("⚠️ ရမှတ် 80% မပြည့်ပါသဖြင့် Lock ကျနေပါသည်\nဆရာသင်ကြားပြသမှုကို သေချာပြန်လေ့လာပါ။ Lock ပွင့်မှ ပြန်ဖြေဆိုနိုင်ပါမည်။");
+        }
+    }
+
+    function selectOption(qIdx, val, element, event) {
+        event.stopPropagation(); // Prevents block click when clicking options
+        if (checkLockStatus()) {
+            showModal("⚠️ ရမှတ် 80% မပြည့်ပါသဖြင့် Lock ကျနေပါသည်\nဆရာသင်ကြားပြသမှုကို သေချာပြန်လေ့လာပါ။ Lock ပွင့်မှ ပြန်ဖြေဆိုနိုင်ပါမည်။");
+            return;
+        }
         const block = document.getElementById(`q-block-${qIdx}`);
         block.querySelectorAll('.option-item').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
@@ -259,7 +299,7 @@
 
     function handleCheckAnswers() {
         if (userSelections.includes(null)) {
-            showNotification("⚠️ မေးခွန်းအားလုံးကို ဖြေဆိုပေးပါ", "", false);
+            showModal("⚠️ မေးခွန်းအားလုံးကို ဖြေဆိုပေးပါ");
             return;
         }
 
@@ -284,27 +324,12 @@
             localStorage.setItem('exerciseLockTime', lockTime);
             isAnswersCleared = false;
             checkLockStatus();
+            showModal(`❌ ရမှတ် ${percent}% သာရှိပါသည်။ \n 80% မပြည့်ပါသဖြင့် မိနစ် ၃၀ Lock ကျသွားပါမည်။`);
         } else {
-            
             localStorage.setItem("new_day1_percent", percent);
             localStorage.setItem("new_day1_status", "unlocked");
-            
-            showNotification(`🎉 ဂုဏ်ယူပါတယ်! ရမှတ်: ${percent}%`, `${correctCount} / ${posQuestions.length} ခု မှန်ကန်သည်`, false);
+            showModal(`🎉 ဂုဏ်ယူပါတယ်! ရမှတ်: ${percent}%\n${correctCount} / ${posQuestions.length} ခု မှန်ကန်ပါသည်။`);
         }
-    }
-
-    function showNotification(msg, scoreStr = "", isPersistent = false) {
-        const bar = document.getElementById('notificationBar');
-        bar.innerHTML = `<div>${msg}</div>` + (scoreStr ? `<div class="score-info">${scoreStr}</div>` : "");
-        bar.style.display = "block";
-        setTimeout(() => { bar.style.top = "0"; }, 10);
-        if (!isPersistent) setTimeout(hideNotification, 5000);
-    }
-
-    function hideNotification() {
-        const bar = document.getElementById('notificationBar');
-        bar.style.top = "-200px";
-        setTimeout(() => { bar.style.display = "none"; }, 500);
     }
 
     window.onpopstate = (event) => goToPage((event.state && event.state.page) ? event.state.page : 'mainMenu');
