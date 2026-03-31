@@ -102,7 +102,7 @@
 
 <div class="container">
     <header class="header">
-        <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
+        <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')"></button>
         <h2 id="headerTitle">Grammar Lesson-1</h2>
     </header>
 
@@ -263,7 +263,7 @@
         document.getElementById(pageId).style.display = 'block';
 
         if (pageId === 'exercisePage') { renderPosExercise(); checkLockStatus(); }
-        
+        if (pageId !== 'mainMenu') history.pushState({ page: pageId }, "", "#" + pageId);
         window.scrollTo(0, 0);
     }
 
