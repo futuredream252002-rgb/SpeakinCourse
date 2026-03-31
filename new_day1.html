@@ -84,7 +84,32 @@
         .option-item.selected { background: #764ba2; color: white; border-color: #764ba2; }
         .option-item.correct-ans { background: #28a745; color: white; border-color: #28a745; }
         .option-item.wrong-ans { background: #dc3545; color: white; border-color: #dc3545; }
-        
+       
+.bottom-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 15px 20px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: none; /* Exercise page ရောက်မှ ဖွင့်မယ် */
+    z-index: 1000;
+    justify-content: center;
+}
+
+.bottom-actions .btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    font-size: 1rem;
+    border-radius: 30px; 
+}
+
+#exercisePage {
+    padding-bottom: 80px; 
+}
+
         .btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; }
         .btn-primary { background: #764ba2; color: white; }
     </style>
