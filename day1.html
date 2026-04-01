@@ -748,12 +748,14 @@ function handleShare() {
 }
 
 window.onpopstate = (event) => {
-    
-    if (event.state && event.state.page) {
+    // Video ကို အရင်ရပ်မည်
+    stopVideo();
 
-        location.reload(); 
+    if (event.state && event.state.page) {
+        // Page ကို Reload လုပ်မည့်အစား သက်ဆိုင်ရာ Page သို့သွားရန် (ပိုချောမွေ့သည်)
+        goToPage(event.state.page);
     } else {
-      
+        // Main Menu သို့ ပြန်သွားခြင်း
         document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
         document.getElementById('mainMenu').style.display = 'block';
         document.getElementById('topBackBtn').style.display = 'none';
@@ -764,4 +766,5 @@ window.onpopstate = (event) => {
         }
     }
 };
+
 </script></body> </html>
