@@ -3,218 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Learn English with Burmese</title>
+    <title>Learn English</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f0f2f5; min-height: 100vh; color: #1c1e21; }
+        .container { width: 100%; max-width: 800px; margin: 0 auto; background: white; min-height: 100vh; display: flex; flex-direction: column; }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f0f2f5;
-            min-height: 100vh;
-            color: #1c1e21;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* Fixed Header Area */
         .header {
             background: linear-gradient(135deg, #4a5bbd 0%, #8b2be2 100%);
-            color: white;
-            padding: 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            color: white; padding: 0 15px; text-align: center;
+            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* Notification Bar */
-        #notificationBar {
-            position: fixed;
-            top: -120px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: top 0.5s ease;
-            z-index: 3000;
-            background: #ff4757;
+        .back-circle {
+            position: absolute; left: 15px; width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.2); border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
+            cursor: pointer; border: none; color: white; font-size: 1.2rem;
         }
 
-        .score-info {
-            font-size: 0.85rem;
-            margin-top: 5px;
-            font-weight: normal;
-            background: rgba(0,0,0,0.1);
-            padding: 2px 8px;
-            border-radius: 5px;
-            display: inline-block;
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); display: none;
+            justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-box {
+            background: white; width: 85%; max-width: 350px; border-radius: 15px;
+            padding: 30px 20px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: modalPop 0.3s ease-out;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-icon {
+            width: 80px; height: 80px; border: 4px solid #ffccbc; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 40px; color: #ff8a65;
+        }
+        .modal-text { font-size: 1.1rem; color: #333; margin-bottom: 25px; line-height: 1.6; }
+        .modal-btn {
+            background: #7c4dff; color: white; border: none;
+            padding: 12px 40px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; font-size: 1rem; width: 100px;
         }
 
-        .content {
-            padding: 15px;
-            flex: 1;
-            padding-bottom: 100px;
+        /* Menu Styles */
+        .main-menu { display: grid; gap: 0px; width: 100%; padding: 80px 20px 20px 20px; }
+        .menu-btn {
+            background: white; border: 1px solid #eee; padding: 15px; border-radius: 20px;
+            display: flex; align-items: center; position: relative; width: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; text-align: left;
         }
+        .icon-box { width: 60px; height: 60px; background: #f8fafc; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 1.5rem; }
+        .btn-info { flex: 1; }
+        .cat-name { font-size: 0.8rem; color: #64748b; }
+        .btn-title { font-size: 1.1rem; font-weight: bold; color: #7c4dff; }
+        .btn-meta { font-size: 0.8rem; color: #94a3b8; }
+        .status-tag { position: absolute; right: 20px; bottom: 15px; font-size: 0.8rem; font-weight: 600; color: #4ade80; }
 
-        .exercise-sticky-bar {
-            position: sticky;
-            top: 50px;
-            z-index: 90;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 10px;
-            margin: -15px -15px 15px -15px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            gap: 10px;
-            backdrop-filter: blur(5px);
-        }
-
-        .main-menu { display: grid; gap: 15px; margin-top: 20px; }
-.menu-btn {
-    background: white; 
-    border: 2px solid #764ba2; 
-    color: #764ba2;
-    padding: 20px; 
-    border-radius: 15px; 
-    font-size: 1.1rem;
-    font-weight: bold; 
-    display: flex; 
-    align-items: center; 
-    gap: 15px;
+.page { 
+    display: none; 
     width: 100%; 
+    padding-bottom: 100px; 
+}
+
+#exercisePage { 
+    padding: 80px 20px 100px 20px !important; 
+}
+
+.quiz-card { background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.opt-btn { padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; cursor: pointer; font-size: 0.9rem; transition: 0.3s; }
+.opt-btn.selected { border-color: #7c4dff; background: #f5f3ff; color: #7c4dff; font-weight: bold; }
+
+/* Vocab Quiz အတွက် သီးသန့် ခလုတ် style */
+.vocab-bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 15px 20px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+}
+
+/* Quiz Content တွေ ခလုတ်အောက် ရောက်မသွားအောင် padding ပေးခြင်း */
+#vocabQuizContainer {
+    padding-bottom: 80px; 
 }
 
 
-        .page { display: none; }
-
-        .question-block {
-            background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px;
+.bottom-actions {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    background: white;
+    padding: 15px 20px; 
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1); 
+    display: none; 
+    z-index: 1000; 
+    justify-content: center;
+}
+        /* Video Page Specifics */
+        .video-fixed-container {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1001; background: black;
         }
-
-        .answer-input {
-            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; margin-top: 8px;
+        .video-fixed-container iframe {
+            width: 100%; aspect-ratio: 16 / 9; border: none; display: block;
         }
-
-        .bottom-actions {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-            display: flex; gap: 10px; z-index: 1000;
+        .video-back-btn {
+            position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); 
+            border: none; color: white; width: 35px; height: 35px; border-radius: 50%; z-index: 1002;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
+        
+        .video-content-scroll {
+            margin-top: calc(56.25vw + 25px);
+            padding-bottom: 80px;
+        }
+        @media screen and (max-height: 500px) {
+    .bottom-actions {
+        position: static;
+        box-shadow: none;
+    }
+        }
+        .interaction-bar {
+            display: flex; justify-content: flex-end; gap: 25px; padding: 5px 20px;
+            background: white; border-bottom: 1px solid #f0f2f5;
+        }
+        .interaction-item { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+        .interact-icon { font-size: 1.3rem; }
+        .interact-count { font-size: 0.9rem; font-weight: 500; color: #65676b; }
+        .liked .interact-icon { color: #f02849; }
+        .liked .interact-count { color: #f02849; font-weight: bold; }
 
-        .btn { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; text-align: center; }
-        .btn-primary { background: #764ba2; color: white; }
-        .btn-skip { background: #ff7b72; color: white; }
-        .btn-back { background: #e4e6eb; color: #1c1e21; }
+        /* Other Pages */
+        #vocabPage, #vocabListPage, #exercisePage { padding: 80px 20px 20px 20px; }
+        .gallery-vertical { display: flex; flex-direction: column; gap: 15px; }
+        .photo-item { position: relative; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .photo-item img { width: 100%; display: block; }
+        .photo-label { position: absolute; bottom: 10px; right: 10px; background: rgba(139, 43, 226, 0.8); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; }
 
-        .result-area { margin-top: 8px; padding: 10px; border-radius: 8px; display: none; font-size: 0.95rem; }
-        .correct { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
-        .incorrect { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+        /* Quiz */
+        .question-block { background: #fff; padding: 20px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #eee; }
+        .answer-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; margin-top: 10px; }
+        
+        .btn-primary { background: #764ba2; color: white; border: none; width: 100%; max-width: 400px; padding: 15px; border-radius: 30px; font-weight: bold; cursor: pointer; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000; }
+        .header-hidden { display: none !important; }
     </style>
 </head>
 <body>
-
-
-<div id="notificationBar"></div>
-
-<div class="container">
-    <div class="header"><h1>🇬🇧 Lesson-2 🇲🇲</h1></div>
-
-    <div class="content">
-        <div id="mainMenu" class="main-menu">
-            <button class="menu-btn" onclick="goToPage('videoPage')">📺 Video Lesson</button>
-            <button class="menu-btn" onclick="goToPage('vocabPage')">📚 Vocabulary List</button>
-            <button class="menu-btn" onclick="goToPage('exercisePage')">✍️ Start Exercise</button>
+<div id="customModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-icon">!</div>
+        <div id="modalContent" class="modal-text">
         </div>
-
-<div id="videoPage" class="page">
-    <iframe width="100%" height="250" src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_2_qj6vmr" frameborder="0" allowfullscreen style="border-radius:10px"></iframe>
-    <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
-        * Vocabulary ကို သေချာကျက်မှတ်ပြီးမှ Exercise ကို ဖြေဆိုနိုင်ပါမည်။
-    </p>
-    <button class="menu-btn" style="width:100%; margin-top:20px;" onclick="goToPage('vocabPage')">📚 Vocabulary List</button>
-    
-    
-
-    <button class="btn btn-back" style="width:100%; margin-top:15px;" onclick="goToPage('mainMenu')">Back</button>
+        <button class="modal-btn" onclick="closeModal()">OK</button>
+    </div>
 </div>
 
+<div class="container">
+    <header class="header">
+        <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
+        <h2 id="headerTitle">🇬🇧 Speaking Lesson-2 🇲🇲</h2>
+    </header>
 
-        <div id="vocabPage" class="page">
-            <input type="text" class="answer-input" placeholder="🔍 Search vocabulary..." oninput="renderVocabTable(this.value)">
-            <div id="vocabListContainer" style="margin-top:15px"></div>
-                <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
-        * Vocabulary ကို သေချာကျက်မှတ်ပြီး လျှင် Exercise ကို ဖြေဆိုနိုင်ပါပြီ။
-    </p>
-<button class="menu-btn" onclick="goToPage('exercisePage')">✍️ Start Exercise</button>
-        
-            <button class="btn btn-back" style="width:100%; margin-top:20px;" onclick="goToPage('mainMenu')">Back</button>
+    <main class="content">
+<div id="mainMenu" class="main-menu">
+    <button class="menu-btn" onclick="goToPage('videoPage')">
+        <div class="icon-box">📺</div>
+        <div class="btn-info">
+            <div class="cat-name">Watch</div>
+            <div class="btn-title">Video Lesson</div>
+        </div>
+    </button>
+    
+    <button class="menu-btn" onclick="goToPage('vocabListPage')">
+        <div class="icon-box">🔡</div>
+        <div class="btn-info">
+            <div class="cat-name">Vocabulary</div>
+            <div class="btn-title">Verb List (30 Words)</div>
+        </div>
+    </button>
+
+    <button class="menu-btn" onclick="goToPage('vocabQuizPage')">
+        <div class="icon-box">🎯</div>
+        <div class="btn-info">
+            <div class="cat-name">Pre-test</div>
+            <div class="btn-title">Vocabulary Test</div>
+            <div class="btn-meta" id="vocabStatusText">မဖြေရသေးပါ</div>
+        </div>
+        <div class="status-tag" id="vocabStatusTag">Required</div>
+    </button>
+
+    <button id="exerciseMenuBtn" class="menu-btn" onclick="checkVocabLockBeforeEntry()" style="opacity: 0.5;">
+        <div class="icon-box">✍️</div>
+        <div class="btn-info">
+            <div class="cat-name">Speaking Test</div>
+            <div class="btn-title">Exercise (30 Qs)</div>
+        </div>
+        <div class="status-tag" style="color: #ef4444;" id="exerciseLockTag">🔒 Locked</div>
+    </button>
+</div>
+
+<div id="vocabQuizPage" class="page">
+    <div id="vocabQuizContainer"></div>
+</div>
+        <div id="videoPage" class="page">
+            <div class="video-fixed-container" style="height: auto; background: white;">
+            
+<iframe width="100%" height="250" src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_2_qj6vmr" frameborder="0" allowfullscreen style="border-radius:10px"></iframe>
+
+                <div class="interaction-bar" style="border-bottom: 1px solid #eee;">
+                    <div class="interaction-item" id="likeBtn" onclick="handleLike()">
+                        <span class="interact-icon">❤️</span>
+                        <span class="interact-count" id="likeCountDisplay">9.2k</span>
+                    </div>
+                    <div class="interaction-item" onclick="handleShare()">
+                        <span class="interact-icon">➔</span>
+                        <span class="interact-count">0</span>
+                    </div>
+                </div>
+                
+                <button onclick="goToPage('mainMenu')" style="position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.5); border: none; color: white; width: 35px; height: 35px; border-radius: 50%; z-index: 1002;">❮</button>
+            </div>
+
+            <div class="video-content-scroll" style="margin-top: calc(56.25vw + 60px);">
+                <div style="padding: 20px; text-align: center; color: #666;">
+                    <p>📝 Watch the video and learn English Speaking Course!</p>
+                    <p>📝 Memorize vocabulary words.</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">Practice with the exercises to improve your skills.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="vocabListPage" class="page">
+            <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <thead>
+                        <tr style="background: #7c4dff; color: white; text-align: left;">
+                            <th style="padding: 15px;">Verb (English)</th>
+                            <th style="padding: 15px;">Meaning (Myanmar)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vocabTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="exercisePage" class="page">
-        
-            <div class="exercise-sticky-bar" id="stickyBar">
-            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 15px; font-style: italic;">
-        * Vocabulary အားလုံးမှန်မှ Exercise ကိုဖြေပါ။
-    </p>
-                <button class="btn btn-skip" onclick="showConfirm()">⏩ Skip</button>
-                            
-            </div>
-            <div id="vocabTestSection">
-
-                <h3>📖 Vocabulary Test</h3>
-                    
-                <div id="vocabQuizContainer"></div>
-            </div>
-            <div id="sentenceSection" style="display:none">
-                <h3>✍️ Sentence Exercises</h3>
-                <div id="sentencesQuizContainer"></div>
-            </div>
+            <div id="posQuizContainer"></div>
         </div>
-    </div>
+    </main>
 </div>
 
-<div id="exerciseFooter" class="bottom-actions" style="display:none">
-    <button class="btn btn-back" onclick="goToPage('mainMenu')">Back</button>
-    <button class="btn btn-primary" onclick="handleGlobalCheck()">✅ Check Answers</button>
-</div>
-
-<div id="confirmModal" class="modal">
-    <div style="background:white; padding:25px; border-radius:20px; width:85%; max-width:300px;">
-        <h3>Skip to Sentences?</h3>
-        <p style="margin:15px 0">Vocab test ကို ကျော်မှာလား?</p>
-        <div style="display:flex; gap:10px">
-            <button class="btn btn-back" onclick="closeConfirm()">No</button>
-            <button class="btn btn-primary" onclick="confirmSkip()">Yes</button>
-        </div>
-    </div>
+<div id="exerciseFooter" class="bottom-actions">
+    <button id="checkBtn" class="btn btn-primary" onclick="handleCheckAnswers()">✅ Check Answers</button>
 </div>
 
 <script>
-
-window.onload = function() {
-    history.replaceState({ page: 'mainMenu' }, "", "");
-};
-
     const vocabularyList = [    
     { verb: "He", mm: "သူ" },
     { verb: "She", mm: "သူမ" },
@@ -259,27 +317,39 @@ window.onload = function() {
     { verb: "play", mm: "ကစားသည်" }
 ];
 
+function renderVocabList() {
+    const tableBody = document.getElementById('vocabTableBody');
+    if (tableBody) {
+        tableBody.innerHTML = vocabularyList.map((item, index) => `
+            <tr style="border-bottom: 1px solid #eee; background: ${index % 2 === 0 ? '#fff' : '#fcfaff'};">
+                <td style="padding: 12px 15px; font-weight: bold; color: #4a5bbd;">${item.verb}</td>
+                <td style="padding: 12px 15px; color: #555;">${item.mm}</td>
+            </tr>
+        `).join('');
+    }
+}
+
 const sentenceList = [
-    { q: "၁။ ကျွန်တော် သိတယ်။", a: "I know." },
-    { q: "၂။ သူ ကျွန်တော့်ကို ပေးလိမ့်မယ်။", a: "He will give me." },
-    { q: "၃။ မင်း စားသလား။", a: "Do you eat?" },
-    { q: "၄။ သူမ သွားလိမ့်မယ်။", a: "She will go." },
-    { q: "၅။ သူတို့မှာ ရှိသလား။", a: "Do they have?" },
-    { q: "၆။ ကျွန်တော် အလိုရှိတယ်။", a: "I want." },
-    { q: "၇။ သူ လိုအပ်သလား။", a: "Does he need?" },
-    { q: "၈။ သူတို့ လာလိမ့်မလား။", a: "Will they come?" },
-    { q: "၉။ သူမ အိပ်သလား။", a: "Does she sleep?" },
-    { q: "၁၀။ မင်း ပြောလိမ့်မယ်။", a: "You will talk." },
-    { q: "၁၁။ ကျွန်တော် မြင်သလား။", a: "Do I see?" },
-    { q: "၁၂။ သူတို့ တွေ့လိမ့်မယ်။", a: "They will meet." },
-    { q: "၁၃။ မင်းမှာ ပိုက်ဆံ ရှိသလား။", a: "Do you have money?" },
-    { q: "၁၄။ သူမ ရှာတွေ့လိမ့်မယ်။", a: "She will find." },
-    { q: "၁၅။ သူ စာဖတ်သလား။", a: "Does he read?" },
-    { q: "၁၆။ ကျွန်တော် စာရေးလိမ့်မယ်။", a: "I will write." },
-    { q: "၁၇။ ဒါက စက္ကူလား။", a: "Is this paper?" },
-    { q: "၁၈။ မင်း အလည်သွားမလား။", a: "Will you visit?" },
-    { q: "၁၉။ သူတို့ လုပ်သလား။", a: "Do they do?" },
-    { q: "၂၀။ သူမ လာလိမ့်မယ်။", a: "She will come." },
+    { q: "၁။ ကျွန်တော် သိတယ်။ (Know)", a: "I know." },
+    { q: "၂။ သူ ကျွန်တော့်ကို ပေးလိမ့်မယ်။ (Give)", a: "He will give me." },
+    { q: "၃။ မင်း စားသလား။ (eat)", a: "Do you eat?" },
+    { q: "၄။ သူမ သွားလိမ့်မယ်။ (Go)", a: "She will go." },
+    { q: "၅။ သူတို့မှာ ရှိသလား။ (Have)", a: "Do they have?" },
+    { q: "၆။ ကျွန်တော် အလိုရှိတယ်။ (Want)", a: "I want." },
+    { q: "၇။ သူ လိုအပ်သလား။ (Need)", a: "Does he need?" },
+    { q: "၈။ သူတို့ လာလိမ့်မလား။ (Come)", a: "Will they come?" },
+    { q: "၉။ သူမ အိပ်သလား။ (Sleep)", a: "Does she sleep?" },
+    { q: "၁၀။ မင်း ပြောလိမ့်မယ်။ (Talk)", a: "You will talk." },
+    { q: "၁၁။ ကျွန်တော် မြင်သလား။ (See)", a: "Do I see?" },
+    { q: "၁၂။ သူတို့ တွေ့လိမ့်မယ်။ (Meet)", a: "They will meet." },
+    { q: "၁၃။ မင်းမှာ ပိုက်ဆံ ရှိသလား။ (Have)", a: "Do you have money?" },
+    { q: "၁၄။ သူမ ရှာတွေ့လိမ့်မယ်။ (Find)", a: "She will find." },
+    { q: "၁၅။ သူ စာဖတ်သလား။ (Read)", a: "Does he read?" },
+    { q: "၁၆။ ကျွန်တော် စာရေးလိမ့်မယ်။ (Write)", a: "I will write." },
+    { q: "၁၇။ ဒါက စက္ကူလား။ (Paper)", a: "Is this paper?" },
+    { q: "၁၈။ မင်း အလည်သွားမလား။ (Visit)", a: "Will you visit?" },
+    { q: "၁၉။ သူတို့ လုပ်သလား။ (Do)", a: "Do they do?" },
+    { q: "၂၀။ သူမ လာလိမ့်မယ်။ (Come)", a: "She will come." },
     { q: "၂၁။ ကျွန်တော် နားထောင်မယ်။ (Listen)", a: "I will listen." },
     { q: "၂၂။ သူ ရေချိုးသလား။ (Take a bath)", a: "Does he take a bath?" },
     { q: "၂၃။ မင်း အလုပ်လုပ်လိမ့်မလား။ (Work)", a: "Will you work?" },
@@ -292,144 +362,416 @@ const sentenceList = [
     { q: "၃၀။ သူတို့ ချက်ပြုတ်လိမ့်မယ်။ (Cook)", a: "They will cook." }
 ];
 
+let selectedVocabQuestions = [];
+let userVocabAnswers = {};
+let currentQuizStage = 1; 
 
-    function goToPage(pageId) {
-    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
-    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
-    document.getElementById(pageId).style.display = 'block';
-    
-    if (pageId === 'vocabPage') renderVocabTable();
-    if (pageId === 'exercisePage') resetExercise();
-    if (pageId !== 'mainMenu') {
-        history.pushState({ page: pageId }, "", "#" + pageId);
+function checkVocabQuiz() {
+    let score = 0;
+    selectedVocabQuestions.forEach((item, idx) => {
+        let correctAnswer = currentQuizStage === 1 ? item.mm : item.verb;
+        if(userVocabAnswers[idx] === correctAnswer) score++;
+    });
+
+    const percent = (score / selectedVocabQuestions.length) * 100;
+if(percent === 100) {
+    if(currentQuizStage === 1) {
+        showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
+        currentQuizStage = 2;
+        setupVocabQuiz(); 
+        window.scrollTo(0, 0);
+    } else {
+        localStorage.setItem('vocabPassed', 'true');
+        showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
+        currentQuizStage = 1; 
+        history.replaceState(null, "", ""); 
+        goToPage('mainMenu');
+        updateLockUI();
+        }
+    } else {
+        
+        showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။ မေးခွန်းအသစ်များဖြင့် ပြန်ဖြေကြည့်ပါ။`);
+       
+        setupVocabQuiz(); 
+        window.scrollTo(0, 0);
     }
-
-    window.scrollTo(0, 0);
 }
 
+function selectVocabOpt(qIdx, val, btn) {
+    userVocabAnswers[qIdx] = val;
+    document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
 
-    function renderVocabTable(filter = "") {
-        const container = document.getElementById('vocabListContainer');
-        const filtered = vocabularyList.filter(v => v.verb.includes(filter.toLowerCase()) || v.mm.includes(filter));
-        container.innerHTML = filtered.map(v => `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #eee"><b>${v.verb}</b> <span>${v.mm}</span></div>`).join('');
+function checkVocabLockBeforeEntry() {
+    if(localStorage.getItem('vocabPassed') === 'true') {
+        goToPage('exercisePage');
+    } else {
+        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် ဖြေဆိုပါ။");
+    }
+}
+function updateLockUI() {
+    const isPassed = localStorage.getItem('vocabPassed') === 'true';
+    const exerciseBtn = document.getElementById('exerciseMenuBtn');
+    const lockTag = document.getElementById('exerciseLockTag');
+    const statusText = document.getElementById('vocabStatusText');
+    const statusTag = document.getElementById('vocabStatusTag');
+
+    if (exerciseBtn && lockTag) {
+        if (isPassed) {
+          
+            exerciseBtn.style.opacity = "1";
+            exerciseBtn.style.pointerEvents = "auto";
+            lockTag.innerText = "🔓 Unlocked";
+            lockTag.style.color = "#4ade80";
+            if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
+            if(statusTag) {
+                statusTag.innerText = "Passed";
+                statusTag.style.color = "#4ade80";
+            }
+        } else {
+           
+            exerciseBtn.style.opacity = "0.5";
+            lockTag.innerText = "🔒 Locked";
+            lockTag.style.color = "#ef4444";
+            if(statusText) statusText.innerText = "မဖြေရသေးပါ";
+            if(statusTag) {
+                statusTag.innerText = "Required";
+                statusTag.style.color = "#ef4444";
+            }
+        }
+    }
+}
+
+const originalOnLoad = window.onload;
+window.onload = () => {
+    renderVocabList();
+    updateInteractionUI();
+    checkLockStatus(); 
+    updateLockUI();   
+};
+
+let userSelections = new Array(sentenceList.length).fill(null);
+let isAnswersCleared = false;
+
+function showModal(msg) {
+    document.getElementById('modalContent').innerText = msg;
+    document.getElementById('customModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('customModal').style.display = 'none';
+}
+
+function checkLockStatus() {
+    const lockUntil = localStorage.getItem('exerciseLockTime');
+    const checkBtn = document.getElementById('checkBtn');
+    
+    if (lockUntil) {
+        const currentTime = new Date().getTime();
+        const remainingTime = lockUntil - currentTime;
+
+        if (remainingTime > 0) {
+            const mins = Math.ceil(remainingTime / 60000);
+            if (checkBtn) {
+                checkBtn.disabled = true;
+                checkBtn.innerText = `Locked (${mins} mins)`;
+            }
+            if (mins <= 20 && !isAnswersCleared) {
+                clearAllAnswers();
+                isAnswersCleared = true;
+            }
+            return true;
+        } else {
+            localStorage.removeItem('exerciseLockTime');
+            isAnswersCleared = false;
+            if (checkBtn) {
+                checkBtn.disabled = false;
+                checkBtn.innerText = "✅ Check Answers";
+            }
+        }
+    }
+    return false;
+}
+
+function clearAllAnswers() {
+    userSelections = new Array(sentenceList.length).fill(null);
+    document.querySelectorAll('.answer-input').forEach(input => {
+        input.value = "";
+        input.style.borderColor = "#ddd";
+        input.style.background = "";
+    });
+    document.querySelectorAll('[id^="feedback-"]').forEach(fb => {
+        fb.style.display = 'none';
+        fb.innerHTML = '';
+    });
+}
+
+function goToPage(pageId) {
+    const videoPage = document.getElementById('videoPage');
+    if (videoPage && videoPage.style.display === 'block') { stopVideo(); }
+
+    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
+    
+    const backBtn = document.getElementById('topBackBtn');
+    const headerTitle = document.getElementById('headerTitle');
+    const mainHeader = document.querySelector('.header');
+    const exerciseFooter = document.getElementById('exerciseFooter');
+    const vocabBar = document.querySelector('.vocab-bottom-bar');
+
+    if(vocabBar) vocabBar.style.display = 'none';
+
+    if (pageId === 'videoPage') {
+        mainHeader.classList.add('header-hidden');
+    } else {
+        mainHeader.classList.remove('header-hidden');
     }
 
-    function resetExercise() {
-        document.getElementById('vocabTestSection').style.display = 'block';
-        document.getElementById('sentenceSection').style.display = 'none';
-        document.getElementById('stickyBar').style.display = 'flex';
-        renderVocabTest();
-    }
-
-    function renderVocabTest() {
-        document.getElementById('vocabQuizContainer').innerHTML = vocabularyList.map((item, idx) => `
-            <div class="question-block">
-                <p>${idx+1}. ${item.mm}</p>
-                <input type="text" class="answer-input v-input" data-ans="${item.verb}" placeholder="အဖြေရိုက်ပါ...">
-                <div class="result-area"></div>
-            </div>
-        `).join('');
-    }
-
-    function showNotification(msg, scoreStr = "") {
-        const bar = document.getElementById('notificationBar');
-        bar.innerHTML = `<div>${msg}</div>` + (scoreStr ? `<div class="score-info">${scoreStr}</div>` : "");
-        bar.style.top = "20px";
-        setTimeout(() => { bar.style.top = "-120px"; }, 4000);
-    }
-
-        function handleGlobalCheck() {
-        const isVocabMode = document.getElementById('vocabTestSection').style.display !== 'none';
-        const inputs = document.querySelectorAll(isVocabMode ? '.v-input' : '.s-input');
+    if (pageId === 'mainMenu') {
+        backBtn.style.display = 'none';
+        headerTitle.innerText = "Grammar Lesson-1";
+        if (exerciseFooter) exerciseFooter.style.display = 'none';
+    } else {
+        backBtn.style.display = 'flex';
+        if (exerciseFooter) exerciseFooter.style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
         
-        let missing = false;
-        inputs.forEach(i => { if(i.value.trim() === "") missing = true; });
-        if(missing) {
-            showNotification("⚠️ Input အားလုံးကို ဖြည့်စွက်ပါ");
+        if (pageId === 'exercisePage') {
+            headerTitle.innerText = "Exercise (30 Questions)";
+            renderPosExercise();
+            checkLockStatus();
+            history.pushState({ page: 'exercisePage' }, "", ""); 
+        } else if (pageId === 'vocabListPage') {
+            headerTitle.innerText = "Verb List (30 Words)";
+            renderVocabList();
+            history.pushState({ page: pageId }, "", "");
+        } else if (pageId === 'vocabQuizPage') {
+            headerTitle.innerText = "Vocabulary Test";
+            currentQuizStage = 1; 
+            setupVocabQuiz();
+            setTimeout(() => {
+                const bar = document.querySelector('.vocab-bottom-bar');
+                if(bar) bar.style.display = 'flex';
+            }, 50);
+            history.pushState({ page: pageId }, "", "");
+        } else {
+            history.pushState({ page: pageId }, "", "");
+        }
+    }
+
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) targetPage.style.display = 'block';
+    window.scrollTo(0, 0);
+    updateLockUI();
+}
+
+function setupVocabQuiz() {
+    selectedVocabQuestions = [...vocabularyList].sort(() => 0.5 - Math.random()).slice(0, 10);
+
+    const container = document.getElementById('vocabQuizContainer');
+    userVocabAnswers = {}; 
+    
+    let stageTitle = currentQuizStage === 1 ? "Stage 1: English to Myanmar" : "Stage 2: Myanmar to English";
+    
+    container.innerHTML = `
+        <h3 style="margin-bottom:10px; text-align:center; color:#7c4dff;">${stageTitle}</h3>
+        <p style="text-align:center; margin-bottom:20px; font-size:0.9rem; color:#666;">(၁၀ ပုဒ်လုံး မှန်ကန်ရပါမည်)</p>
+    `;
+    
+    selectedVocabQuestions.forEach((item, idx) => {
+        let questionText = currentQuizStage === 1 ? item.verb : item.mm;
+        let correctAnswer = currentQuizStage === 1 ? item.mm : item.verb;
+
+        let options = [correctAnswer];
+        while(options.length < 4) {
+            let randomItem = vocabularyList[Math.floor(Math.random()*vocabularyList.length)];
+            let randomAnswer = currentQuizStage === 1 ? randomItem.mm : randomItem.verb;
+            if(!options.includes(randomAnswer)) options.push(randomAnswer);
+        }
+        options.sort(() => 0.5 - Math.random());
+
+        container.innerHTML += `
+            <div class="quiz-card">
+                <p><b>Question ${idx+1}:</b> What is the meaning of <b>"${questionText}"</b>?</p>
+                <div class="quiz-options">
+                    ${options.map(opt => `
+                        <button class="opt-btn q-${idx}" onclick="selectVocabOpt(${idx}, '${opt}', this)">${opt}</button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    });
+
+    let btnText = currentQuizStage === 1 ? "Next Stage" : "Final Submit";
+    let bottomBar = document.querySelector('.vocab-bottom-bar');
+    if(!bottomBar) {
+        bottomBar = document.createElement('div');
+        bottomBar.className = 'vocab-bottom-bar';
+        document.body.appendChild(bottomBar);
+    }
+    bottomBar.innerHTML = `<button class="btn-primary" onclick="checkVocabQuiz()">${btnText}</button>`;
+}    
+function renderPosExercise() {
+    const container = document.getElementById('posQuizContainer');
+    if (!container) return;
+    
+    container.innerHTML = sentenceList.map((item, idx) => `
+        <div class="question-block" id="q-block-${idx}">
+            <div class="question-text" style="font-weight: bold; margin-bottom: 12px; color: #333; line-height: 1.6;">
+                ${item.q}
+            </div>
+            <input type="text" 
+                   class="answer-input" 
+                   id="input-${idx}" 
+                   placeholder="Type English sentence here...">
+            <div id="feedback-${idx}" style="margin-top: 8px; font-size: 0.9rem; display: none;"></div>
+        </div>
+    `).join('');
+
+    const inputs = document.querySelectorAll('.answer-input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            if (checkLockStatus()) {
+                this.blur(); 
+                showModal("⚠️ ဆရာသင်ကြားသော သင်ခန်းစာများကို သေချာပြန်လည်လေ့လာပါဦး။");
+            } else {
+                this.style.borderColor = '#7c4dff';
+            }
+        });
+
+        input.addEventListener('blur', function() {
+            if (!checkLockStatus()) { this.style.borderColor = '#ddd'; }
+        });
+
+        input.addEventListener('input', function() {
+            if (checkLockStatus()) {
+                this.value = ""; 
+                this.blur();
+            }
+        });
+    });
+}
+
+function handleCheckAnswers() {
+    if (checkLockStatus()) {
+        showModal("⚠️ ရမှတ် 80% မပြည့်ပါသဖြင့် Lock ကျနေပါသည်\nLock ပွင့်မှ ပြန်ဖြေဆိုနိုင်ပါမည်။");
+        return;
+    }
+    
+    let correctCount = 0;
+    let allFilled = true;
+
+    sentenceList.forEach((item, idx) => {
+        const userInput = document.getElementById(`input-${idx}`).value.trim();
+        const feedback = document.getElementById(`feedback-${idx}`);
+        const inputField = document.getElementById(`input-${idx}`);
+
+        if (userInput === "") {
+            allFilled = false;
             return;
         }
 
-        let correctCount = 0;
-        let totalCount = inputs.length;
+        const isCorrect = userInput.toLowerCase().replace(/[.,?!]/g, "") === 
+                          item.a.toLowerCase().replace(/[.,?!]/g, "");
 
-        inputs.forEach(inp => {
-            const resArea = inp.nextElementSibling;
-            const userAnswer = inp.value.trim().toLowerCase();
-            const correctAnswer = inp.dataset.ans.toLowerCase();
-            const isCorrect = userAnswer === correctAnswer;
-            
-            if (isCorrect) {
-                resArea.className = "result-area correct";
-                resArea.innerHTML = "✅ အဖြေမှန်ပါတယ်";
-                correctCount++;
-            } else {
-                resArea.className = "result-area incorrect";
-                if (!isVocabMode) {
-                    resArea.innerHTML = `❌ အဖြေမှားနေပါတယ် <br><b>Correct: ${inp.dataset.ans}</b>`;
-                } else {
-                    resArea.innerHTML = "❌ အဖြေမှားနေပါတယ်";
-                }
+        if (feedback) feedback.style.display = 'block';
+        if (isCorrect) {
+            correctCount++;
+            if (inputField) {
+                inputField.style.borderColor = "#28a745";
+                inputField.style.background = "#f1f9f1";
             }
-            resArea.style.display = "block";
-        });
-
-        // --- Logic အပြောင်းအလဲ အပိုင်း ---
-        if (isVocabMode) {
-            // ၁။ Vocab Test ဆိုရင် % မတွက်ဘူး၊ အားလုံးမှန်မှ Sentence Section ကို ပေးသွားမယ်
-            if (correctCount === totalCount) {
-                showNotification("🎉 Vocabulary အားလုံးမှန်ပါတယ်။ Sentence Exercises ဆက်ဖြေပါ။");
-                setTimeout(() => { confirmSkip(); }, 1500); // အလိုအလျောက် Sentence ပိုင်းကို ကူးပေးမယ်
-            } else {
-                showNotification(`⚠️ Vocabulary ${totalCount - correctCount} ခု မှားနေပါသေးတယ်။`);
-            }
+            if (feedback) feedback.innerHTML = `<span style="color: #28a745;">✅ Correct!</span>`;
         } else {
-            // ၂။ Sentence Exercises ဆိုရင်တော့ % တွက်ပြီး LocalStorage မှာ သိမ်းမယ်
-            let percent = Math.round((correctCount / totalCount) * 100);
-            const scoreStr = `ရမှတ်: ${percent}% (${correctCount}/${totalCount})`;
-
-        localStorage.setItem("day2_percent", percent); 
-            
-            if (percent >= 80) {
-                localStorage.setItem("day2_status", "unlocked");
-                showNotification("🎉 ဂုဏ်ယူပါတယ်! ၈၀% ကျော်တဲ့အတွက် နောက်တစ်ဆင့် ပွင့်ပါပြီ။", scoreStr);
-            } else {
-                showNotification("⚠️ နောက်တစ်ဆင့်တက်ရန် ၈၀% ကျော်အောင် ကြိုးစားပါဦး။", scoreStr);
+            if (inputField) {
+                inputField.style.borderColor = "#dc3545";
+                inputField.style.background = "#fff5f5";
             }
+            if (feedback) feedback.innerHTML = `<span style="color: #dc3545;">❌ Correct: ${item.a}</span>`;
+        }
+    });
+
+    if (!allFilled) {
+        showModal("⚠️ မေးခွန်းအားလုံးကို ဖြေဆိုပေးပါ");
+        return;
+    }
+    
+const percent = Math.round((correctCount / sentenceList.length) * 100);
+const oldPercent = localStorage.getItem('day2_percent');
+if (!oldPercent || percent > parseInt(oldPercent)) {
+    localStorage.setItem('day2_percent', percent);
+}
+
+    if (percent < 80) {
+        const lockTime = new Date().getTime() + (30 * 60 * 1000);
+        localStorage.setItem('exerciseLockTime', lockTime);
+        checkLockStatus();
+        showModal(`❌ ရမှတ် ${percent}% သာရှိပါသည်။ \n 80% မပြည့်ပါသဖြင့် မိနစ် ၃၀ Lock ကျသွားပါမည်။`);
+    } else {
+        showModal(`🎉 ဂုဏ်ယူပါတယ်! ရမှတ်: ${percent}%\n${correctCount} / ${sentenceList.length} ခု မှန်ကန်ပါသည်။`);
+    }
+}
+
+let currentLikes = parseInt(localStorage.getItem('videoLikes')) || 9200;
+let isLiked = localStorage.getItem('isVideoLiked') === 'true'; 
+
+function updateInteractionUI() {
+    const formattedLikes = currentLikes >= 1000 ? (currentLikes / 1000).toFixed(1) + 'k' : currentLikes;
+    const likeCountDisplay = document.getElementById('likeCountDisplay');
+    if (likeCountDisplay) likeCountDisplay.innerText = formattedLikes;
+
+    const likeBtn = document.getElementById('likeBtn');
+    if (likeBtn) {
+        if (isLiked) {
+            likeBtn.classList.add('liked');
+        } else {
+            likeBtn.classList.remove('liked');
         }
     }
+}
 
-
-    function showConfirm() { document.getElementById('confirmModal').style.display = 'flex'; }
-    function closeConfirm() { document.getElementById('confirmModal').style.display = 'none'; }
-    
-    function confirmSkip() {
-        closeConfirm();
-        document.getElementById('vocabTestSection').style.display = 'none';
-        document.getElementById('stickyBar').style.display = 'none';
-        document.getElementById('sentenceSection').style.display = 'block';
-        document.getElementById('sentencesQuizContainer').innerHTML = sentenceList.map(s => `
-            <div class="question-block">
-                <p>${s.q}</p>
-                <input type="text" class="answer-input s-input" data-ans="${s.a}" placeholder="အင်္ဂလိပ်လို ပြန်ဆိုပါ...">
-                <div class="result-area"></div>
-            </div>
-        `).join('');
-    }
-    window.onpopstate = function(event) {
-    if (event.state && event.state.page) {
-       
-        showPageSimple(event.state.page);
+function handleLike() {
+    if (isLiked) {
+        currentLikes--;
+        isLiked = false;
     } else {
-       
-        showPageSimple('mainMenu');
+        currentLikes++;
+        isLiked = true;
+    }
+
+    localStorage.setItem('videoLikes', currentLikes);
+    localStorage.setItem('isVideoLiked', isLiked);
+    updateInteractionUI();
+}
+function stopVideo() {
+    const videoIframe = document.querySelector('#videoPage iframe');
+    if (videoIframe) {
+        const src = videoIframe.src;
+        videoIframe.src = '';
+        videoIframe.src = src;
+    }
+}
+function handleShare() {
+    showModal("➔ Sharing functionality will be added soon.");
+}
+
+window.onpopstate = (event) => {
+    
+    stopVideo();
+
+    if (event.state && event.state.page) {
+   
+        goToPage(event.state.page);
+    } else {
+     
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        document.getElementById('mainMenu').style.display = 'block';
+        document.getElementById('topBackBtn').style.display = 'none';
+        document.getElementById('headerTitle').innerText = "Grammar Lesson-1";
+        document.querySelector('.header').classList.remove('header-hidden');
+        if (document.getElementById('exerciseFooter')) {
+            document.getElementById('exerciseFooter').style.display = 'none';
+        }
     }
 };
 
-function showPageSimple(pageId) {
-    document.querySelectorAll('.page, #mainMenu').forEach(p => p.style.display = 'none');
-    document.getElementById('exerciseFooter').style.display = (pageId === 'exercisePage') ? 'flex' : 'none';
-    document.getElementById(pageId).style.display = 'block';
-}
-</script>
-</body>
-    </html>
+</script></body> </html>
