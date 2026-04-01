@@ -347,21 +347,24 @@
     }
 }
 
-        function go(day) {
+function go(day) {
     const btn = document.getElementById(`btn-${day}`);
-    
+    const currentPercent = localStorage.getItem(`day${day}_percent`);
+
     if (day > 1 && btn && btn.classList.contains('locked')) {
-        // alert အစား ဒါလေးပြောင်းရေးပါ
         Swal.fire({
-          text: `ရှေ့က သင်ခန်းစာ (Day ${day-1}) မှာ အနည်းဆုံး ${PASS_PERCENT}% ရအောင် အရင်ဖြေဆိုပါ။`,
-          icon: 'warning',
-          confirmButtonText: 'OK',
+          title: 'သင်ခန်းစာ ပိတ်ထားပါသည်',
+          text: `ရှေ့က Day ${day-1} မှာ 80% ရအောင် အရင်ဖြေဆိုပေးပါ။ ဒါမှ Day ${day} ကို လေ့လာခွင့်ရမှာပါခင်ဗျာ။`,
+          icon: 'lock',
+          confirmButtonText: 'နားလည်ပါပြီ',
           confirmButtonColor: '#6c63ff'
         });
     } else {
+        // အမှတ်ရှိပြီးသားဆိုရင် "ပြန်လည်လေ့လာမလား" ဆိုတာမျိုး မေးရင် ပိုကောင်းပါတယ်
         window.location.href = `day${day}.html`;
     }
 }
+
 
 
         // Page load ဖြစ်တာနဲ့ lock တွေကို စစ်မယ်
