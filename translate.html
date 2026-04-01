@@ -1,22 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="my">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f0f2f5; }
+        .loader { text-align: center; color: #555; }
+    </style>
 </head>
 <body>
-    <p>ခဏစောင့်ပါ... Google Translate သို့ သွားနေပါသည်။</p>
+    <div class="loader">
+        <p>Google Translate သို့ သွားနေပါသည်။</p>
+        <p>ခဏစောင့်ပါ...</p>
+    </div>
 
     <script type="text/javascript">
-        // အကယ်၍ URL မှာ #redirected ဆိုတာ မပါသေးရင် (ဆိုလိုတာက ပထမဆုံးအကြိမ် ရောက်လာတာဆိုရင်)
-        if (window.location.hash !== "#redirected") {
-            
-            // လက်ရှိ စာမျက်နှာရဲ့ History မှာ #redirected ကို အရင်ထည့်လိုက်တယ်
-            // ဒါမှ Back ပြန်ဆုတ်ရင် ဒီနေရာမှာပဲ ရပ်နေမှာဖြစ်တယ်
-            window.location.replace(window.location.href + "#redirected");
+        function redirectToTranslate() {
 
-            // ပြီးမှ Google Translate ကို ပို့မယ်
+            history.pushState({ redirected: true }, "");
+
             window.location.href = "https://translate.google.com/";
         }
+
+              window.addEventListener('pageshow', function(event) {
+
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+
+                window.location.href = "index.html";
+            }
+        });
+
+        window.onload = function() {
+              if (!history.state || !history.state.redirected) {
+                redirectToTranslate();
+            } else {
+                window.location.href = "index.html";
+            }
+        };
     </script>
 </body>
 </html>
