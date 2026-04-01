@@ -365,19 +365,19 @@ function checkVocabQuiz() {
     });
 
     const percent = (score / selectedVocabQuestions.length) * 100;
-
-    if(percent === 100) {
-        if(currentQuizStage === 1) {
-            showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 (Myanmar to English) ကို ဆက်လက်ဖြေဆိုပါ။");
-            currentQuizStage = 2;
-            setupVocabQuiz(); 
-            window.scrollTo(0, 0);
-        } else {
-            localStorage.setItem('vocabPassed', 'true');
-            showModal("🎉 ဂုဏ်ယူပါတယ်။ Stage နှစ်ခုလုံး အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
-            currentQuizStage = 1; 
-            goToPage('mainMenu');
-            updateLockUI();
+if(percent === 100) {
+    if(currentQuizStage === 1) {
+        showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
+        currentQuizStage = 2;
+        setupVocabQuiz(); 
+        window.scrollTo(0, 0);
+    } else {
+        localStorage.setItem('vocabPassed', 'true');
+        showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
+        currentQuizStage = 1; 
+        history.replaceState(null, "", ""); 
+        goToPage('mainMenu');
+        updateLockUI();
         }
     } else {
         
@@ -533,13 +533,11 @@ function goToPage(pageId) {
             headerTitle.innerText = "Exercise (30 Questions)";
             renderPosExercise();
             checkLockStatus();
+            history.pushState({ page: 'exercisePage' }, "", ""); 
         } else if (pageId === 'vocabListPage') {
             headerTitle.innerText = "Verb List (30 Words)";
             renderVocabList();
-        } else if (pageId === 'vocabPage') {
-            headerTitle.innerText = "Grammar Photos";
-        } else if (pageId === 'videoPage') {
-            headerTitle.innerText = "Video Lesson";
+            history.pushState({ page: pageId }, "", "");
         } else if (pageId === 'vocabQuizPage') {
             headerTitle.innerText = "Vocabulary Test";
             currentQuizStage = 1; 
@@ -548,8 +546,10 @@ function goToPage(pageId) {
                 const bar = document.querySelector('.vocab-bottom-bar');
                 if(bar) bar.style.display = 'flex';
             }, 50);
+            history.pushState({ page: pageId }, "", "");
+        } else {
+            history.pushState({ page: pageId }, "", "");
         }
-        history.pushState({ page: pageId }, "", ""); 
     }
 
     const targetPage = document.getElementById(pageId);
@@ -557,6 +557,7 @@ function goToPage(pageId) {
     window.scrollTo(0, 0);
     updateLockUI();
 }
+
 function setupVocabQuiz() {
     selectedVocabQuestions = [...vocabularyList].sort(() => 0.5 - Math.random()).slice(0, 10);
 
