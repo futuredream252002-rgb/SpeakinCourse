@@ -71,22 +71,27 @@
                     <div class="lesson-row">Will ➡ မလား</div>
                 </div>
             </div>
-            <div class="card-footer"><span>🕒 30 min</span><span id="f-1">Start Now</span></div>
+            <div class="card-footer"><span>🕒 25:10 min</span><span id="f-1">Start Now</span></div>
         </button>
 
         <button class="day-button locked" id="btn-2" onclick="go(2)">
             <div class="card-body">
                 <div class="day-label"><span>📅 Day 2</span><span id="s-2" class="score-tag"></span></div>
-                <div class="lesson-list">Lesson 2 Content...</div>
+                <div class="lesson-list">
+                    <div class="lesson-row">Do/Dose ➡ လား</div>
+                    <div class="lesson-row">Will ➡ မလား</div>
+                    </div>
             </div>
-            <div class="card-footer"><span>🕒 17 min</span><span id="f-2">🔒 Locked</span></div>
+            <div class="card-footer"><span>🕒 21:32 min</span><span id="f-2">🔒 Locked</span></div>
         </button>
 <button class="day-button locked" id="btn-3" onclick="go(3)">
     <div class="card-body">
         <div class="day-label"><span>📅 Day 3</span><span id="s-3" class="score-tag"></span></div>
-        <div class="lesson-list">Lesson 3 Content...</div>
+                <div class="lesson-list">
+                    <div class="lesson-row">WH-Question</div>
+         </div>
     </div>
-    <div class="card-footer"><span>🕒 21 min</span><span id="f-3">🔒 Locked</span></div>
+    <div class="card-footer"><span>🕒 22:39 min</span><span id="f-3">🔒 Locked</span></div>
 </button>
 
 <button class="day-button locked" id="btn-4" onclick="go(4)">
@@ -316,8 +321,7 @@
         const scoreTag = document.getElementById(`s-${i}`);
         const btn = document.getElementById(`btn-${i}`);
         const footerText = document.getElementById(`f-${i}`);
-
-        // ၁။ ရမှတ်ရှိခဲ့ရင် Score Tag လေးပြပေးမယ်
+        
         if (currentPercent && scoreTag) {
             let pVal = parseInt(currentPercent);
             scoreTag.innerText = pVal + "%";
@@ -325,21 +329,18 @@
             scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
         }
 
-        // ၂။ Lock ဖွင့်ပေးမည့် Logic
         if (i > 1) {
             const prevPercent = localStorage.getItem(`day${i-1}_percent`);
             
-            // ရှေ့က သင်ခန်းစာမှာ 80% ပြည့်ခဲ့ရင် လက်ရှိ Button ကို ဖွင့်ပေးမယ်
             if (prevPercent && parseInt(prevPercent) >= PASS_PERCENT) {
                 if (btn) {
                     btn.classList.remove('locked');
-                    // မှိန်နေတာကို ပြန်လင်းအောင် style ပြန်ပြင်မယ်
                     btn.style.filter = "none";
                     btn.style.opacity = "1";
                 }
                 if (footerText) footerText.innerText = 'Start Now';
             } else {
-                // မပြည့်သေးရင် Lock ပြန်ချထားမယ်
+                
                 if (btn) btn.classList.add('locked');
                 if (footerText) footerText.innerText = '🔒 Locked';
             }
@@ -360,15 +361,11 @@ function go(day) {
           confirmButtonColor: '#6c63ff'
         });
     } else {
-        // အမှတ်ရှိပြီးသားဆိုရင် "ပြန်လည်လေ့လာမလား" ဆိုတာမျိုး မေးရင် ပိုကောင်းပါတယ်
+      
         window.location.href = `day${day}.html`;
     }
 }
-
-
-
-        // Page load ဖြစ်တာနဲ့ lock တွေကို စစ်မယ်
         window.onload = checkLocks;
     </script>
 </body>
-</html>
+        </html>
