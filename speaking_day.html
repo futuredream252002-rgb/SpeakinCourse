@@ -314,7 +314,10 @@
     for (let i = 1; i <= 30; i++) {
         const currentPercent = localStorage.getItem(`day${i}_percent`);
         const scoreTag = document.getElementById(`s-${i}`);
-        
+        const btn = document.getElementById(`btn-${i}`);
+        const footerText = document.getElementById(`f-${i}`);
+
+        // ၁။ ရမှတ်ရှိခဲ့ရင် Score Tag လေးပြပေးမယ်
         if (currentPercent && scoreTag) {
             let pVal = parseInt(currentPercent);
             scoreTag.innerText = pVal + "%";
@@ -322,20 +325,27 @@
             scoreTag.style.backgroundColor = (pVal >= PASS_PERCENT) ? "#58cc02" : "#ff4b4b";
         }
 
-        // Lock Logic
+        // ၂။ Lock ဖွင့်ပေးမည့် Logic
         if (i > 1) {
             const prevPercent = localStorage.getItem(`day${i-1}_percent`);
-            const btn = document.getElementById(`btn-${i}`);
-            const footerText = document.getElementById(`f-${i}`);
-
+            
+            // ရှေ့က သင်ခန်းစာမှာ 80% ပြည့်ခဲ့ရင် လက်ရှိ Button ကို ဖွင့်ပေးမယ်
             if (prevPercent && parseInt(prevPercent) >= PASS_PERCENT) {
-                if(btn) btn.classList.remove('locked');
-                if(footerText) footerText.innerText = 'Start Now';
+                if (btn) {
+                    btn.classList.remove('locked');
+                    // မှိန်နေတာကို ပြန်လင်းအောင် style ပြန်ပြင်မယ်
+                    btn.style.filter = "none";
+                    btn.style.opacity = "1";
+                }
+                if (footerText) footerText.innerText = 'Start Now';
+            } else {
+                // မပြည့်သေးရင် Lock ပြန်ချထားမယ်
+                if (btn) btn.classList.add('locked');
+                if (footerText) footerText.innerText = '🔒 Locked';
             }
         }
     }
 }
-
 
         function go(day) {
     const btn = document.getElementById(`btn-${day}`);
