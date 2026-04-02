@@ -192,32 +192,7 @@
         { q: "1. The girl's <span class='underlined'>frock</span> is blue.", options: ["noun", "verb", "adjective"], ans: "noun" },
         { q: "2. I <span class='underlined'>walk</span> in the evening.", options: ["verb", "noun", "adjective"], ans: "verb" },
         { q: "3. The baby <span class='underlined'>sleeps</span> all day.", options: ["noun", "verb", "adjective"], ans: "verb" },
-        { q: "4. He has a <span class='underlined'>red</span> jacket.", options: ["noun", "verb", "adjective"], ans: "adjective" },
-        { q: "5. My mother <span class='underlined'>baked</span> a cake.", options: ["noun", "verb", "adjective"], ans: "verb" },
-        { q: "6. Krish ate a <span class='underlined'>sweet</span> apple.", options: ["verb", "noun", "adjective"], ans: "adjective" },
-        { q: "7. The <span class='underlined'>book</span> was funny.", options: ["noun", "verb", "adjective"], ans: "noun" },
-        { q: "8. Alia <span class='underlined'>never</span> argues with me.", options: ["noun", "adverb", "adjective"], ans: "adverb" },
-        { q: "9. <span class='underlined'>She</span> is my best friend.", options: ["noun", "pronoun", "verb"], ans: "pronoun" },
-        { q: "10. The cat is <span class='underlined'>under</span> the table.", options: ["preposition", "adverb", "verb"], ans: "preposition" },
-        { q: "11. I like tea <span class='underlined'>and</span> coffee.", options: ["conjunction", "preposition", "adverb"], ans: "conjunction" },
-        { q: "12. <span class='underlined'>Wow!</span> That is a beautiful dress.", options: ["interjection", "noun", "adjective"], ans: "interjection" },
-        { q: "13. He ran <span class='underlined'>quickly</span> to catch the bus.", options: ["adjective", "adverb", "verb"], ans: "adverb" },
-        { q: "14. They live in a <span class='underlined'>large</span> house.", options: ["adjective", "noun", "verb"], ans: "adjective" },
-        { q: "15. Please put the keys <span class='underlined'>on</span> the desk.", options: ["preposition", "conjunction", "noun"], ans: "preposition" },
-        { q: "16. <span class='underlined'>Hurray!</span> We won the match.", options: ["interjection", "verb", "pronoun"], ans: "interjection" },
-        { q: "17. My name <span class='blank-space'>______</span> Zaw Zaw Aung.", options: ["is", "am", "are"], ans: "is" },
-        { q: "18. They <span class='blank-space'>______</span> football every evening.", options: ["play", "plays", "playing"], ans: "play" },
-        { q: "19. This mango is very <span class='blank-space'>______</span>.", options: ["sweetly", "sweetness", "sweet"], ans: "sweet" },
-        { q: "20. I <span class='blank-space'>______</span> my homework yesterday.", options: ["do", "did", "done"], ans: "did" },
-        { q: "21. She is a <span class='blank-space'>______</span> student.", options: ["clever", "cleverly", "cleverness"], ans: "clever" },
-        { q: "22. We <span class='blank-space'>______</span> to the cinema last night.", options: ["go", "goes", "went"], ans: "went" },
-        { q: "23. It is a <span class='blank-space'>______</span> day today.", options: ["sun", "sunny", "sunnily"], ans: "sunny" },
-        { q: "24. Birds <span class='blank-space'>______</span> in the sky.", options: ["fly", "flies", "flying"], ans: "fly" },
-        { q: "25. <span class='blank-space'>______</span> are going to the park.", options: ["We", "Us", "Our"], ans: "We" },
-        { q: "26. The book is <span class='blank-space'>______</span> the bag.", options: ["in", "into", "at"], ans: "in" },
-        { q: "27. She speaks English <span class='blank-space'>______</span>.", options: ["good", "well", "best"], ans: "well" },
-        { q: "28. I bought <span class='blank-space'>______</span> apples today.", options: ["some", "any", "much"], ans: "some" },
-        { q: "29. Listen <span class='blank-space'>______</span> to the teacher.", options: ["careful", "carefully", "care"], ans: "carefully" },
+
         { q: "30. <span class='blank-space'>______</span>! That hurts.", options: ["Ouch", "Hello", "Oh"], ans: "Ouch" }
     ];
 
@@ -330,39 +305,57 @@
     }
 
     function handleCheckAnswers() {
-        if (userSelections.includes(null)) {
-            showModal("⚠️ မေးခွန်းအားလုံးကို ဖြေဆိုပေးပါ");
-            return;
-        }
+    // ၁။ မေးခွန်းအားလုံး ဖြေဆိုခြင်း ရှိမရှိ စစ်ဆေးခြင်း
+    if (userSelections.includes(null)) {
+        showModal("⚠️ မေးခွန်းအားလုံးကို ဖြေဆိုပေးပါ");
+        return;
+    }
 
-        let correctCount = 0;
-        posQuestions.forEach((item, idx) => {
-            const block = document.getElementById(`q-block-${idx}`);
-            const optionElements = block.querySelectorAll('.option-item');
-            const userChoice = userSelections[idx];
-            const correctChoice = item.ans;
-            optionElements.forEach(opt => {
-                const optVal = opt.getAttribute('data-val');
-                if (optVal === correctChoice) opt.classList.add('correct-ans');
-                if (optVal === userChoice && userChoice !== correctChoice) opt.classList.add('wrong-ans');
-            });
-            if (userChoice === correctChoice) correctCount++;
+    let correctCount = 0;
+    posQuestions.forEach((item, idx) => {
+        const block = document.getElementById(`q-block-${idx}`);
+        const optionElements = block.querySelectorAll('.option-item');
+        const userChoice = userSelections[idx];
+        const correctChoice = item.ans;
+
+        // အဖြေမှန်/မှား အရောင်ပြောင်းခြင်း
+        optionElements.forEach(opt => {
+            const optVal = opt.getAttribute('data-val');
+            if (optVal === correctChoice) opt.classList.add('correct-ans');
+            if (optVal === userChoice && userChoice !== correctChoice) opt.classList.add('wrong-ans');
         });
 
-        const percent = Math.round((correctCount / posQuestions.length) * 100);
+        if (userChoice === correctChoice) correctCount++;
+    });
 
-        if (percent < 80) {
-            const lockTime = new Date().getTime() + (30 * 60 * 1000);
-            localStorage.setItem('exerciseLockTime', lockTime);
-            isAnswersCleared = false;
-            checkLockStatus();
-            showModal(`❌ ရမှတ် ${percent}% သာရှိပါသည်။ \n 80% မပြည့်ပါသဖြင့် မိနစ် ၃၀ Lock ကျသွားပါမည်။`);
-        } else {
-            localStorage.setItem("new_day1_percent", percent);
-            localStorage.setItem("new_day1_status", "unlocked");
-            showModal(`🎉 ဂုဏ်ယူပါတယ်! ရမှတ်: ${percent}%\n${correctCount} / ${posQuestions.length} ခု မှန်ကန်ပါသည်။`);
-        }
+    // ၂။ ရမှတ် ရာခိုင်နှုန်း တွက်ချက်ခြင်း
+    const percent = Math.round((correctCount / posQuestions.length) * 100);
+
+    // ၃။ အောင်/ရှုံး ဆုံးဖြတ်ခြင်း (၈၀% သတ်မှတ်ချက်)
+    if (percent >= 80) {
+        // --- အောင်မြင်လျှင် ---
+        localStorage.setItem("day1_percent", percent); // Main Page က ဒီ key ကို စစ်တာပါ
+        localStorage.setItem("new_day1_status", "unlocked");
+        
+        // Lock ရှိခဲ့ရင် ဖယ်ရှားပေးရမယ်
+        localStorage.removeItem('exerciseLockTime'); 
+
+        showModal(`🎉 ဂုဏ်ယူပါတယ်! ရမှတ်: ${percent}%\n${correctCount} / ${posQuestions.length} ခု မှန်ကန်ပါသည်။\nDay 2 ကို လေ့လာနိုင်ပါပြီ။`);
+    } else {
+        // --- မအောင်မြင်လျှင် (Lock ချမည်) ---
+        const lockTime = new Date().getTime() + (30 * 60 * 1000); // မိနစ် ၃၀ Lock
+        localStorage.setItem('exerciseLockTime', lockTime);
+        
+        // လက်ရှိ ရမှတ်ကိုလည်း မှတ်ထားချင်ရင် သိမ်းထားနိုင်ပါတယ်
+        localStorage.setItem("day1_percent", percent); 
+        
+        isAnswersCleared = false;
+        checkLockStatus(); // ခလုတ်ကို Lock ပုံစံ ချက်ချင်းပြောင်းရန်
+
+        showModal(`❌ ရမှတ် ${percent}% သာရှိပါသည်။\n၈၀% မပြည့်ပါသဖြင့် မိနစ် ၃၀ Lock ကျသွားပါမည်။\nပြန်လည်လေ့လာပြီးမှ ပြန်ဖြေဆိုပါ။`);
     }
+}
+
 
 window.onpopstate = (event) => {
     goToPage('mainMenu');
