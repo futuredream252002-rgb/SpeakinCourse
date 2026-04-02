@@ -175,7 +175,7 @@
 <div class="container">
     <header class="header">
         <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
-        <h2 id="headerTitle">Grammar Lesson-1</h2>
+        <h2 id="headerTitle">🇬🇧 Speaking Lesson-1 🇲🇲</h2>
     </header>
 
     <main class="content">
@@ -241,7 +241,7 @@
 
             <div class="video-content-scroll" style="margin-top: calc(56.25vw + 60px);">
                 <div style="padding: 20px; text-align: center; color: #666;">
-                    <p>📝 Watch the video and learn English Speaking Course!</p>
+                    <p>📝 Watch the video and learn Speaking Course!</p>
                     <p>📝 Memorize vocabulary words.</p>
                     <p style="margin-top: 10px; font-size: 0.9rem;">Practice with the exercises to improve your skills.</p>
                 </div>
@@ -442,7 +442,10 @@ window.onload = () => {
     renderVocabList();
     updateInteractionUI();
     checkLockStatus(); 
-    updateLockUI();   
+    updateLockUI();
+    if (!history.state) {
+        history.replaceState({ page: 'mainMenu' }, "", "");
+    }
 };
 
 let userSelections = new Array(sentenceList.length).fill(null);
@@ -501,7 +504,7 @@ function clearAllAnswers() {
     });
 }
 
-function goToPage(pageId) {
+function goToPage(pageId, isBackAction = false) {
     const videoPage = document.getElementById('videoPage');
     if (videoPage && videoPage.style.display === 'block') { stopVideo(); }
 
@@ -521,6 +524,15 @@ function goToPage(pageId) {
         mainHeader.classList.remove('header-hidden');
     }
 
+    if (!isBackAction) {
+        if (pageId === 'mainMenu') {
+
+            history.replaceState({ page: 'mainMenu' }, "", "");
+        } else {
+            history.pushState({ page: pageId }, "", "");
+        }
+    }
+
     if (pageId === 'mainMenu') {
         backBtn.style.display = 'none';
         headerTitle.innerText = "Grammar Lesson-1";
@@ -533,11 +545,9 @@ function goToPage(pageId) {
             headerTitle.innerText = "Exercise (30 Questions)";
             renderPosExercise();
             checkLockStatus();
-            history.pushState({ page: 'exercisePage' }, "", ""); 
         } else if (pageId === 'vocabListPage') {
             headerTitle.innerText = "Verb List (30 Words)";
             renderVocabList();
-            history.pushState({ page: pageId }, "", "");
         } else if (pageId === 'vocabQuizPage') {
             headerTitle.innerText = "Vocabulary Test";
             currentQuizStage = 1; 
@@ -546,9 +556,6 @@ function goToPage(pageId) {
                 const bar = document.querySelector('.vocab-bottom-bar');
                 if(bar) bar.style.display = 'flex';
             }, 50);
-            history.pushState({ page: pageId }, "", "");
-        } else {
-            history.pushState({ page: pageId }, "", "");
         }
     }
 
@@ -604,6 +611,7 @@ function setupVocabQuiz() {
     }
     bottomBar.innerHTML = `<button class="btn-primary" onclick="checkVocabQuiz()">${btnText}</button>`;
 }    
+
 function renderPosExercise() {
     const container = document.getElementById('posQuizContainer');
     if (!container) return;
@@ -749,23 +757,20 @@ function handleShare() {
 }
 
 window.onpopstate = (event) => {
-    // Video ကို အရင်ရပ်မည်
     stopVideo();
+  
+    const vocabBar = document.querySelector('.vocab-bottom-bar');
+    if(vocabBar) vocabBar.style.display = 'none';
 
     if (event.state && event.state.page) {
-        // Page ကို Reload လုပ်မည့်အစား သက်ဆိုင်ရာ Page သို့သွားရန် (ပိုချောမွေ့သည်)
-        goToPage(event.state.page);
+      
+        goToPage(event.state.page, true);
     } else {
-        // Main Menu သို့ ပြန်သွားခြင်း
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById('mainMenu').style.display = 'block';
-        document.getElementById('topBackBtn').style.display = 'none';
-        document.getElementById('headerTitle').innerText = "Grammar Lesson-1";
-        document.querySelector('.header').classList.remove('header-hidden');
-        if (document.getElementById('exerciseFooter')) {
-            document.getElementById('exerciseFooter').style.display = 'none';
-        }
+    
+        goToPage('mainMenu', true);
     }
 };
+
+    
 
 </script></body> </html>
