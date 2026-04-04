@@ -25,357 +25,12 @@
       background: var(--bg); position: relative;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
     }
-
-    /* Page Visibility Logic */
-    .page { 
-      display: none; 
-      min-height: 100vh; 
-      width: 100%;
-      animation: fadeIn 0.4s ease-in-out; 
-    }
-    .page.active { 
-      display: flex; 
-      flex-direction: column;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* --- Splash Screen --- */
-    #splash-page {
-      background: var(--white);
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      top: 0; left: 0; z-index: 100;
-    }
-    .splash-logo-container { flex: 1; display: flex; align-items: center; justify-content: center; }
-    .quill-icon { width: 100px; opacity: 0.6; }
-    .splash-footer { padding-bottom: 50px; color: #444; font-size: 14px; font-weight: 500; }
-
-    /* --- Auth Pages --- */
-    .auth-content { padding: 60px 25px; text-align: center; width: 100%; }
-    .logo-box { width: 80px; height: 80px; margin: 0 auto 30px; position: relative; }
-    .logo-curve { 
-      width: 100%; height: 100%; border: 8px solid transparent; 
-      border-bottom-color: var(--success); border-left-color: var(--success); 
-      border-radius: 50%; transform: rotate(-45deg); display: block;
-    }
-    .logo-dot { width: 12px; height: 12px; background: var(--success); border-radius: 50%; position: absolute; top: 10px; left: 15px; }
-    input { width: 100%; padding: 16px; margin-bottom: 15px; border: 1.5px solid #eee; border-radius: 12px; background: white; outline: none; }
-    .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; color: white; margin-top: 10px; }
-    .btn-blue { background: var(--accent); }
-    .btn-primary { background: var(--primary); }
-
-    /* --- Home Section (Modified for Photo Slip Position) --- */
-    .top-blue-section {
-      background: var(--primary); 
-      height: 140px; /* အမြင့်ကို လျှော့ချထားသည် */
-      border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
-      position: absolute; top: 0; width: 100%; z-index: 0;
-    }
-    header {
-      position: relative; z-index: 1; 
-      padding: 20px 25px 5px; /* အောက် Padding ကို လျှော့ချထားသည် */
-      display: flex; justify-content: space-between; align-items: center; color: white;
-    }
-    .slider-wrapper {
-      width: 90%; 
-      margin: 5px auto 10px; /* Slider ကို အပေါ်ကပ်စေရန် margin ညှိထားသည် */
-      overflow: hidden;
-      border-radius: 25px; background: #fff; z-index: 1; position: relative;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .slider-container { display: flex; transition: transform 0.6s ease; }
-    .banner-card { 
-        min-width: 100%; height: 160px; 
-        background-size: cover; background-position: center;
-        background-color: #eee; /* Image မတက်ခင် ပြမည့်အရောင် */
-    }
-
-    .announcement-bar {
-      width: 90%; margin: 15px auto; background: var(--primary);
-      border-radius: 50px; display: flex; align-items: center; padding: 5px; overflow: hidden;
-    }
-    .ann-label { background: white; color: var(--primary); padding: 6px 14px; border-radius: 50px; font-size: 11px; font-weight: 800; }
-    .ann-text-container { flex: 1; overflow: hidden; }
-    .scrolling-text { display: inline-block; white-space: nowrap; color: white; font-size: 13px; animation: scroll-left 15s linear infinite; }
-
-    @keyframes scroll-left { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
-    
-    .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 10px 20px; }
-    .menu-card { display: flex; flex-direction: column; align-items: center; text-decoration: none; }
-    .icon-box { 
-      width: 100%; aspect-ratio: 1/1; background: white; border-radius: 20px; 
-      padding: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 8px;
-    }
-    .icon-box img { width: 100%; height: 100%; object-fit: contain; }
-    .menu-title { font-size: 11px; font-weight: 700; color: #444; }
-
-    /* --- Navigation --- */
-    .bottom-nav {
-      position: fixed; bottom: 0; width: 100%; max-width: 412px;
-      background: white; display: flex; justify-content: space-around;
-      padding: 12px 0; border-top: 1px solid #eee; z-index: 10;
-    }
-    /* နှိပ်လိုက်ရင် Button က နည်းနည်းလေး သေးသွားအောင် (Click Effect) */
-.menu-card:active, .nav-item:active {
-    transform: scale(0.9);
-    transition: 0.1s;
+.explore-header {
+    padding: 20px 25px 10px;
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
 }
-
-/* Mouse နဲ့ ထိလိုက်ရင် (သို့မဟုတ် Active ဖြစ်နေရင်) အရောင်လင်းလာအောင် */
-.menu-card:hover .icon-box {
-    border: 1px solid var(--accent);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-
-.nav-item.active i, .nav-item.active {
-    color: var(--primary) !important;
-    font-weight: bold;
-}
-
-    .nav-item { color: #aaa; text-align: center; font-size: 11px; cursor: pointer; }
-    .nav-item.active { color: var(--primary); font-weight: 800; }
-    .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
-
-  </style>
-
-</head>
-<body>
-
-  <div class="app-container">
-
-    <section id="splash-page" class="page active">
-      <div class="splash-logo-container">
-        <svg class="quill-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.24 12.24C21.36 11.12 22 9.63 22 8C22 4.69 19.31 2 16 2C14.37 2 12.88 2.64 11.76 3.76L5 10.5V13H7.5L14.24 6.26C14.71 5.79 15.33 5.5 16 5.5C17.38 5.5 18.5 6.62 18.5 8C18.5 8.67 18.21 9.29 17.74 9.76L12 15.5L11 18L13.5 17L20.24 12.24Z" fill="#94a3b8"/>
-          <path d="M4 21H20" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="splash-footer">For Higher Education Of Myanmar</div>
-    </section>
-
-    <section id="login-page" class="page">
-      <div class="auth-content">
-        <h2 style="margin-bottom: 30px; font-weight: 800; color: #333;">Login</h2>
-        <div class="logo-box"><span class="logo-curve"></span><span class="logo-dot"></span></div>
-        <input type="email" id="login-email" placeholder="Email Address">
-        <input type="password" id="login-pass" placeholder="Password">
-        <button class="btn btn-blue" id="btn-login">LOGIN</button>
-        <p style="margin-top:20px; font-size:14px;">Don't have an account? <b style="color:var(--primary); cursor:pointer;" onclick="showPage('reg-page')">Register</b></p>
-      </div>
-    </section>
-
-    <section id="reg-page" class="page">
-      <div class="auth-content">
-        <h2 style="margin-bottom: 30px; font-weight: 800; color: #333;">Register</h2>
-        <div class="logo-box"><span class="logo-curve"></span><span class="logo-dot"></span></div>
-        <input type="text" id="reg-name" placeholder="Full Name">
-        <input type="email" id="reg-email" placeholder="Email Address">
-        <input type="password" id="reg-pass" placeholder="Create Password">
-        <button class="btn btn-primary" id="btn-reg">CREATE ACCOUNT</button>
-        <p style="margin-top:20px; font-size:14px;">Already have an account? <b style="color:var(--primary); cursor:pointer;" onclick="showPage('login-page')">Login</b></p>
-      </div>
-    </section>
-
-    <section id="home-page" class="page">
-      <div class="top-blue-section"></div>
-      <header>
-        <div>
-          <p style="font-size: 12px; opacity: 0.8;">WELCOME </p>
-          <h2 id="user-display-name" style="font-size: 18px;">User</h2>
-        </div>
-        <i class="fa fa-bell fa-lg"></i>
-      </header>
-
-      <div class="slider-wrapper">
-        <div class="slider-container" id="slider">
-          <div class="banner-card" style="background-image: url('https://img.freepik.com/free-vector/horizontal-banner-online-education_23-2148911029.jpg');"></div>
-          <div class="banner-card" style="background-image: url('https://img.freepik.com/free-vector/gradient-educational-template-design_23-2149027814.jpg');"></div>
-        </div>
-      </div>
-
-                  <div class="announcement-bar">
-  <div class="ann-label">📩</div>
-  <div class="ann-text-container">
-    <div class="scrolling-text">
-      🗣 🗣မင်္ဂလာပါ @<span id="ann-user-name">User</span>... Google Translate Buttom အသုံးပြုနိင်ပါပြီ ဖြစ်ပါတယ်။
-    </div>
-  </div>
-</div>
-<h3 class="explore-header">Explore now</h3>
-
-<div class="course-grid">
-    <a href="speaking_day.html" class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/3429/3429149.png" alt="Speaking Course">
-        </div>
-        <span class="menu-title">Speaking Course</span>
-    </a>
-
-    <a href="grammar_day.html" class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/2436/2436874.png" alt="Courses">
-        </div>
-        <span class="menu-title">Grammar Courses</span>
-    </a>
-
-    <div class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" alt="Offers">
-        </div>
-        <span class="menu-title">Offers</span>
-    </div>
-
-    <div class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/3024/3024608.png" alt="Free Course">
-        </div>
-        <span class="menu-title">FREE COURSE</span>
-    </div>
-
-    <a href="oxford.html" class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="My Course">
-        </div>
-        <span class="menu-title">Oxford 3000</span>
-    </a>
-
-    <a href="translate.html" class="menu-card">
-        <div class="icon-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/2702/2702134.png" alt="Audiobook">
-        </div>
-        <span class="menu-title">Google Translate</span>
-    </a>
-</div>
-
-
-    </section>
-
-    <section id="profile-page" class="page">
-      <div style="background: var(--primary); padding: 50px 20px; text-align: center; color: white;">
-        <div style="width: 90px; height: 90px; background: white; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
-          <i class="fa fa-user fa-3x" style="color: var(--primary);"></i>
-        </div>
-        <h2 id="prof-name">Name</h2>
-        <p id="prof-email" style="opacity: 0.8;">email@address.com</p>
-      </div>
-      <div style="padding: 20px 0;">
-        <div style="padding: 15px 25px; border-bottom: 1px solid #eee; display: flex; align-items: center;">
-          <i class="fa fa-shield-halved" style="width: 40px; color: var(--primary);"></i> <span>Privacy Policy</span>
-        </div>
-        <div onclick="handleLogout()" style="padding: 15px 25px; color: red; display: flex; align-items: center; cursor: pointer;">
-          <i class="fa fa-sign-out-alt" style="width: 40px;"></i> <span>Logout Account</span>
-        </div>
-      </div>
-    </section>
-
-    <nav class="bottom-nav" id="main-nav">
-      <div class="nav-item active" onclick="showPage('home-page')"><i class="fa fa-home"></i>Home</div>
-      <div class="nav-item"><i class="fa fa-book-open"></i>Lessons</div>
-      <div class="nav-item" onclick="showPage('profile-page')"><i class="fa fa-user-circle"></i>Profile</div>
-    </nav>
-
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCfFKQ4Wv7bgbCyTaAlhIB-J1vXDvnIzFs",
-        authDomain: "lesson1-1cbc3.firebaseapp.com",
-        projectId: "lesson1-1cbc3",
-        storageBucket: "lesson1-1cbc3.firebasestorage.app",
-        appId: "1:913588393799:web:30b9e2aa6deeaf5dda9e62"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Global Page Switcher
-    window.showPage = (pageId) => {
-      // ၁။ အရင်ဆုံး page အားလုံးကို ဖျောက်လိုက်မယ်
-      const allPages = document.querySelectorAll('.page');
-      allPages.forEach(p => {
-          p.classList.remove('active');
-          p.style.display = 'none';
-      });
-
-      // ၂။ ရွေးချယ်လိုက်တဲ့ page တစ်ခုတည်းကိုပဲ display ပြန်တင်မယ်
-      const targetPage = document.getElementById(pageId);
-      if(targetPage) {
-          targetPage.classList.add('active');
-          targetPage.style.display = (pageId === 'splash-page' || pageId === 'home-page' || pageId === 'profile-page') ? 'flex' : 'block';
-      }
-      
-      // ၃။ Bottom Nav ကို Home နဲ့ Profile မှာပဲ ပြမယ်
-      const nav = document.getElementById('main-nav');
-      nav.style.display = (pageId === 'home-page' || pageId === 'profile-page') ? 'flex' : 'none';
-
-      // Nav icon active ဖြစ်အောင်လုပ်မယ်
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      if(pageId === 'home-page') document.querySelectorAll('.nav-item')[0].classList.add('active');
-      if(pageId === 'profile-page') document.querySelectorAll('.nav-item')[2].classList.add('active');
-    };
-
-    // Splash Screen ကို ၂.၅ စက္ကန့်ပြပြီးမှ Auth စစ်မယ်
-    setTimeout(() => {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const name = user.email.split('@')[0].toUpperCase();
-          document.getElementById('user-display-name').innerText = name;
-          document.getElementById('prof-name').innerText = name;
-          document.getElementById('prof-email').innerText = user.email;
-          const annUserName = document.getElementById('ann-user-name');
-    if(annUserName) annUserName.innerText = name;
-
-    showPage('home-page');
-  } else {
-    showPage('login-page');
-  }
-});
-    }, 2500);
-
-    // Login & Register Logic
-    document.getElementById('btn-login').onclick = () => {
-      const email = document.getElementById('login-email').value;
-      const pass = document.getElementById('login-pass').value;
-      signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Login Failed: " + err.message));
-    };
-
-    document.getElementById('btn-reg').onclick = () => {
-      const email = document.getElementById('reg-email').value;
-      const pass = document.getElementById('reg-pass').value;
-      createUserWithEmailAndPassword(auth, email, pass).catch(err => alert("Reg Failed: " + err.message));
-    };
-<!DOCTYPE html>
-<html lang="my">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Education - Full Integrated App</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
-
-    :root {
-      --primary: #1a0dab;
-      --accent: #2196F3;
-      --success: #00C853;
-      --bg: #f8f9fa;
-      --white: #ffffff;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: #ddd; display: flex; justify-content: center; overflow-x: hidden; }
-
-    /* App Frame (Mobile View) */
-    .app-container {
-      width: 100%; max-width: 412px; min-height: 100vh;
-      background: var(--bg); position: relative;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
 
     /* Page Visibility Logic */
     .page { 
@@ -569,7 +224,6 @@
             <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" alt="Offers">
         </div>
         <span class="menu-title">Speaking Basic Course</span>
-        
     </a>
 
     <a href="grammar_day.html" class="menu-card">
@@ -579,12 +233,12 @@
         <span class="menu-title">Grammar Courses</span>
     </a>
 
-    <div class="menu-card">
+    <a href="free_day.html" class="menu-card">
         <div class="icon-box">
             <img src="https://cdn-icons-png.flaticon.com/512/3024/3024608.png" alt="Free Course">
         </div>
         <span class="menu-title">FREE COURSE</span>
-    </div>
+    </a>
 
     <a href="oxford.html" class="menu-card">
         <div class="icon-box">
@@ -600,7 +254,6 @@
         <span class="menu-title">Google Translate</span>
     </a>
 </div>
-
 
     </section>
 
@@ -646,26 +299,32 @@
     const auth = getAuth(app);
     
     window.showPage = (pageId) => {
-    
-      const allPages = document.querySelectorAll('.page');
-      allPages.forEach(p => {
-          p.classList.remove('active');
-          p.style.display = 'none';
-      });
+  // စာမျက်နှာအားလုံးကို ဖျောက်မယ်
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
 
-      const targetPage = document.getElementById(pageId);
-      if(targetPage) {
-          targetPage.classList.add('active');
-          targetPage.style.display = (pageId === 'splash-page' || pageId === 'home-page' || pageId === 'profile-page') ? 'flex' : 'block';
-      }
-      
-      const nav = document.getElementById('main-nav');
-      nav.style.display = (pageId === 'home-page' || pageId === 'profile-page') ? 'flex' : 'none';
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.classList.add('active');
+    targetPage.style.display = 'flex'; // အားလုံးကို Flex ပဲသုံးတာ ပိုစိတ်ချရပါတယ်
+  }
+  
+  // Navigation Bar ကို Home နဲ့ Profile မှာပဲ ပြမယ်
+  const nav = document.getElementById('main-nav');
+  if (pageId === 'home-page' || pageId === 'profile-page') {
+    nav.style.display = 'flex';
+  } else {
+    nav.style.display = 'none';
+  }
 
-      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-      if(pageId === 'home-page') document.querySelectorAll('.nav-item')[0].classList.add('active');
-      if(pageId === 'profile-page') document.querySelectorAll('.nav-item')[2].classList.add('active');
-    };
+  // Active Nav Icon အရောင်ပြောင်းတာ
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  if(pageId === 'home-page') document.querySelectorAll('.nav-item')[0].classList.add('active');
+  if(pageId === 'profile-page') document.querySelectorAll('.nav-item')[2].classList.add('active');
+};
+
 
     setTimeout(() => {
       onAuthStateChanged(auth, (user) => {
@@ -706,4 +365,4 @@
 
   </script>
 </body>
-</html>
+  </html>
