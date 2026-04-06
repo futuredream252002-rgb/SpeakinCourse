@@ -327,6 +327,13 @@ function renderVocabList() {
         `).join('');
     }
 }
+function selectVocabOpt(qIdx, val, btn) {
+    userVocabAnswers[qIdx] = val;
+    // လက်ရှိ မေးခွန်းရဲ့ option ခလုတ်အားလုံးက selected class ကို ဖယ်ထုတ်မယ်
+    document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
+    // နှိပ်လိုက်တဲ့ ခလုတ်ကို selected class ထည့်မယ်
+    btn.classList.add('selected');
+}
 
 const sentenceList = [
     { q: "၁။ ကျွန်တော် သိတယ်။ (Know)", a: "I know." },
