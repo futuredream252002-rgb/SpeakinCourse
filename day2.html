@@ -372,7 +372,7 @@ let selectedVocabQuestions = [];
 let userVocabAnswers = {};
 let currentQuizStage = 1; 
 function getLessonID() {
-    return document.getElementById('headerTitle').innerText.trim();
+    return "speaking_lesson_2_id"; 
 }
 function checkVocabQuiz() {
     let score = 0;
@@ -381,65 +381,76 @@ function checkVocabQuiz() {
         if(userVocabAnswers[idx] === correctAnswer) score++;
     });
 
-    const percent = (score / selectedVocabQuestions.length) * 100;
+    // ရမှတ်ကို round လုပ်ပေးပါ
+    const percent = Math.round((score / selectedVocabQuestions.length) * 100);
+
     if(percent === 100) {
         if(currentQuizStage === 1) {
             showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
             currentQuizStage = 2;
+            userVocabAnswers = {}; // အဖြေဟောင်းတွေရှင်းမယ်
             setupVocabQuiz(); 
             window.scrollTo(0, 0);
-        } else {
-            // ဒီနေရာမှာ Lesson ID နဲ့တွဲသိမ်းပါမယ် (ဥပမာ - vocabPassed_Grammar Lesson-5)
-            localStorage.setItem('vocabPassed_' + getLessonID(), 'true');
-            showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
-            currentQuizStage = 1; 
-            goToPage('mainMenu');
-            updateLockUI();
-        }
+    } else {
+        localStorage.setItem('vocabPassed_' + getLessonID(), 'true');
+        updateLockUI();
+        showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
+        currentQuizStage = 1; 
+        goToPage('mainMenu');
+    }
     } else {
         showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။`);
         setupVocabQuiz(); 
         window.scrollTo(0, 0);
     }
 }
+
+function checkVocabLockBeforeEntry() {
+    const lessonID = getLessonID();
+    if(localStorage.getItem('vocabPassed_' + lessonID) === 'true') {
+        goToPage('exercisePage');
+    } else {
+        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
+    }
+}
 function updateLockUI() {
-    const isPassed = localStorage.getItem('vocabPassed_' + getLessonID()) === 'true';
+    const lessonID = getLessonID();
+    const isPassed = localStorage.getItem('vocabPassed_' + lessonID) === 'true';
+    
     const exerciseBtn = document.getElementById('exerciseMenuBtn');
     const lockTag = document.getElementById('exerciseLockTag');
     const statusText = document.getElementById('vocabStatusText');
     const statusTag = document.getElementById('vocabStatusTag');
 
-    if (exerciseBtn && lockTag) {
+    if (exerciseBtn) {
         if (isPassed) {
+            // Lock ဖွင့်ခြင်း
             exerciseBtn.style.opacity = "1";
             exerciseBtn.style.pointerEvents = "auto";
-            lockTag.innerText = "🔓 Unlocked";
-            lockTag.style.color = "#4ade80";
+            exerciseBtn.disabled = false; // button ဖြစ်ခဲ့ရင်
+            
+            if(lockTag) {
+                lockTag.innerText = "🔓 Unlocked";
+                lockTag.style.color = "#4ade80";
+            }
             if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
             if(statusTag) {
                 statusTag.innerText = "Passed";
                 statusTag.style.color = "#4ade80";
             }
         } else {
+            // Lock ပိတ်ထားခြင်း
             exerciseBtn.style.opacity = "0.5";
-            exerciseBtn.style.pointerEvents = "none"; 
-            lockTag.innerText = "🔒 Locked";
-            lockTag.style.color = "#ef4444";
-            if(statusText) statusText.innerText = "မဖြေရသေးပါ";
-            if(statusTag) {
-                statusTag.innerText = "Required";
-                statusTag.style.color = "#ef4444";
+            exerciseBtn.style.pointerEvents = "none";
+            
+            if(lockTag) {
+                lockTag.innerText = "🔒 Locked";
+                lockTag.style.color = "#ef4444";
             }
         }
     }
 }
-function checkVocabLockBeforeEntry() {
-    if(localStorage.getItem('vocabPassed_' + getLessonID()) === 'true') {
-        goToPage('exercisePage');
-    } else {
-        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
-    }
-}
+
 const originalOnLoad = window.onload;
 window.onload = () => {
     renderVocabList();
