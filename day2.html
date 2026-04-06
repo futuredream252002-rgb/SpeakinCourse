@@ -403,8 +403,7 @@ function checkVocabQuiz() {
     }
 }
 function updateLockUI() {
-    const lessonID = getLessonID();
-    const isPassed = localStorage.getItem('vocabPassed_' + lessonID) === 'true';
+    const isPassed = localStorage.getItem('vocabPassed_' + getLessonID()) === 'true';
     const exerciseBtn = document.getElementById('exerciseMenuBtn');
     const lockTag = document.getElementById('exerciseLockTag');
     const statusText = document.getElementById('vocabStatusText');
@@ -413,7 +412,7 @@ function updateLockUI() {
     if (exerciseBtn && lockTag) {
         if (isPassed) {
             exerciseBtn.style.opacity = "1";
-            exerciseBtn.style.pointerEvents = "auto"; // ဒါက အရေးကြီးပါတယ်
+            exerciseBtn.style.pointerEvents = "auto";
             lockTag.innerText = "🔓 Unlocked";
             lockTag.style.color = "#4ade80";
             if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
@@ -434,7 +433,13 @@ function updateLockUI() {
         }
     }
 }
-
+function checkVocabLockBeforeEntry() {
+    if(localStorage.getItem('vocabPassed_' + getLessonID()) === 'true') {
+        goToPage('exercisePage');
+    } else {
+        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
+    }
+}
 const originalOnLoad = window.onload;
 window.onload = () => {
     renderVocabList();
