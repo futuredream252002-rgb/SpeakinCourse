@@ -403,7 +403,8 @@ function checkVocabQuiz() {
     }
 }
 function updateLockUI() {
-    const isPassed = localStorage.getItem('vocabPassed_' + getLessonID()) === 'true';
+    const lessonID = getLessonID();
+    const isPassed = localStorage.getItem('vocabPassed_' + lessonID) === 'true';
     const exerciseBtn = document.getElementById('exerciseMenuBtn');
     const lockTag = document.getElementById('exerciseLockTag');
     const statusText = document.getElementById('vocabStatusText');
@@ -412,7 +413,7 @@ function updateLockUI() {
     if (exerciseBtn && lockTag) {
         if (isPassed) {
             exerciseBtn.style.opacity = "1";
-            exerciseBtn.style.pointerEvents = "auto";
+            exerciseBtn.style.pointerEvents = "auto"; // ဒါက အရေးကြီးပါတယ်
             lockTag.innerText = "🔓 Unlocked";
             lockTag.style.color = "#4ade80";
             if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
@@ -433,48 +434,6 @@ function updateLockUI() {
         }
     }
 }
-function checkVocabLockBeforeEntry() {
-    if(localStorage.getItem('vocabPassed_' + getLessonID()) === 'true') {
-        goToPage('exercisePage');
-    } else {
-        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
-    }
-}
-
-
-function updateLockUI() {
-    const isPassed = localStorage.getItem('vocabPassed') === 'true';
-    const exerciseBtn = document.getElementById('exerciseMenuBtn');
-    const lockTag = document.getElementById('exerciseLockTag');
-    const statusText = document.getElementById('vocabStatusText');
-    const statusTag = document.getElementById('vocabStatusTag');
-
-    if (exerciseBtn && lockTag) {
-        if (isPassed) {
-          
-            exerciseBtn.style.opacity = "1";
-            exerciseBtn.style.pointerEvents = "auto";
-            lockTag.innerText = "🔓 Unlocked";
-            lockTag.style.color = "#4ade80";
-            if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
-            if(statusTag) {
-                statusTag.innerText = "Passed";
-                statusTag.style.color = "#4ade80";
-            }
-        } else {
-           
-            exerciseBtn.style.opacity = "0.5";
-            lockTag.innerText = "🔒 Locked";
-            lockTag.style.color = "#ef4444";
-            if(statusText) statusText.innerText = "မဖြေရသေးပါ";
-            if(statusTag) {
-                statusTag.innerText = "Required";
-                statusTag.style.color = "#ef4444";
-            }
-        }
-    }
-}
-
 
 const originalOnLoad = window.onload;
 window.onload = () => {
