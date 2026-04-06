@@ -175,7 +175,7 @@
 <div class="container">
     <header class="header">
         <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
-        <h2 id="headerTitle">🇬🇧 Speaking Lesson-2 🇲🇲</h2>
+        <h2 id="headerTitle">Speaking Lesson-2</h2>
     </header>
 
     <main class="content">
@@ -219,15 +219,15 @@
 <div id="vocabQuizPage" class="page">
     <div id="vocabQuizContainer"></div>
 </div>
+
+
         <div id="videoPage" class="page">
             <div class="video-fixed-container" style="height: auto; background: white;">
-            
 <iframe width="100%" height="250" src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_2_qj6vmr" frameborder="0" allowfullscreen style="border-radius:10px"></iframe>
-
                 <div class="interaction-bar" style="border-bottom: 1px solid #eee;">
                     <div class="interaction-item" id="likeBtn" onclick="handleLike()">
                         <span class="interact-icon">❤️</span>
-                        <span class="interact-count" id="likeCountDisplay">9.2k</span>
+                        <span class="interact-count" id="likeCountDisplay">2k</span>
                     </div>
                     <div class="interaction-item" onclick="handleShare()">
                         <span class="interact-icon">➔</span>
@@ -240,7 +240,7 @@
 
             <div class="video-content-scroll" style="margin-top: calc(56.25vw + 60px);">
                 <div style="padding: 20px; text-align: center; color: #666;">
-                    <p>📝 Watch the video and learn English Speaking Course!</p>
+                    <p>📝 Watch the video and learn Speaking Course!</p>
                     <p>📝 Memorize vocabulary words.</p>
                     <p style="margin-top: 10px; font-size: 0.9rem;">Practice with the exercises to improve your skills.</p>
                 </div>
@@ -271,7 +271,6 @@
 <div id="exerciseFooter" class="bottom-actions">
     <button id="checkBtn" class="btn btn-primary" onclick="handleCheckAnswers()">✅ Check Answers</button>
 </div>
-
 <script>
     const vocabularyList = [    
     { verb: "He", mm: "သူ" },
@@ -365,51 +364,77 @@ const sentenceList = [
 let selectedVocabQuestions = [];
 let userVocabAnswers = {};
 let currentQuizStage = 1; 
-
+function getLessonID() {
+    return document.getElementById('headerTitle').innerText.trim();
+}
 function checkVocabQuiz() {
     let score = 0;
     selectedVocabQuestions.forEach((item, idx) => {
-        let correctAnswer = currentQuizStage === 1 ? item.mm : item.verb;
+        let correctAnswer = currentQuizStage === 1 ? item.mm : item.word;
         if(userVocabAnswers[idx] === correctAnswer) score++;
     });
 
     const percent = (score / selectedVocabQuestions.length) * 100;
-if(percent === 100) {
-    if(currentQuizStage === 1) {
-        showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
-        currentQuizStage = 2;
-        setupVocabQuiz(); 
-        window.scrollTo(0, 0);
-    } else {
-        localStorage.setItem('vocabPassed', 'true');
-        showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
-        currentQuizStage = 1; 
-        history.replaceState(null, "", ""); 
-        goToPage('mainMenu');
-        updateLockUI();
+    if(percent === 100) {
+        if(currentQuizStage === 1) {
+            showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
+            currentQuizStage = 2;
+            setupVocabQuiz(); 
+            window.scrollTo(0, 0);
+        } else {
+            // ဒီနေရာမှာ Lesson ID နဲ့တွဲသိမ်းပါမယ် (ဥပမာ - vocabPassed_Grammar Lesson-5)
+            localStorage.setItem('vocabPassed_' + getLessonID(), 'true');
+            showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
+            currentQuizStage = 1; 
+            goToPage('mainMenu');
+            updateLockUI();
         }
     } else {
-        
-        showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။ မေးခွန်းအသစ်များဖြင့် ပြန်ဖြေကြည့်ပါ။`);
-       
+        showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။`);
         setupVocabQuiz(); 
         window.scrollTo(0, 0);
     }
 }
+function updateLockUI() {
+    const isPassed = localStorage.getItem('vocabPassed_' + getLessonID()) === 'true';
+    const exerciseBtn = document.getElementById('exerciseMenuBtn');
+    const lockTag = document.getElementById('exerciseLockTag');
+    const statusText = document.getElementById('vocabStatusText');
+    const statusTag = document.getElementById('vocabStatusTag');
 
-function selectVocabOpt(qIdx, val, btn) {
-    userVocabAnswers[qIdx] = val;
-    document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-}
-
-function checkVocabLockBeforeEntry() {
-    if(localStorage.getItem('vocabPassed') === 'true') {
-        goToPage('exercisePage');
-    } else {
-        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် ဖြေဆိုပါ။");
+    if (exerciseBtn && lockTag) {
+        if (isPassed) {
+            exerciseBtn.style.opacity = "1";
+            exerciseBtn.style.pointerEvents = "auto";
+            lockTag.innerText = "🔓 Unlocked";
+            lockTag.style.color = "#4ade80";
+            if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
+            if(statusTag) {
+                statusTag.innerText = "Passed";
+                statusTag.style.color = "#4ade80";
+            }
+        } else {
+            exerciseBtn.style.opacity = "0.5";
+            exerciseBtn.style.pointerEvents = "none"; 
+            lockTag.innerText = "🔒 Locked";
+            lockTag.style.color = "#ef4444";
+            if(statusText) statusText.innerText = "မဖြေရသေးပါ";
+            if(statusTag) {
+                statusTag.innerText = "Required";
+                statusTag.style.color = "#ef4444";
+            }
+        }
     }
 }
+function checkVocabLockBeforeEntry() {
+    if(localStorage.getItem('vocabPassed_' + getLessonID()) === 'true') {
+        goToPage('exercisePage');
+    } else {
+        showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
+    }
+}
+
+
 function updateLockUI() {
     const isPassed = localStorage.getItem('vocabPassed') === 'true';
     const exerciseBtn = document.getElementById('exerciseMenuBtn');
@@ -443,12 +468,16 @@ function updateLockUI() {
     }
 }
 
+
 const originalOnLoad = window.onload;
 window.onload = () => {
     renderVocabList();
     updateInteractionUI();
     checkLockStatus(); 
-    updateLockUI();   
+    updateLockUI();
+    if (!history.state) {
+        history.replaceState({ page: 'mainMenu' }, "", "");
+    }
 };
 
 let userSelections = new Array(sentenceList.length).fill(null);
@@ -507,7 +536,7 @@ function clearAllAnswers() {
     });
 }
 
-function goToPage(pageId) {
+function goToPage(pageId, isBackAction = false) {
     const videoPage = document.getElementById('videoPage');
     if (videoPage && videoPage.style.display === 'block') { stopVideo(); }
 
@@ -527,9 +556,18 @@ function goToPage(pageId) {
         mainHeader.classList.remove('header-hidden');
     }
 
+    if (!isBackAction) {
+        if (pageId === 'mainMenu') {
+
+            history.replaceState({ page: 'mainMenu' }, "", "");
+        } else {
+            history.pushState({ page: pageId }, "", "");
+        }
+    }
+
     if (pageId === 'mainMenu') {
         backBtn.style.display = 'none';
-        headerTitle.innerText = "Grammar Lesson-1";
+        headerTitle.innerText = "Speaking Lesson-2";
         if (exerciseFooter) exerciseFooter.style.display = 'none';
     } else {
         backBtn.style.display = 'flex';
@@ -539,11 +577,9 @@ function goToPage(pageId) {
             headerTitle.innerText = "Exercise (30 Questions)";
             renderPosExercise();
             checkLockStatus();
-            history.pushState({ page: 'exercisePage' }, "", ""); 
         } else if (pageId === 'vocabListPage') {
             headerTitle.innerText = "Verb List (30 Words)";
             renderVocabList();
-            history.pushState({ page: pageId }, "", "");
         } else if (pageId === 'vocabQuizPage') {
             headerTitle.innerText = "Vocabulary Test";
             currentQuizStage = 1; 
@@ -552,9 +588,6 @@ function goToPage(pageId) {
                 const bar = document.querySelector('.vocab-bottom-bar');
                 if(bar) bar.style.display = 'flex';
             }, 50);
-            history.pushState({ page: pageId }, "", "");
-        } else {
-            history.pushState({ page: pageId }, "", "");
         }
     }
 
@@ -610,14 +643,15 @@ function setupVocabQuiz() {
     }
     bottomBar.innerHTML = `<button class="btn-primary" onclick="checkVocabQuiz()">${btnText}</button>`;
 }    
+
 function renderPosExercise() {
     const container = document.getElementById('posQuizContainer');
     if (!container) return;
-    
-    container.innerHTML = sentenceList.map((item, idx) => `
+    const shuffledList = [...sentenceList].sort(() => Math.random() - 0.5).slice(0, 30);
+    container.innerHTML = shuffledList.map((item, idx) => `
         <div class="question-block" id="q-block-${idx}">
             <div class="question-text" style="font-weight: bold; margin-bottom: 12px; color: #333; line-height: 1.6;">
-                ${item.q}
+                ${idx + 1}။ ${item.q}
             </div>
             <input type="text" 
                    class="answer-input" 
@@ -755,23 +789,17 @@ function handleShare() {
 }
 
 window.onpopstate = (event) => {
-    
     stopVideo();
+  
+    const vocabBar = document.querySelector('.vocab-bottom-bar');
+    if(vocabBar) vocabBar.style.display = 'none';
 
     if (event.state && event.state.page) {
-   
-        goToPage(event.state.page);
+      
+        goToPage(event.state.page, true);
     } else {
-     
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        document.getElementById('mainMenu').style.display = 'block';
-        document.getElementById('topBackBtn').style.display = 'none';
-        document.getElementById('headerTitle').innerText = "Grammar Lesson-1";
-        document.querySelector('.header').classList.remove('header-hidden');
-        if (document.getElementById('exerciseFooter')) {
-            document.getElementById('exerciseFooter').style.display = 'none';
-        }
+    
+        goToPage('mainMenu', true);
     }
 };
-
 </script></body> </html>
