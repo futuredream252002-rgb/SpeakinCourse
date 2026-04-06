@@ -175,7 +175,7 @@
 <div class="container">
     <header class="header">
         <button id="topBackBtn" class="back-circle" onclick="goToPage('mainMenu')">❮</button>
-        <h2 id="headerTitle">🇬🇧 Speaking Lesson-1 🇲🇲</h2>
+        <h2 id="headerTitle">Speaking Lesson-1</h2>
     </header>
 
     <main class="content">
@@ -219,16 +219,13 @@
 <div id="vocabQuizPage" class="page">
     <div id="vocabQuizContainer"></div>
 </div>
-
-
         <div id="videoPage" class="page">
             <div class="video-fixed-container" style="height: auto; background: white;">
                 <iframe width="100%" height="225" src="https://player.cloudinary.com/embed/?cloud_name=dpzmdhdms&public_id=Lesson_1_Burmese_English_%E1%80%85%E1%80%80%E1%80%AC%E1%80%B8%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC_-%E1%80%A1%E1%80%84%E1%80%BA%E1%80%B9%E1%80%82%E1%80%9C%E1%80%AD%E1%80%95%E1%80%BA%E1%80%9C%E1%80%AD%E1%80%AF_%E1%80%95%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%80%E1%80%BC%E1%80%85%E1%80%AD%E1%80%AF%E1%80%B7____%E1%80%9C%E1%80%AC%E1%80%B8_Do_%E1%80%94%E1%80%B2%E1%80%B7_%E1%80%99%E1%80%9A%E1%80%BA%E1%80%9C%E1%80%AC%E1%80%B8_Will_ohstld" frameborder="0" allowfullscreen></iframe>
-                
-                <div class="interaction-bar" style="border-bottom: 1px solid #eee;">
+                     <div class="interaction-bar" style="border-bottom: 1px solid #eee;">
                     <div class="interaction-item" id="likeBtn" onclick="handleLike()">
                         <span class="interact-icon">❤️</span>
-                        <span class="interact-count" id="likeCountDisplay">9.2k</span>
+                        <span class="interact-count" id="likeCountDisplay">2k</span>
                     </div>
                     <div class="interaction-item" onclick="handleShare()">
                         <span class="interact-icon">➔</span>
@@ -272,7 +269,6 @@
 <div id="exerciseFooter" class="bottom-actions">
     <button id="checkBtn" class="btn btn-primary" onclick="handleCheckAnswers()">✅ Check Answers</button>
 </div>
-
 <script>
 const vocabularyList = [
     { verb: "take", mm: "ယူသည် / (ယာဉ်) စီးသည်" },
@@ -306,7 +302,6 @@ const vocabularyList = [
     { verb: "bring", mm: "ယူဆောင်လာသည်" }, 
     { verb: "teach", mm: "သင်ကြားပေးသည်" }  
 ];
-
 function renderVocabList() {
     const tableBody = document.getElementById('vocabTableBody');
     if (tableBody) {
@@ -318,45 +313,52 @@ function renderVocabList() {
         `).join('');
     }
 }
+function selectVocabOpt(qIdx, val, btn) {
+    userVocabAnswers[qIdx] = val;
+
+    document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
+    
+    btn.classList.add('selected');
+}
 
 const sentenceList = [
-    { q: "၁။ မင်း ဘတ်စ်ကား စီးသလား။ (take)", a: "Do you take the bus?" },
-    { q: "၂။ ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်တယ်။ (sleep)", a: "I sleep at 10 PM" },
-    { q: "၃။ မင်း ဘတ်စ်ကား စီးမလား။ (take)", a: "Will you take the bus?" },
-    { q: "၄။ ကျွန်တော် ရေလိုချင်တယ်။ (want)", a: "I want water" },
-    { q: "၅။ မင်း ပိုက်ဆံ ပေးသလား။ (give)", a: "Do you give money?" },
-    { q: "၆။ ကျွန်တော် ဘောပင်တစ်ချောင်းပေးမယ်။ (give)", a: "I will give a pen" },
-    { q: "၇။ မင်း ပိုက်ဆံ ပေးမလား။ (give)", a: "Will you give money?" },
-    { q: "၈။ မင်း အကူအညီ လိုအပ်သလား။ (need)", a: "Do you need help?" },
-    { q: "၉။ ကျွန်တော် ထမင်းစားတယ်။ (eat)", a: "I eat rice" },
-    { q: "၁၀။ မင်း ဘာလုပ်သလား။ (do)", a: "Do you do it?" },
-    { q: "၁၁။ ကျွန်တော် ကျောင်းသွားမယ်။ (go)", a: "I will go to school" },
-    { q: "၁၂။ မင်း လာမလား။ (come)", a: "Will you come?" },
-    { q: "၁၃။ ကျွန်တော့်မှာ ကားတစ်စီး ရှိတယ်။ (have)", a: "I have a car" },
-    { q: "၁၄။ မင်း သူ့ကို မြင်သလား။ (see)", a: "Do you see him?" },
-    { q: "၁၅။ ကျွန်တော် ဖုန်းပြောမယ်။ (talk)", a: "I will talk on the phone" },
-    { q: "၁၆။ မင်း သူငယ်ချင်းနဲ့ တွေ့ဆုံသလား။ (meet)", a: "Do you meet your friend?" },
-    { q: "၁၇။ ကျွန်တော် ကားမောင်းမယ်။ (drive)", a: "I will drive a car" },
-    { q: "၁၈။ မင်း ထမင်းချက်သလား။ (cook)", a: "Do you cook?" },
-    { q: "၁၉။ ကျွန်တော် စာအုပ်ဖတ်တယ်။ (read)", a: "I read a book" },
-    { q: "၂၀။ မင်း စာရေးမလား။ (write)", a: "Will you write?" },
-    { q: "၂၁။ ကျွန်တော် တီဗွီကြည့်မယ်။ (watch)", a: "I will watch TV" },
-    { q: "၂၂။ မင်း ဒါကို ဝယ်သလား။ (buy)", a: "Do you buy this?" },
-    { q: "၂၃။ ကျွန်တော် ကော်ဖီသောက်မယ်။ (drink)", a: "I will drink coffee" },
-    { q: "၂၄။ မင်း ဒီမှာ အလုပ်လုပ်သလား။ (work)", a: "Do you work here?" },
-    { q: "၂၅။ ကျွန်တော် သီချင်းနားထောင်တယ်။ (listen)", a: "I listen to music" },
-    { q: "၂၆။ မင်း အင်္ဂလိပ်စာ လေ့လာမလား။ (study)", a: "Will you study English?" },
-    { q: "၂၇။ ကျွန်တော် လက်ဆေးမယ်။ (wash)", a: "I will wash my hands" },
-    { q: "၂၈။ မင်း ဘောလုံးကစားသလား။ (play)", a: "Do you play football?" },
-    { q: "၂၉။ ကျွန်တော် အခု အနားယူမယ်။ (rest)", a: "I will rest now" },
-    { q: "၃၀။ မင်း တံခါးဖွင့်မလား။ (open)", a: "Will you open the door?" }
+    { q: "မင်း ဘတ်စ်ကား စီးသလား။ (take)", a: "Do you take the bus?" },
+    { q: "ကျွန်တော် ည ၁၀ နာရီမှာ အိပ်တယ်။ (sleep)", a: "I sleep at 10 PM" },
+    { q: "မင်း ဘတ်စ်ကား စီးမလား။ (take)", a: "Will you take the bus?" },
+    { q: "ကျွန်တော် ရေလိုချင်တယ်။ (want)", a: "I want water" },
+    { q: "မင်း ပိုက်ဆံ ပေးသလား။ (give)", a: "Do you give money?" },
+    { q: "ကျွန်တော် ဘောပင်တစ်ချောင်းပေးမယ်။ (give)", a: "I will give a pen" },
+    { q: "မင်း ပိုက်ဆံ ပေးမလား။ (give)", a: "Will you give money?" },
+    { q: "မင်း အကူအညီ လိုအပ်သလား။ (need)", a: "Do you need help?" },
+    { q: "ကျွန်တော် ထမင်းစားတယ်။ (eat)", a: "I eat rice" },
+    { q: "မင်း ဘာလုပ်သလား။ (do)", a: "Do you do it?" },
+    { q: "ကျွန်တော် ကျောင်းသွားမယ်။ (go)", a: "I will go to school" },
+    { q: "မင်း လာမလား။ (come)", a: "Will you come?" },
+    { q: "ကျွန်တော့်မှာ ကားတစ်စီး ရှိတယ်။ (have)", a: "I have a car" },
+    { q: "မင်း သူ့ကို မြင်သလား။ (see)", a: "Do you see him?" },
+    { q: "ကျွန်တော် ဖုန်းပြောမယ်။ (talk)", a: "I will talk on the phone" },
+    { q: "မင်း သူငယ်ချင်းနဲ့ တွေ့ဆုံသလား။ (meet)", a: "Do you meet your friend?" },
+    { q: "ကျွန်တော် ကားမောင်းမယ်။ (drive)", a: "I will drive a car" },
+    { q: "မင်း ထမင်းချက်သလား။ (cook)", a: "Do you cook?" },
+    { q: "ကျွန်တော် စာအုပ်ဖတ်တယ်။ (read)", a: "I read a book" },
+    { q: "မင်း စာရေးမလား။ (write)", a: "Will you write?" },
+    { q: "ကျွန်တော် တီဗွီကြည့်မယ်။ (watch)", a: "I will watch TV" },
+    { q: "မင်း ဒါကို ဝယ်သလား။ (buy)", a: "Do you buy this?" },
+    { q: "ကျွန်တော် ကော်ဖီသောက်မယ်။ (drink)", a: "I will drink coffee" },
+    { q: "မင်း ဒီမှာ အလုပ်လုပ်သလား။ (work)", a: "Do you work here?" },
+    { q: "ကျွန်တော် သီချင်းနားထောင်တယ်။ (listen)", a: "I listen to music" },
+    { q: "မင်း အင်္ဂလိပ်စာ လေ့လာမလား။ (study)", a: "Will you study English?" },
+    { q: "ကျွန်တော် လက်ဆေးမယ်။ (wash)", a: "I will wash my hands" },
+    { q: "မင်း ဘောလုံးကစားသလား။ (play)", a: "Do you play football?" },
+    { q: "ကျွန်တော် အခု အနားယူမယ်။ (rest)", a: "I will rest now" },
+    { q: "မင်း တံခါးဖွင့်မလား။ (open)", a: "Will you open the door?" }
 ];
-
-
 let selectedVocabQuestions = [];
 let userVocabAnswers = {};
 let currentQuizStage = 1; 
-
+function getLessonID() {
+    return "speaking_lesson_1_id"; 
+}
 function checkVocabQuiz() {
     let score = 0;
     selectedVocabQuestions.forEach((item, idx) => {
@@ -364,78 +366,75 @@ function checkVocabQuiz() {
         if(userVocabAnswers[idx] === correctAnswer) score++;
     });
 
-    const percent = (score / selectedVocabQuestions.length) * 100;
-if(percent === 100) {
-    if(currentQuizStage === 1) {
-        showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
-        currentQuizStage = 2;
-        setupVocabQuiz(); 
-        window.scrollTo(0, 0);
+    // ရမှတ်ကို round လုပ်ပေးပါ
+    const percent = Math.round((score / selectedVocabQuestions.length) * 100);
+
+    if(percent === 100) {
+        if(currentQuizStage === 1) {
+            showModal("✅ Stage 1 အောင်မြင်ပါသည်။ Stage 2 ကို ဆက်လက်ဖြေဆိုပါ။");
+            currentQuizStage = 2;
+            userVocabAnswers = {}; // အဖြေဟောင်းတွေရှင်းမယ်
+            setupVocabQuiz(); 
+            window.scrollTo(0, 0);
     } else {
-        localStorage.setItem('vocabPassed', 'true');
+        localStorage.setItem('vocabPassed_' + getLessonID(), 'true');
+        updateLockUI();
         showModal("🎉 အောင်မြင်သည့်အတွက် Exercise Lock ပွင့်သွားပါပြီ။");
         currentQuizStage = 1; 
-        history.replaceState(null, "", ""); 
         goToPage('mainMenu');
-        updateLockUI();
-        }
+    }
     } else {
-        
-        showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။ မေးခွန်းအသစ်များဖြင့် ပြန်ဖြေကြည့်ပါ။`);
-       
+        showModal(`❌ ရမှတ် ${percent}% သာ ရှိပါသည်။ ၁၀၀% ရမှ နောက်တစ်ဆင့် တက်နိုင်ပါမည်။`);
         setupVocabQuiz(); 
         window.scrollTo(0, 0);
     }
 }
 
-function selectVocabOpt(qIdx, val, btn) {
-    userVocabAnswers[qIdx] = val;
-    document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-}
-
-
 function checkVocabLockBeforeEntry() {
-    if(localStorage.getItem('vocabPassed') === 'true') {
+    const lessonID = getLessonID();
+    if(localStorage.getItem('vocabPassed_' + lessonID) === 'true') {
         goToPage('exercisePage');
     } else {
         showModal("⚠️ Vocabulary Test ကို အရင်ဖြေပြီး ၁၀၀% ရအောင် လုပ်ပေးပါ။");
     }
 }
-
 function updateLockUI() {
-    const isPassed = localStorage.getItem('vocabPassed') === 'true';
+    const lessonID = getLessonID();
+    const isPassed = localStorage.getItem('vocabPassed_' + lessonID) === 'true';
+    
     const exerciseBtn = document.getElementById('exerciseMenuBtn');
     const lockTag = document.getElementById('exerciseLockTag');
     const statusText = document.getElementById('vocabStatusText');
     const statusTag = document.getElementById('vocabStatusTag');
 
-    if (exerciseBtn && lockTag) {
+    if (exerciseBtn) {
         if (isPassed) {
-          
+            // Lock ဖွင့်ခြင်း
             exerciseBtn.style.opacity = "1";
             exerciseBtn.style.pointerEvents = "auto";
-            lockTag.innerText = "🔓 Unlocked";
-            lockTag.style.color = "#4ade80";
+            exerciseBtn.disabled = false; // button ဖြစ်ခဲ့ရင်
+            
+            if(lockTag) {
+                lockTag.innerText = "🔓 Unlocked";
+                lockTag.style.color = "#4ade80";
+            }
             if(statusText) statusText.innerText = "အောင်မြင်ပြီး (100%)";
             if(statusTag) {
                 statusTag.innerText = "Passed";
                 statusTag.style.color = "#4ade80";
             }
         } else {
-           
+            // Lock ပိတ်ထားခြင်း
             exerciseBtn.style.opacity = "0.5";
-            lockTag.innerText = "🔒 Locked";
-            lockTag.style.color = "#ef4444";
-            if(statusText) statusText.innerText = "မဖြေရသေးပါ";
-            if(statusTag) {
-                statusTag.innerText = "Required";
-                statusTag.style.color = "#ef4444";
+            exerciseBtn.style.pointerEvents = "none";
+            
+            if(lockTag) {
+                lockTag.innerText = "🔒 Locked";
+                lockTag.style.color = "#ef4444";
             }
         }
     }
 }
-
 
 const originalOnLoad = window.onload;
 window.onload = () => {
@@ -535,7 +534,7 @@ function goToPage(pageId, isBackAction = false) {
 
     if (pageId === 'mainMenu') {
         backBtn.style.display = 'none';
-        headerTitle.innerText = "Grammar Lesson-1";
+        headerTitle.innerText = "Speaking Lesson-1";
         if (exerciseFooter) exerciseFooter.style.display = 'none';
     } else {
         backBtn.style.display = 'flex';
@@ -615,11 +614,11 @@ function setupVocabQuiz() {
 function renderPosExercise() {
     const container = document.getElementById('posQuizContainer');
     if (!container) return;
-    
-    container.innerHTML = sentenceList.map((item, idx) => `
+    const shuffledList = [...sentenceList].sort(() => Math.random() - 0.5).slice(0, 30);
+    container.innerHTML = shuffledList.map((item, idx) => `
         <div class="question-block" id="q-block-${idx}">
             <div class="question-text" style="font-weight: bold; margin-bottom: 12px; color: #333; line-height: 1.6;">
-                ${item.q}
+                ${idx + 1}။ ${item.q}
             </div>
             <input type="text" 
                    class="answer-input" 
@@ -770,7 +769,4 @@ window.onpopstate = (event) => {
         goToPage('mainMenu', true);
     }
 };
-
-    
-
 </script></body> </html>
