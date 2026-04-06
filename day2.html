@@ -321,7 +321,7 @@ function renderVocabList() {
     if (tableBody) {
         tableBody.innerHTML = vocabularyList.map((item, index) => `
             <tr style="border-bottom: 1px solid #eee; background: ${index % 2 === 0 ? '#fff' : '#fcfaff'};">
-                <td style="padding: 12px 15px; font-weight: bold; color: #4a5bbd;">${item.word}</td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #4a5bbd;">${item.verb}</td>
                 <td style="padding: 12px 15px; color: #555;">${item.mm}</td>
             </tr>
         `).join('');
@@ -329,9 +329,9 @@ function renderVocabList() {
 }
 function selectVocabOpt(qIdx, val, btn) {
     userVocabAnswers[qIdx] = val;
-    // လက်ရှိ မေးခွန်းရဲ့ option ခလုတ်အားလုံးက selected class ကို ဖယ်ထုတ်မယ်
+
     document.querySelectorAll(`.q-${qIdx}`).forEach(b => b.classList.remove('selected'));
-    // နှိပ်လိုက်တဲ့ ခလုတ်ကို selected class ထည့်မယ်
+    
     btn.classList.add('selected');
 }
 
@@ -377,7 +377,7 @@ function getLessonID() {
 function checkVocabQuiz() {
     let score = 0;
     selectedVocabQuestions.forEach((item, idx) => {
-        let correctAnswer = currentQuizStage === 1 ? item.mm : item.word;
+        let correctAnswer = currentQuizStage === 1 ? item.mm : item.verb;
         if(userVocabAnswers[idx] === correctAnswer) score++;
     });
 
@@ -618,13 +618,13 @@ function setupVocabQuiz() {
     `;
     
     selectedVocabQuestions.forEach((item, idx) => {
-        let questionText = currentQuizStage === 1 ? item.word : item.mm;
-        let correctAnswer = currentQuizStage === 1 ? item.mm : item.word;
+        let questionText = currentQuizStage === 1 ? item.verb : item.mm;
+        let correctAnswer = currentQuizStage === 1 ? item.mm : item.verb;
 
         let options = [correctAnswer];
         while(options.length < 4) {
             let randomItem = vocabularyList[Math.floor(Math.random()*vocabularyList.length)];
-            let randomAnswer = currentQuizStage === 1 ? randomItem.mm : randomItem.word;
+            let randomAnswer = currentQuizStage === 1 ? randomItem.mm : randomItem.verb;
             if(!options.includes(randomAnswer)) options.push(randomAnswer);
         }
         options.sort(() => 0.5 - Math.random());
